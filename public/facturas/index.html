@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111b18" />
+    <meta name="description" content="Histórico y análisis de facturas del hogar" />
+    <title>Facturas · Histórico del hogar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#resumen" aria-label="Facturas, inicio">
+          <span class="brand-mark" aria-hidden="true">F</span>
+          <span><strong>Facturas</strong><small>Histórico del hogar</small></span>
+        </a>
+        <nav aria-label="Secciones">
+          <button class="nav-item active" data-view="resumen"><span>⌂</span>Resumen</button>
+          <button class="nav-item" data-view="historico"><span>↗</span>Histórico</button>
+          <button class="nav-item" data-view="luz"><span>ϟ</span>Luz</button>
+          <button class="nav-item" data-view="suelo"><span>≈</span>Suelo radiante</button>
+          <button class="nav-item" data-view="vehiculo"><span>◇</span>Vehículo</button>
+          <button class="nav-item" data-view="comparar"><span>±</span>Comparar</button>
+        </nav>
+        <div class="sidebar-note">
+          <span class="status-dot"></span>
+          <div><strong>Datos sincronizados</strong><small>Excel · sep 2026</small></div>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="view-eyebrow">VISIÓN GENERAL</p>
+            <h1 id="view-title">Tus gastos, con perspectiva</h1>
+          </div>
+          <div class="top-actions">
+            <label class="select-wrap"><span>Vivienda</span><select id="property-filter"></select></label>
+            <label class="select-wrap"><span>Periodo</span><select id="period-filter"></select></label>
+          </div>
+        </header>
+
+        <div id="loading" class="loading"><span></span><p>Preparando el histórico…</p></div>
+        <div id="error" class="error-card" hidden></div>
+
+        <section id="view-resumen" class="view active" aria-labelledby="view-title">
+          <div id="kpis" class="kpi-grid"></div>
+          <div class="dashboard-grid">
+            <article class="card chart-card wide">
+              <div class="card-heading"><div><p class="card-kicker">EVOLUCIÓN</p><h2>Gasto mensual</h2></div><div class="legend"><span><i class="dot total"></i>Total</span><span><i class="dot media"></i>Media móvil</span></div></div>
+              <div id="monthly-chart" class="chart" role="img" aria-label="Evolución del gasto mensual"></div>
+            </article>
+            <article class="card breakdown-card">
+              <div class="card-heading"><div><p class="card-kicker">DISTRIBUCIÓN</p><h2>Por categoría</h2></div></div>
+              <div id="category-chart" class="donut-layout"></div>
+            </article>
+            <article class="card recent-card">
+              <div class="card-heading"><div><p class="card-kicker">ÚLTIMOS DATOS</p><h2>Meses recientes</h2></div><button class="text-button" data-go="historico">Ver histórico</button></div>
+              <div id="recent-table" class="compact-table"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="view-historico" class="view">
+          <article class="card full-card">
+            <div class="card-heading"><div><p class="card-kicker">TODOS LOS MESES</p><h2>Histórico de facturas</h2><p class="subcopy">Detalle mensual con desglose por categoría.</p></div><div class="table-actions"><input id="history-search" type="search" placeholder="Buscar mes o vivienda" /><button id="download-csv" class="outline-button">Exportar CSV</button></div></div>
+            <div id="history-table" class="data-table"></div>
+            <div id="history-pagination" class="pagination"></div>
+          </article>
+        </section>
+
+        <section id="view-luz" class="view">
+          <div id="light-kpis" class="kpi-grid compact"></div>
+          <div class="two-column">
+            <article class="card chart-card"><div class="card-heading"><div><p class="card-kicker">REFERENCIA EXCEL</p><h2>Gasto de luz</h2></div></div><div id="light-cost-chart" class="chart medium"></div></article>
+            <article class="card chart-card"><div class="card-heading"><div><p class="card-kicker">CONSUMO</p><h2>kWh por periodo</h2></div></div><div id="light-use-chart" class="chart medium"></div></article>
+          </div>
+          <article class="card table-card"><div id="light-table" class="data-table"></div></article>
+        </section>
+
+        <section id="view-suelo" class="view">
+          <div id="floor-kpis" class="kpi-grid compact"></div>
+          <div class="two-column">
+            <article class="card chart-card"><div class="card-heading"><div><p class="card-kicker">REFERENCIA EXCEL</p><h2>Gasto de suelo</h2></div></div><div id="floor-cost-chart" class="chart medium"></div></article>
+            <article class="card chart-card"><div class="card-heading"><div><p class="card-kicker">CONSUMO</p><h2>Calor, frío y agua</h2></div></div><div id="floor-use-chart" class="chart medium"></div></article>
+          </div>
+          <article class="card table-card"><div id="floor-table" class="data-table"></div></article>
+        </section>
+
+        <section id="view-vehiculo" class="view">
+          <div id="vehicle-kpis" class="kpi-grid compact"></div>
+          <div class="dashboard-grid">
+            <article class="card chart-card wide"><div class="card-heading"><div><p class="card-kicker">EVOLUCIÓN</p><h2>Gastos del vehículo</h2></div></div><div id="vehicle-chart" class="chart"></div></article>
+            <article class="card breakdown-card"><div class="card-heading"><div><p class="card-kicker">DISTRIBUCIÓN</p><h2>Por tipo</h2></div></div><div id="vehicle-breakdown" class="donut-layout"></div></article>
+          </div>
+          <article class="card table-card"><div id="vehicle-table" class="data-table"></div></article>
+        </section>
+
+        <section id="view-comparar" class="view">
+          <div class="comparison-layout">
+            <article class="card comparison-form">
+              <div class="card-heading"><div><p class="card-kicker">CÁLCULO RÁPIDO</p><h2>Comparar una tarifa</h2><p class="subcopy">Introduce los datos principales. El resultado se actualiza al momento.</p></div></div>
+              <form id="comparison-form">
+                <label>Consumo mensual (kWh)<input name="consumption" type="number" min="0" step="1" value="250" /></label>
+                <label>Precio de energía (€/kWh)<input name="energy" type="number" min="0" step="0.0001" value="0.1450" /></label>
+                <div class="field-row"><label>Potencia y fijos (€)<input name="fixed" type="number" min="0" step="0.01" value="18" /></label><label>Otros costes (€)<input name="other" type="number" min="0" step="0.01" value="3.50" /></label></div>
+                <div class="field-row"><label>Impuestos (%)<input name="tax" type="number" min="0" step="0.1" value="21" /></label><label>Factura actual (€)<input name="current" type="number" min="0" step="0.01" value="75" /></label></div>
+              </form>
+            </article>
+            <article id="comparison-result" class="comparison-result"></article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+name = "facturas"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+account_id = "404c90385b0b5a704fbf8a9690122f3a"
+workers_dev = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+html_handling = "none"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "aportes-comunes-db"
+database_id = "e92dcc41-c7bc-44fc-9ba9-8ccb23f632e3"
+migrations_dir = "migrations"
+
+[[routes]]
+pattern = "danieta.com/facturas*"
+zone_name = "danieta.com"
+
+[observability]
+enabled = true

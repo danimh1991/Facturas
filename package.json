@@ -1,0 +1,16 @@
+{
+  "name": "facturas-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "check": "node --check src/index.js && node --check public/facturas/app.js && node --test",
+    "db:local": "wrangler d1 migrations apply aportes-comunes-db --local",
+    "db:remote": "wrangler d1 migrations apply aportes-comunes-db --remote",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.45.0"
+  }
+}
