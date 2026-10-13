@@ -125,6 +125,11 @@ for row in range(2, sheet.max_row + 1):
             "p3": number(sheet.cell(row, 15).value) or 0,
             "consumption": number(sheet.cell(row, 18).value) or 0,
             "daily_consumption": number(sheet.cell(row, 19).value) or 0,
+            "daily_amount": number(sheet.cell(row, 7).value) or 0,
+            "cost_per_kwh": number(sheet.cell(row, 20).value) or 0,
+            "p1_share": number(sheet.cell(row, 11).value) or 0,
+            "p2_share": number(sheet.cell(row, 14).value) or 0,
+            "p3_share": number(sheet.cell(row, 17).value) or 0,
         }
     )
 
@@ -147,6 +152,18 @@ for row in range(2, sheet.max_row + 1):
             "heat_kwh": number(sheet.cell(row, 14).value) or 0,
             "water_m3": number(sheet.cell(row, 19).value) or 0,
             "fixed": number(sheet.cell(row, 24).value) or 0,
+            "cold_price": number(sheet.cell(row, 10).value) or 0,
+            "cold_total": number(sheet.cell(row, 11).value) or 0,
+            "heat_price": number(sheet.cell(row, 15).value) or 0,
+            "heat_total": number(sheet.cell(row, 16).value) or 0,
+            "water_price": number(sheet.cell(row, 20).value) or 0,
+            "water_total": number(sheet.cell(row, 21).value) or 0,
+            "daily_amount": number(sheet.cell(row, 28).value) or 0,
+            "cold_share": number(sheet.cell(row, 13).value) or 0,
+            "heat_share": number(sheet.cell(row, 18).value) or 0,
+            "water_share": number(sheet.cell(row, 23).value) or 0,
+            "fixed_share": number(sheet.cell(row, 26).value) or 0,
+            "vat_rate": 21,
         }
     )
 
@@ -154,15 +171,21 @@ vehicle = []
 sheet = book["Gastos Coche"]
 for row in range(2, sheet.max_row + 1):
     date = iso_date(sheet.cell(row, 1).value)
-    amount = number(sheet.cell(row, 4).value)
+    price_or_amount = number(sheet.cell(row, 4).value)
+    extended_amount = number(sheet.cell(row, 5).value)
+    amount = extended_amount if extended_amount is not None else price_or_amount
     if date and amount is not None:
+        description = clean_text(sheet.cell(row, 2).value)
+        is_fuel_table = extended_amount is not None
         vehicle.append(
             {
                 "date": date,
-                "description": clean_text(sheet.cell(row, 2).value),
+                "description": description,
                 "category": "Gasolina",
                 "vehicle": clean_text(sheet.cell(row, 3).value),
                 "amount": amount,
+                "unit_price": price_or_amount if is_fuel_table else None,
+                "quantity": number(sheet.cell(row, 6).value) if is_fuel_table else None,
             }
         )
     service_date = iso_date(sheet.cell(row, 14).value)

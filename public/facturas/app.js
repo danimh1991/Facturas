@@ -15,6 +15,7 @@ const compactEuro = new Intl.NumberFormat("es-ES", { style: "currency", currency
 const decimal = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 2 });
 const monthFmt = new Intl.DateTimeFormat("es-ES", { month: "short", year: "2-digit", timeZone: "UTC" });
 const fullMonthFmt = new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric", timeZone: "UTC" });
+const percent = new Intl.NumberFormat("es-ES", { style: "percent", maximumFractionDigits: 1 });
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -23,6 +24,83 @@ const mean = (values) => values.length ? sum(values) / values.length : 0;
 const esc = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
 const dateValue = (value) => new Date(`${String(value).slice(0, 10)}T00:00:00Z`);
 const labelMonth = (value, full = false) => (full ? fullMonthFmt : monthFmt).format(dateValue(value)).replace(" de ", " ");
+const today = () => new Date().toISOString().slice(0, 10);
+const daysBetween = (start, end) => start && end ? Math.max(0, Math.floor((dateValue(end) - dateValue(start)) / 86400000) + 1) : 0;
+
+function propertyInput() {
+  const properties = [...new Set(state.data.monthly.map((row) => row.property))];
+  const selected = state.property !== "Todas" ? state.property : properties.at(-1) || "";
+  return `<label class="form-field">Vivienda<input name="property" list="property-list" required value="${esc(selected)}" /></label><datalist id="property-list">${properties.map((property) => `<option value="${esc(property)}"></option>`).join("")}</datalist>`;
+}
+
+function moneyField(name, label, value = "") {
+  return `<label class="form-field">${label}<input name="${name}" type="number" min="0" step="0.01" ${value !== "" ? `value="${value}"` : ""} required /></label>`;
+}
+
+function entryFieldsMarkup(kind) {
+  const date = today();
+  if (kind === "home") return `${propertyInput()}<label class="form-field">Categoría<select name="category" required>${CATEGORY_ORDER.map((item) => `<option>${item}</option>`).join("")}</select></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}`;
+  if (kind === "electricity") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}${moneyField("p1", "Consumo P1 (kWh)", 0)}${moneyField("p2", "Consumo P2 (kWh)", 0)}${moneyField("p3", "Consumo P3 (kWh)", 0)}`;
+  if (kind === "floor") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("cold_kwh", "Consumo frío (kWh)", 0)}${moneyField("cold_price", "Precio frío (€/kWh)", 0)}${moneyField("heat_kwh", "Consumo calor (kWh)", 0)}${moneyField("heat_price", "Precio calor (€/kWh)", 0)}${moneyField("water_m3", "Consumo agua (m³)", 0)}${moneyField("water_price", "Precio agua (€/m³)", 0)}${moneyField("fixed", "Cuota fija (€)", 0)}<label class="form-field">IVA (%)<input name="vat_rate" type="number" min="0" step="0.1" value="21" required /></label>`;
+  return `<label class="form-field">Fecha<input name="date" type="date" value="${date}" required /></label><label class="form-field">Categoría<select name="category"><option>Gasolina</option><option>Seguro</option><option>Taller</option><option>Impuestos</option><option>Otros</option></select></label><label class="form-field">Vehículo<input name="vehicle" placeholder="Coche, moto…" /></label><label class="form-field">Descripción<input name="description" /></label>${moneyField("amount", "Importe total (€)")}<label class="form-field">Precio por litro (€)<input name="unit_price" type="number" min="0" step="0.001" /></label>`;
+}
+
+function entryValues() {
+  const form = new FormData($("#entry-form"));
+  return Object.fromEntries(form.entries());
+}
+
+function renderEntryPreview() {
+  const values = entryValues();
+  const n = (name) => Math.max(0, Number(values[name]) || 0);
+  const days = daysBetween(values.start_date, values.end_date);
+  let lines = [];
+  if (values.kind === "home") lines = [["Días incluidos", days || "—"], ["Media diaria", days ? euro.format(n("amount") / days) : "—"], ["Cálculo mensual", "Prorrateo por días de cada mes"]];
+  if (values.kind === "electricity") {
+    const consumption = n("p1") + n("p2") + n("p3");
+    lines = [["Días", days || "—"], ["Consumo total", `${decimal.format(consumption)} kWh`], ["Consumo diario", days ? `${decimal.format(consumption / days)} kWh` : "—"], ["Coste por kWh", consumption ? euro.format(n("amount") / consumption) : "—"]];
+  }
+  if (values.kind === "floor") {
+    const cold = n("cold_kwh") * n("cold_price"), heat = n("heat_kwh") * n("heat_price"), water = n("water_m3") * n("water_price");
+    const total = (cold + heat + water + n("fixed")) * (1 + n("vat_rate") / 100);
+    lines = [["Frío", euro.format(cold)], ["Calor", euro.format(heat)], ["Agua", euro.format(water)], ["Factura calculada", euro.format(total)], ["Importe diario", days ? euro.format(total / days) : "—"]];
+  }
+  if (values.kind === "vehicle") lines = [["Cantidad calculada", n("unit_price") ? `${decimal.format(n("amount") / n("unit_price"))} l` : "Añade el precio/litro"], ["Resumen", "Se agrega al mes, año y categoría"]];
+  $("#entry-preview").innerHTML = `<strong>Cálculos automáticos</strong>${lines.map(([label, value]) => `<span><small>${label}</small><b>${value}</b></span>`).join("")}`;
+}
+
+function renderEntryForm() {
+  const kind = $("#entry-kind").value;
+  $("#entry-fields").innerHTML = entryFieldsMarkup(kind);
+  $("#entry-message").hidden = true;
+  renderEntryPreview();
+}
+
+async function saveEntry(event) {
+  event.preventDefault();
+  const values = entryValues();
+  const kind = values.kind;
+  delete values.kind;
+  const button = $("#save-entry");
+  button.disabled = true;
+  button.textContent = "Guardando…";
+  const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
+  try {
+    const response = await fetch(`${base}/api/entries`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, payload: values }) });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "No se pudo guardar");
+    state.data = await loadData();
+    fillFilters();
+    renderAll();
+    $("#entry-dialog").close();
+  } catch (error) {
+    $("#entry-message").textContent = error.message;
+    $("#entry-message").hidden = false;
+  } finally {
+    button.disabled = false;
+    button.textContent = "Guardar y recalcular";
+  }
+}
 
 async function loadData() {
   const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
@@ -167,7 +245,7 @@ function renderLight() {
   const chartRows = rows.slice(-48);
   lineChart($("#light-cost-chart"), [{ values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
   lineChart($("#light-use-chart"), [{ values: chartRows.map((r)=>r.p1), color: COLORS[1] }, { values: chartRows.map((r)=>r.p2), color: COLORS[2] }, { values: chartRows.map((r)=>r.p3), color: COLORS[3] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
-  $("#light-table").innerHTML = tableMarkup(["Periodo", "Vivienda", "Compañía", "Días", "P1", "P2", "P3", "Total kWh", "Importe"], rows.slice().reverse().slice(0, 24).map((r)=>[labelMonth(r.month,true),esc(r.property),esc(r.company),r.days,decimal.format(r.p1),decimal.format(r.p2),decimal.format(r.p3),`<strong>${decimal.format(r.consumption)}</strong>`,euro.format(r.amount)]), [3,4,5,6,7,8]);
+  $("#light-table").innerHTML = tableMarkup(["Periodo", "Vivienda", "Compañía", "Días", "P1", "P2", "P3", "Total kWh", "kWh/día", "€/kWh", "Importe"], rows.slice().reverse().slice(0, 24).map((r)=>[labelMonth(r.month,true),esc(r.property),esc(r.company),r.days,decimal.format(r.p1),decimal.format(r.p2),decimal.format(r.p3),`<strong>${decimal.format(r.consumption)}</strong>`,decimal.format(r.daily_consumption),r.cost_per_kwh ? euro.format(r.cost_per_kwh) : "—",euro.format(r.amount)]), [3,4,5,6,7,8,9,10]);
 }
 
 function renderFloor() {
@@ -176,7 +254,7 @@ function renderFloor() {
   $("#floor-kpis").innerHTML = [kpi("Facturas", rows.length, "periodos registrados", true), kpi("Gasto", euro.format(sum(rows,(r)=>r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} de media`), kpi("Energía", `${decimal.format(sum(rows,(r)=>r.cold_kwh+r.heat_kwh))} kWh`, "frío y calor"), kpi("Última compañía", latest?.company || "—", latest ? labelMonth(latest.month,true) : "Sin datos")].join("");
   lineChart($("#floor-cost-chart"), [{ values: rows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: rows.map((r)=>labelMonth(r.month)), currency: true });
   lineChart($("#floor-use-chart"), [{ values: rows.map((r)=>r.cold_kwh), color: COLORS[3] }, { values: rows.map((r)=>r.heat_kwh), color: COLORS[1] }, { values: rows.map((r)=>r.water_m3*50), color: COLORS[0] }], { labels: rows.map((r)=>labelMonth(r.month)) });
-  $("#floor-table").innerHTML = tableMarkup(["Periodo", "Compañía", "Días", "Frío kWh", "Calor kWh", "Agua m³", "Fijo", "Importe"], rows.slice().reverse().map((r)=>[labelMonth(r.month,true),esc(r.company),r.days,decimal.format(r.cold_kwh),decimal.format(r.heat_kwh),decimal.format(r.water_m3),euro.format(r.fixed),euro.format(r.amount)]), [2,3,4,5,6,7]);
+  $("#floor-table").innerHTML = tableMarkup(["Periodo", "Compañía", "Días", "Frío kWh", "Calor kWh", "Agua m³", "Fijo", "€/día", "Importe"], rows.slice().reverse().map((r)=>[labelMonth(r.month,true),esc(r.company),r.days,decimal.format(r.cold_kwh),decimal.format(r.heat_kwh),decimal.format(r.water_m3),euro.format(r.fixed),r.daily_amount ? euro.format(r.daily_amount) : euro.format(r.amount / Math.max(r.days,1)),euro.format(r.amount)]), [2,3,4,5,6,7,8]);
 }
 
 function renderVehicle() {
@@ -189,7 +267,7 @@ function renderVehicle() {
   $("#vehicle-kpis").innerHTML = [kpi("Movimientos", rows.length, "gastos registrados", true), kpi("Gasto total", euro.format(sum(rows,(r)=>r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} por movimiento`), kpi("Gasolina", euro.format(sum(rows.filter((r)=>r.category==="Gasolina"),(r)=>r.amount)), "combustible registrado"), kpi("Último gasto", latest?euro.format(latest.amount):"—", latest?new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(latest.date)):"Sin datos")].join("");
   lineChart($("#vehicle-chart"), [{ values: months.map((m)=>byMonth.get(m)), color: COLORS[1], area: true }], { labels: months.map(labelMonth), currency: true });
   donut($("#vehicle-breakdown"), categories.map((category,index)=>({label:category,value:sum(rows.filter((r)=>r.category===category),(r)=>r.amount),color:COLORS[index%COLORS.length]})), "en el periodo");
-  $("#vehicle-table").innerHTML = tableMarkup(["Fecha", "Tipo", "Vehículo", "Descripción", "Importe"], rows.slice().reverse().slice(0,30).map((r)=>[new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(r.date)),esc(r.category),esc(r.vehicle||"—"),esc(r.description||"—"),euro.format(r.amount)]), [4]);
+  $("#vehicle-table").innerHTML = tableMarkup(["Fecha", "Tipo", "Vehículo", "Descripción", "Precio/l", "Litros", "Días desde anterior", "Importe"], rows.slice().reverse().slice(0,30).map((r)=>[new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(r.date)),esc(r.category),esc(r.vehicle||"—"),esc(r.description||"—"),r.unit_price ? euro.format(r.unit_price) : "—",r.quantity ? decimal.format(r.quantity) : "—",r.days_since_previous ?? "—",euro.format(r.amount)]), [4,5,6,7]);
 }
 
 function renderComparison() {
@@ -206,11 +284,15 @@ function renderComparison() {
 
 function renderAll() { renderSummary(); renderHistory(); renderLight(); renderFloor(); renderVehicle(); renderComparison(); }
 
-function setupFilters() {
+function fillFilters() {
   const properties = [...new Set(state.data.monthly.map((row)=>row.property))];
-  $("#property-filter").innerHTML = ["Todas",...properties].map((property)=>`<option>${esc(property)}</option>`).join("");
+  $("#property-filter").innerHTML = ["Todas",...properties].map((property)=>`<option ${property === state.property ? "selected" : ""}>${esc(property)}</option>`).join("");
   const years = [...new Set(state.data.monthly.map((row)=>row.month.slice(0,4)))].sort().reverse();
-  $("#period-filter").innerHTML = `<option value="all">Todo el histórico</option><option value="12m">Últimos 12 meses</option>${years.map((year)=>`<option value="${year}">${year}</option>`).join("")}`;
+  $("#period-filter").innerHTML = `<option value="all" ${state.period === "all" ? "selected" : ""}>Todo el histórico</option><option value="12m" ${state.period === "12m" ? "selected" : ""}>Últimos 12 meses</option>${years.map((year)=>`<option value="${year}" ${state.period === year ? "selected" : ""}>${year}</option>`).join("")}`;
+}
+
+function setupFilters() {
+  fillFilters();
   $("#property-filter").addEventListener("change", (event)=>{ state.property=event.target.value; state.page=1; renderAll(); });
   $("#period-filter").addEventListener("change", (event)=>{ state.period=event.target.value; state.page=1; renderAll(); });
 }
@@ -227,6 +309,12 @@ function setupEvents() {
   $$("[data-go]").forEach((button)=>button.addEventListener("click",()=>activateView(button.dataset.go)));
   $("#history-search").addEventListener("input",(event)=>{ state.query=event.target.value; state.page=1; renderHistory(); });
   $("#comparison-form").addEventListener("input",renderComparison);
+  $("#open-entry").addEventListener("click",()=>{ renderEntryForm(); $("#entry-dialog").showModal(); });
+  $("#close-entry").addEventListener("click",()=>$("#entry-dialog").close());
+  $("#cancel-entry").addEventListener("click",()=>$("#entry-dialog").close());
+  $("#entry-kind").addEventListener("change",renderEntryForm);
+  $("#entry-form").addEventListener("input",renderEntryPreview);
+  $("#entry-form").addEventListener("submit",saveEntry);
   $("#download-csv").addEventListener("click",()=>{
     const rows=historyRows().slice().reverse();
     const lines=[["Mes","Vivienda",...CATEGORY_ORDER,"Total"],...rows.map((r)=>[r.month,r.property,...CATEGORY_ORDER.map((c)=>r.categories[c]||0),r.total])];

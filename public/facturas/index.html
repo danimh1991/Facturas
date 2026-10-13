@@ -41,6 +41,7 @@
           <div class="top-actions">
             <label class="select-wrap"><span>Vivienda</span><select id="property-filter"></select></label>
             <label class="select-wrap"><span>Periodo</span><select id="period-filter"></select></label>
+            <button id="open-entry" class="primary-button" type="button"><span>+</span>Añadir dato</button>
           </div>
         </header>
 
@@ -116,6 +117,27 @@
         </section>
       </main>
     </div>
+
+    <dialog id="entry-dialog" aria-labelledby="entry-title">
+      <form id="entry-form" method="dialog">
+        <div class="dialog-heading">
+          <div><p class="card-kicker">NUEVO REGISTRO</p><h2 id="entry-title">Añadir datos</h2><p class="subcopy">Introduce únicamente los datos de la factura. Los totales, días, medias y porcentajes se calculan automáticamente.</p></div>
+          <button id="close-entry" class="icon-button" type="button" aria-label="Cerrar">×</button>
+        </div>
+        <label class="form-field full">Tipo de dato
+          <select name="kind" id="entry-kind">
+            <option value="home">Factura de vivienda</option>
+            <option value="electricity">Consumo de luz</option>
+            <option value="floor">Suelo radiante y agua</option>
+            <option value="vehicle">Gasto de vehículo</option>
+          </select>
+        </label>
+        <div id="entry-fields" class="form-grid"></div>
+        <div id="entry-preview" class="formula-preview" aria-live="polite"></div>
+        <div id="entry-message" class="form-message" hidden></div>
+        <div class="dialog-actions"><button class="outline-button" id="cancel-entry" type="button">Cancelar</button><button class="primary-button" id="save-entry" type="submit">Guardar y recalcular</button></div>
+      </form>
+    </dialog>
     <script type="module" src="./app.js"></script>
   </body>
 </html>

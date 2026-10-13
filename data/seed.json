@@ -1,7 +1,7 @@
 {
   "meta": {
     "source_updated": 1788958261.1258361,
-    "generated": "2026-10-13T17:56:54.631960+00:00",
+    "generated": "2026-10-13T18:33:38.804842+00:00",
     "excluded_sheets": [
       "Previsión Luz",
       "X Gasolina Moto",
@@ -1945,7 +1945,12 @@
       "p2": 77.0,
       "p3": 0,
       "consumption": 149.0,
-      "daily_consumption": 4.382353
+      "daily_consumption": 4.382353,
+      "daily_amount": 1.259706,
+      "cost_per_kwh": 0.28745,
+      "p1_share": 0.483221,
+      "p2_share": 0.516779,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -1959,7 +1964,12 @@
       "p2": 77.0,
       "p3": 0,
       "consumption": 167.0,
-      "daily_consumption": 5.21875
+      "daily_consumption": 5.21875,
+      "daily_amount": 1.747812,
+      "cost_per_kwh": 0.33491,
+      "p1_share": 0.538922,
+      "p2_share": 0.461078,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -1973,7 +1983,12 @@
       "p2": 77.0,
       "p3": 0,
       "consumption": 164.0,
-      "daily_consumption": 5.655172
+      "daily_consumption": 5.655172,
+      "daily_amount": 1.465862,
+      "cost_per_kwh": 0.259207,
+      "p1_share": 0.530488,
+      "p2_share": 0.469512,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -1987,7 +2002,12 @@
       "p2": 76.0,
       "p3": 0,
       "consumption": 156.0,
-      "daily_consumption": 5.032258
+      "daily_consumption": 5.032258,
+      "daily_amount": 1.365806,
+      "cost_per_kwh": 0.27141,
+      "p1_share": 0.512821,
+      "p2_share": 0.487179,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2001,7 +2021,12 @@
       "p2": 79.0,
       "p3": 0,
       "consumption": 221.0,
-      "daily_consumption": 7.129032
+      "daily_consumption": 7.129032,
+      "daily_amount": 1.756452,
+      "cost_per_kwh": 0.24638,
+      "p1_share": 0.642534,
+      "p2_share": 0.357466,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2015,7 +2040,12 @@
       "p2": 75.0,
       "p3": 0,
       "consumption": 158.0,
-      "daily_consumption": 5.266667
+      "daily_consumption": 5.266667,
+      "daily_amount": 1.406333,
+      "cost_per_kwh": 0.267025,
+      "p1_share": 0.525316,
+      "p2_share": 0.474684,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2029,7 +2059,12 @@
       "p2": 71.0,
       "p3": 0,
       "consumption": 140.0,
-      "daily_consumption": 4.666667
+      "daily_consumption": 4.666667,
+      "daily_amount": 1.304333,
+      "cost_per_kwh": 0.2795,
+      "p1_share": 0.492857,
+      "p2_share": 0.507143,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2043,7 +2078,12 @@
       "p2": 70.0,
       "p3": 0,
       "consumption": 142.0,
-      "daily_consumption": 4.580645
+      "daily_consumption": 4.580645,
+      "daily_amount": 1.297742,
+      "cost_per_kwh": 0.28331,
+      "p1_share": 0.507042,
+      "p2_share": 0.492958,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2057,7 +2097,12 @@
       "p2": 55.0,
       "p3": 0,
       "consumption": 112.0,
-      "daily_consumption": 3.5
+      "daily_consumption": 3.5,
+      "daily_amount": 1.143438,
+      "cost_per_kwh": 0.326696,
+      "p1_share": 0.508929,
+      "p2_share": 0.491071,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2071,7 +2116,12 @@
       "p2": 46.0,
       "p3": 0,
       "consumption": 103.0,
-      "daily_consumption": 4.12
+      "daily_consumption": 4.12,
+      "daily_amount": 1.2496,
+      "cost_per_kwh": 0.303301,
+      "p1_share": 0.553398,
+      "p2_share": 0.446602,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2085,7 +2135,12 @@
       "p2": 76.0,
       "p3": 0,
       "consumption": 167.0,
-      "daily_consumption": 4.771429
+      "daily_consumption": 4.771429,
+      "daily_amount": 1.353143,
+      "cost_per_kwh": 0.283593,
+      "p1_share": 0.54491,
+      "p2_share": 0.45509,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2099,7 +2154,12 @@
       "p2": 81.0,
       "p3": 0,
       "consumption": 178.0,
-      "daily_consumption": 4.684211
+      "daily_consumption": 4.684211,
+      "daily_amount": 1.318947,
+      "cost_per_kwh": 0.281573,
+      "p1_share": 0.544944,
+      "p2_share": 0.455056,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2113,7 +2173,12 @@
       "p2": 42.0,
       "p3": 0,
       "consumption": 91.0,
-      "daily_consumption": 4.333333
+      "daily_consumption": 4.333333,
+      "daily_amount": 1.246667,
+      "cost_per_kwh": 0.287692,
+      "p1_share": 0.538462,
+      "p2_share": 0.461538,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2127,7 +2192,12 @@
       "p2": 69.0,
       "p3": 0,
       "consumption": 134.0,
-      "daily_consumption": 4.322581
+      "daily_consumption": 4.322581,
+      "daily_amount": 1.224839,
+      "cost_per_kwh": 0.283358,
+      "p1_share": 0.485075,
+      "p2_share": 0.514925,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2141,7 +2211,12 @@
       "p2": 67.0,
       "p3": 0,
       "consumption": 129.0,
-      "daily_consumption": 3.583333
+      "daily_consumption": 3.583333,
+      "daily_amount": 1.122222,
+      "cost_per_kwh": 0.313178,
+      "p1_share": 0.48062,
+      "p2_share": 0.51938,
+      "p3_share": 0
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2155,7 +2230,12 @@
       "p2": 25.0,
       "p3": 24.0,
       "consumption": 75.0,
-      "daily_consumption": 3.125
+      "daily_consumption": 3.125,
+      "daily_amount": 0.999167,
+      "cost_per_kwh": 0.319733,
+      "p1_share": 0.346667,
+      "p2_share": 0.333333,
+      "p3_share": 0.32
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2169,7 +2249,12 @@
       "p2": 42.0,
       "p3": 69.0,
       "consumption": 146.0,
-      "daily_consumption": 4.709677
+      "daily_consumption": 4.709677,
+      "daily_amount": 1.17,
+      "cost_per_kwh": 0.248425,
+      "p1_share": 0.239726,
+      "p2_share": 0.287671,
+      "p3_share": 0.472603
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2183,7 +2268,12 @@
       "p2": 37.0,
       "p3": 52.0,
       "consumption": 122.0,
-      "daily_consumption": 3.935484
+      "daily_consumption": 3.935484,
+      "daily_amount": 1.067419,
+      "cost_per_kwh": 0.27123,
+      "p1_share": 0.270492,
+      "p2_share": 0.303279,
+      "p3_share": 0.42623
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2197,7 +2287,12 @@
       "p2": 42.0,
       "p3": 54.0,
       "consumption": 138.0,
-      "daily_consumption": 4.3125
+      "daily_consumption": 4.3125,
+      "daily_amount": 1.007812,
+      "cost_per_kwh": 0.233696,
+      "p1_share": 0.304348,
+      "p2_share": 0.304348,
+      "p3_share": 0.391304
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2211,7 +2306,12 @@
       "p2": 30.0,
       "p3": 46.0,
       "consumption": 109.0,
-      "daily_consumption": 3.758621
+      "daily_consumption": 3.758621,
+      "daily_amount": 0.755862,
+      "cost_per_kwh": 0.201101,
+      "p1_share": 0.302752,
+      "p2_share": 0.275229,
+      "p3_share": 0.422018
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2225,7 +2325,12 @@
       "p2": 34.0,
       "p3": 53.0,
       "consumption": 121.0,
-      "daily_consumption": 3.903226
+      "daily_consumption": 3.903226,
+      "daily_amount": 0.767419,
+      "cost_per_kwh": 0.196612,
+      "p1_share": 0.280992,
+      "p2_share": 0.280992,
+      "p3_share": 0.438017
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2239,7 +2344,12 @@
       "p2": 18.0,
       "p3": 29.0,
       "consumption": 66.0,
-      "daily_consumption": 3.142857
+      "daily_consumption": 3.142857,
+      "daily_amount": 0.690952,
+      "cost_per_kwh": 0.219848,
+      "p1_share": 0.287879,
+      "p2_share": 0.272727,
+      "p3_share": 0.439394
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2253,7 +2363,12 @@
       "p2": 42.0,
       "p3": 70.0,
       "consumption": 155.0,
-      "daily_consumption": 3.875
+      "daily_consumption": 3.875,
+      "daily_amount": 0.86675,
+      "cost_per_kwh": 0.223677,
+      "p1_share": 0.277419,
+      "p2_share": 0.270968,
+      "p3_share": 0.451613
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2267,7 +2382,12 @@
       "p2": 36.0,
       "p3": 56.0,
       "consumption": 139.0,
-      "daily_consumption": 4.212121
+      "daily_consumption": 4.212121,
+      "daily_amount": 1.179697,
+      "cost_per_kwh": 0.280072,
+      "p1_share": 0.338129,
+      "p2_share": 0.258993,
+      "p3_share": 0.402878
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2281,7 +2401,12 @@
       "p2": 18.0,
       "p3": 26.0,
       "consumption": 66.0,
-      "daily_consumption": 4.125
+      "daily_consumption": 4.125,
+      "daily_amount": 1.808125,
+      "cost_per_kwh": 0.438333,
+      "p1_share": 0.333333,
+      "p2_share": 0.272727,
+      "p3_share": 0.393939
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2295,7 +2420,12 @@
       "p2": 29.0,
       "p3": 40.0,
       "consumption": 105.0,
-      "daily_consumption": 5.0
+      "daily_consumption": 5.0,
+      "daily_amount": 1.421429,
+      "cost_per_kwh": 0.284286,
+      "p1_share": 0.342857,
+      "p2_share": 0.27619,
+      "p3_share": 0.380952
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2309,7 +2439,12 @@
       "p2": 56.0,
       "p3": 66.0,
       "consumption": 185.0,
-      "daily_consumption": 3.7
+      "daily_consumption": 3.7,
+      "daily_amount": 1.0896,
+      "cost_per_kwh": 0.294486,
+      "p1_share": 0.340541,
+      "p2_share": 0.302703,
+      "p3_share": 0.356757
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2323,7 +2458,12 @@
       "p2": 44.0,
       "p3": 64.0,
       "consumption": 157.0,
-      "daily_consumption": 4.90625
+      "daily_consumption": 4.90625,
+      "daily_amount": 1.302812,
+      "cost_per_kwh": 0.265541,
+      "p1_share": 0.312102,
+      "p2_share": 0.280255,
+      "p3_share": 0.407643
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2337,7 +2477,12 @@
       "p2": 61.0,
       "p3": 76.0,
       "consumption": 188.0,
-      "daily_consumption": 6.482759
+      "daily_consumption": 6.482759,
+      "daily_amount": 1.531724,
+      "cost_per_kwh": 0.236277,
+      "p1_share": 0.271277,
+      "p2_share": 0.324468,
+      "p3_share": 0.404255
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2351,7 +2496,12 @@
       "p2": 26.0,
       "p3": 45.0,
       "consumption": 92.0,
-      "daily_consumption": 2.967742
+      "daily_consumption": 2.967742,
+      "daily_amount": 0.954839,
+      "cost_per_kwh": 0.321739,
+      "p1_share": 0.228261,
+      "p2_share": 0.282609,
+      "p3_share": 0.48913
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2365,7 +2515,12 @@
       "p2": 36.0,
       "p3": 51.0,
       "consumption": 125.0,
-      "daily_consumption": 4.032258
+      "daily_consumption": 4.032258,
+      "daily_amount": 1.135161,
+      "cost_per_kwh": 0.28152,
+      "p1_share": 0.304,
+      "p2_share": 0.288,
+      "p3_share": 0.408
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2379,7 +2534,12 @@
       "p2": 32.0,
       "p3": 68.0,
       "consumption": 139.0,
-      "daily_consumption": 4.633333
+      "daily_consumption": 4.633333,
+      "daily_amount": 1.236333,
+      "cost_per_kwh": 0.266835,
+      "p1_share": 0.280576,
+      "p2_share": 0.230216,
+      "p3_share": 0.489209
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2393,7 +2553,12 @@
       "p2": 32.0,
       "p3": 50.0,
       "consumption": 121.0,
-      "daily_consumption": 4.033333
+      "daily_consumption": 4.033333,
+      "daily_amount": 1.135,
+      "cost_per_kwh": 0.281405,
+      "p1_share": 0.322314,
+      "p2_share": 0.264463,
+      "p3_share": 0.413223
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2407,7 +2572,12 @@
       "p2": 35.0,
       "p3": 46.0,
       "consumption": 115.0,
-      "daily_consumption": 4.423077
+      "daily_consumption": 4.423077,
+      "daily_amount": 1.200769,
+      "cost_per_kwh": 0.271478,
+      "p1_share": 0.295652,
+      "p2_share": 0.304348,
+      "p3_share": 0.4
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2421,7 +2591,12 @@
       "p2": 41.0,
       "p3": 62.0,
       "consumption": 157.0,
-      "daily_consumption": 4.361111
+      "daily_consumption": 4.361111,
+      "daily_amount": 1.184167,
+      "cost_per_kwh": 0.271529,
+      "p1_share": 0.343949,
+      "p2_share": 0.261146,
+      "p3_share": 0.394904
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2435,7 +2610,12 @@
       "p2": 42.0,
       "p3": 60.0,
       "consumption": 147.0,
-      "daily_consumption": 4.59375
+      "daily_consumption": 4.59375,
+      "daily_amount": 1.221875,
+      "cost_per_kwh": 0.265986,
+      "p1_share": 0.306122,
+      "p2_share": 0.285714,
+      "p3_share": 0.408163
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2449,7 +2629,12 @@
       "p2": 30.0,
       "p3": 40.0,
       "consumption": 107.0,
-      "daily_consumption": 3.821429
+      "daily_consumption": 3.821429,
+      "daily_amount": 1.108571,
+      "cost_per_kwh": 0.290093,
+      "p1_share": 0.345794,
+      "p2_share": 0.280374,
+      "p3_share": 0.373832
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2463,7 +2648,12 @@
       "p2": 28.0,
       "p3": 31.0,
       "consumption": 88.0,
-      "daily_consumption": 2.933333
+      "daily_consumption": 2.933333,
+      "daily_amount": 0.982667,
+      "cost_per_kwh": 0.335,
+      "p1_share": 0.329545,
+      "p2_share": 0.318182,
+      "p3_share": 0.352273
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2477,7 +2667,12 @@
       "p2": 37.0,
       "p3": 32.0,
       "consumption": 110.0,
-      "daily_consumption": 3.666667
+      "daily_consumption": 3.666667,
+      "daily_amount": 1.114,
+      "cost_per_kwh": 0.303818,
+      "p1_share": 0.372727,
+      "p2_share": 0.336364,
+      "p3_share": 0.290909
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2491,7 +2686,12 @@
       "p2": 38.0,
       "p3": 49.0,
       "consumption": 123.0,
-      "daily_consumption": 3.84375
+      "daily_consumption": 3.84375,
+      "daily_amount": 1.132187,
+      "cost_per_kwh": 0.294553,
+      "p1_share": 0.292683,
+      "p2_share": 0.308943,
+      "p3_share": 0.398374
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2505,7 +2705,12 @@
       "p2": 39.0,
       "p3": 40.0,
       "consumption": 117.0,
-      "daily_consumption": 4.034483
+      "daily_consumption": 4.034483,
+      "daily_amount": 1.195862,
+      "cost_per_kwh": 0.29641,
+      "p1_share": 0.324786,
+      "p2_share": 0.333333,
+      "p3_share": 0.34188
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2519,7 +2724,12 @@
       "p2": 17.0,
       "p3": 38.0,
       "consumption": 73.0,
-      "daily_consumption": 2.517241
+      "daily_consumption": 2.517241,
+      "daily_amount": 0.907931,
+      "cost_per_kwh": 0.360685,
+      "p1_share": 0.246575,
+      "p2_share": 0.232877,
+      "p3_share": 0.520548
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2533,7 +2743,12 @@
       "p2": 40.0,
       "p3": 45.0,
       "consumption": 130.0,
-      "daily_consumption": 3.939394
+      "daily_consumption": 3.939394,
+      "daily_amount": 1.163636,
+      "cost_per_kwh": 0.295385,
+      "p1_share": 0.346154,
+      "p2_share": 0.307692,
+      "p3_share": 0.346154
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2547,7 +2762,12 @@
       "p2": 31.0,
       "p3": 47.0,
       "consumption": 109.0,
-      "daily_consumption": 3.633333
+      "daily_consumption": 3.633333,
+      "daily_amount": 1.057333,
+      "cost_per_kwh": 0.291009,
+      "p1_share": 0.284404,
+      "p2_share": 0.284404,
+      "p3_share": 0.431193
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2561,7 +2781,12 @@
       "p2": 32.0,
       "p3": 59.0,
       "consumption": 131.0,
-      "daily_consumption": 4.09375
+      "daily_consumption": 4.09375,
+      "daily_amount": 1.120313,
+      "cost_per_kwh": 0.273664,
+      "p1_share": 0.305344,
+      "p2_share": 0.244275,
+      "p3_share": 0.450382
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2575,7 +2800,12 @@
       "p2": 19.0,
       "p3": 29.0,
       "consumption": 71.0,
-      "daily_consumption": 2.958333
+      "daily_consumption": 2.958333,
+      "daily_amount": 0.964167,
+      "cost_per_kwh": 0.325915,
+      "p1_share": 0.323944,
+      "p2_share": 0.267606,
+      "p3_share": 0.408451
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2589,7 +2819,12 @@
       "p2": 37.0,
       "p3": 56.0,
       "consumption": 139.0,
-      "daily_consumption": 3.861111
+      "daily_consumption": 3.861111,
+      "daily_amount": 1.136667,
+      "cost_per_kwh": 0.294388,
+      "p1_share": 0.330935,
+      "p2_share": 0.266187,
+      "p3_share": 0.402878
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2603,7 +2838,12 @@
       "p2": 32.0,
       "p3": 56.0,
       "consumption": 131.0,
-      "daily_consumption": 4.225806
+      "daily_consumption": 4.225806,
+      "daily_amount": 1.162903,
+      "cost_per_kwh": 0.275191,
+      "p1_share": 0.328244,
+      "p2_share": 0.244275,
+      "p3_share": 0.427481
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2617,7 +2857,12 @@
       "p2": 30.0,
       "p3": 40.0,
       "consumption": 121.0,
-      "daily_consumption": 4.321429
+      "daily_consumption": 4.321429,
+      "daily_amount": 1.327857,
+      "cost_per_kwh": 0.307273,
+      "p1_share": 0.421488,
+      "p2_share": 0.247934,
+      "p3_share": 0.330579
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2631,7 +2876,12 @@
       "p2": 39.0,
       "p3": 42.0,
       "consumption": 123.0,
-      "daily_consumption": 3.84375
+      "daily_consumption": 3.84375,
+      "daily_amount": 1.249062,
+      "cost_per_kwh": 0.324959,
+      "p1_share": 0.341463,
+      "p2_share": 0.317073,
+      "p3_share": 0.341463
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2645,7 +2895,12 @@
       "p2": 21.0,
       "p3": 36.0,
       "consumption": 79.0,
-      "daily_consumption": 2.548387
+      "daily_consumption": 2.548387,
+      "daily_amount": 1.035806,
+      "cost_per_kwh": 0.406456,
+      "p1_share": 0.278481,
+      "p2_share": 0.265823,
+      "p3_share": 0.455696
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2659,7 +2914,12 @@
       "p2": 36.0,
       "p3": 33.0,
       "consumption": 99.0,
-      "daily_consumption": 3.3
+      "daily_consumption": 3.3,
+      "daily_amount": 1.174,
+      "cost_per_kwh": 0.355758,
+      "p1_share": 0.30303,
+      "p2_share": 0.363636,
+      "p3_share": 0.333333
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2673,7 +2933,12 @@
       "p2": 62.0,
       "p3": 51.0,
       "consumption": 174.0,
-      "daily_consumption": 5.8
+      "daily_consumption": 5.8,
+      "daily_amount": 1.545333,
+      "cost_per_kwh": 0.266437,
+      "p1_share": 0.350575,
+      "p2_share": 0.356322,
+      "p3_share": 0.293103
     },
     {
       "property": "Manuel Gutierrez Mellado",
@@ -2687,7 +2952,12 @@
       "p2": 4.0,
       "p3": 10.0,
       "consumption": 18.0,
-      "daily_consumption": 1.636364
+      "daily_consumption": 1.636364,
+      "daily_amount": 0.813636,
+      "cost_per_kwh": 0.497222,
+      "p1_share": 0.222222,
+      "p2_share": 0.222222,
+      "p3_share": 0.555556
     },
     {
       "property": "César Cort Botí",
@@ -2701,7 +2971,12 @@
       "p2": 227.0,
       "p3": 309.0,
       "consumption": 854.0,
-      "daily_consumption": 9.488889
+      "daily_consumption": 9.488889,
+      "daily_amount": 1.91,
+      "cost_per_kwh": 0.201288,
+      "p1_share": 0.372365,
+      "p2_share": 0.265808,
+      "p3_share": 0.361827
     },
     {
       "property": "César Cort Botí",
@@ -2715,7 +2990,12 @@
       "p2": 55.0,
       "p3": 72.0,
       "consumption": 195.0,
-      "daily_consumption": 7.222222
+      "daily_consumption": 7.222222,
+      "daily_amount": 1.842963,
+      "cost_per_kwh": 0.255179,
+      "p1_share": 0.348718,
+      "p2_share": 0.282051,
+      "p3_share": 0.369231
     },
     {
       "property": "César Cort Botí",
@@ -2729,7 +3009,12 @@
       "p2": 107.0,
       "p3": 83.0,
       "consumption": 276.0,
-      "daily_consumption": 8.625
+      "daily_consumption": 8.625,
+      "daily_amount": 2.075625,
+      "cost_per_kwh": 0.240652,
+      "p1_share": 0.311594,
+      "p2_share": 0.387681,
+      "p3_share": 0.300725
     },
     {
       "property": "César Cort Botí",
@@ -2743,7 +3028,12 @@
       "p2": 117.0,
       "p3": 96.0,
       "consumption": 351.0,
-      "daily_consumption": 12.103448
+      "daily_consumption": 12.103448,
+      "daily_amount": 2.603103,
+      "cost_per_kwh": 0.215071,
+      "p1_share": 0.393162,
+      "p2_share": 0.333333,
+      "p3_share": 0.273504
     },
     {
       "property": "César Cort Botí",
@@ -2757,7 +3047,12 @@
       "p2": 115.0,
       "p3": 105.0,
       "consumption": 319.0,
-      "daily_consumption": 10.633333
+      "daily_consumption": 10.633333,
+      "daily_amount": 2.38,
+      "cost_per_kwh": 0.223824,
+      "p1_share": 0.310345,
+      "p2_share": 0.360502,
+      "p3_share": 0.329154
     },
     {
       "property": "César Cort Botí",
@@ -2771,7 +3066,12 @@
       "p2": 90.0,
       "p3": 82.0,
       "consumption": 259.0,
-      "daily_consumption": 8.354839
+      "daily_consumption": 8.354839,
+      "daily_amount": 2.03,
+      "cost_per_kwh": 0.242973,
+      "p1_share": 0.335907,
+      "p2_share": 0.34749,
+      "p3_share": 0.316602
     },
     {
       "property": "César Cort Botí",
@@ -2785,7 +3085,12 @@
       "p2": 31.0,
       "p3": 45.0,
       "consumption": 110.0,
-      "daily_consumption": 4.074074
+      "daily_consumption": 4.074074,
+      "daily_amount": 1.397407,
+      "cost_per_kwh": 0.343,
+      "p1_share": 0.309091,
+      "p2_share": 0.281818,
+      "p3_share": 0.409091
     },
     {
       "property": "César Cort Botí",
@@ -2799,7 +3104,12 @@
       "p2": 66.0,
       "p3": 121.0,
       "consumption": 286.0,
-      "daily_consumption": 7.944444
+      "daily_consumption": 7.944444,
+      "daily_amount": 1.878333,
+      "cost_per_kwh": 0.236434,
+      "p1_share": 0.346154,
+      "p2_share": 0.230769,
+      "p3_share": 0.423077
     },
     {
       "property": "César Cort Botí",
@@ -2813,7 +3123,12 @@
       "p2": 45.0,
       "p3": 62.0,
       "consumption": 198.0,
-      "daily_consumption": 9.0
+      "daily_consumption": 9.0,
+      "daily_amount": 2.077727,
+      "cost_per_kwh": 0.230859,
+      "p1_share": 0.459596,
+      "p2_share": 0.227273,
+      "p3_share": 0.313131
     },
     {
       "property": "César Cort Botí",
@@ -2827,7 +3142,12 @@
       "p2": 75.0,
       "p3": 109.0,
       "consumption": 309.0,
-      "daily_consumption": 9.967742
+      "daily_consumption": 9.967742,
+      "daily_amount": 2.352581,
+      "cost_per_kwh": 0.236019,
+      "p1_share": 0.404531,
+      "p2_share": 0.242718,
+      "p3_share": 0.352751
     },
     {
       "property": "César Cort Botí",
@@ -2841,7 +3161,12 @@
       "p2": 38.0,
       "p3": 59.0,
       "consumption": 143.0,
-      "daily_consumption": 11.916667
+      "daily_consumption": 11.916667,
+      "daily_amount": 3.856667,
+      "cost_per_kwh": 0.323636,
+      "p1_share": 0.321678,
+      "p2_share": 0.265734,
+      "p3_share": 0.412587
     },
     {
       "property": "César Cort Botí",
@@ -2855,7 +3180,12 @@
       "p2": 84.0,
       "p3": 91.0,
       "consumption": 262.0,
-      "daily_consumption": 9.034483
+      "daily_consumption": 9.034483,
+      "daily_amount": 2.038621,
+      "cost_per_kwh": 0.225649,
+      "p1_share": 0.332061,
+      "p2_share": 0.320611,
+      "p3_share": 0.347328
     },
     {
       "property": "César Cort Botí",
@@ -2869,7 +3199,12 @@
       "p2": 82.0,
       "p3": 131.0,
       "consumption": 288.0,
-      "daily_consumption": 10.666667
+      "daily_consumption": 10.666667,
+      "daily_amount": 2.348148,
+      "cost_per_kwh": 0.220139,
+      "p1_share": 0.260417,
+      "p2_share": 0.284722,
+      "p3_share": 0.454861
     },
     {
       "property": "César Cort Botí",
@@ -2883,7 +3218,12 @@
       "p2": 74.0,
       "p3": 138.0,
       "consumption": 334.0,
-      "daily_consumption": 11.517241
+      "daily_consumption": 11.517241,
+      "daily_amount": 2.480345,
+      "cost_per_kwh": 0.215359,
+      "p1_share": 0.365269,
+      "p2_share": 0.221557,
+      "p3_share": 0.413174
     },
     {
       "property": "César Cort Botí",
@@ -2897,7 +3237,12 @@
       "p2": 100.0,
       "p3": 72.0,
       "consumption": 290.0,
-      "daily_consumption": 9.666667
+      "daily_consumption": 9.666667,
+      "daily_amount": 1.889667,
+      "cost_per_kwh": 0.195483,
+      "p1_share": 0.406897,
+      "p2_share": 0.344828,
+      "p3_share": 0.248276
     },
     {
       "property": "César Cort Botí",
@@ -2911,7 +3256,12 @@
       "p2": 96.0,
       "p3": 117.0,
       "consumption": 306.0,
-      "daily_consumption": 9.5625
+      "daily_consumption": 9.5625,
+      "daily_amount": 1.89625,
+      "cost_per_kwh": 0.198301,
+      "p1_share": 0.303922,
+      "p2_share": 0.313725,
+      "p3_share": 0.382353
     },
     {
       "property": "César Cort Botí",
@@ -2925,7 +3275,12 @@
       "p2": 57.0,
       "p3": 86.0,
       "consumption": 227.0,
-      "daily_consumption": 7.566667
+      "daily_consumption": 7.566667,
+      "daily_amount": 1.866,
+      "cost_per_kwh": 0.246608,
+      "p1_share": 0.370044,
+      "p2_share": 0.251101,
+      "p3_share": 0.378855
     },
     {
       "property": "César Cort Botí",
@@ -2939,7 +3294,12 @@
       "p2": 94.0,
       "p3": 112.0,
       "consumption": 308.0,
-      "daily_consumption": 9.625
+      "daily_consumption": 9.625,
+      "daily_amount": 2.186875,
+      "cost_per_kwh": 0.227208,
+      "p1_share": 0.331169,
+      "p2_share": 0.305195,
+      "p3_share": 0.363636
     },
     {
       "property": "César Cort Botí",
@@ -2953,7 +3313,12 @@
       "p2": 36.0,
       "p3": 72.0,
       "consumption": 158.0,
-      "daily_consumption": 5.448276
+      "daily_consumption": 5.448276,
+      "daily_amount": 1.725517,
+      "cost_per_kwh": 0.316709,
+      "p1_share": 0.316456,
+      "p2_share": 0.227848,
+      "p3_share": 0.455696
     },
     {
       "property": "César Cort Botí",
@@ -2967,7 +3332,12 @@
       "p2": 36.0,
       "p3": 58.0,
       "consumption": 124.0,
-      "daily_consumption": 4.0
+      "daily_consumption": 4.0,
+      "daily_amount": 1.316774,
+      "cost_per_kwh": 0.329194,
+      "p1_share": 0.241935,
+      "p2_share": 0.290323,
+      "p3_share": 0.467742
     }
   ],
   "floor": [
@@ -2982,7 +3352,19 @@
       "cold_kwh": 0,
       "heat_kwh": 2824.0,
       "water_m3": 3.36,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.08925,
+      "cold_total": 0,
+      "heat_price": 0.08925,
+      "heat_total": 252.042,
+      "water_price": 6.32,
+      "water_total": 21.2352,
+      "daily_amount": 6.084755,
+      "cold_share": 0,
+      "heat_share": 0.7267,
+      "water_share": 0.061226,
+      "fixed_share": 0.03852,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -2995,7 +3377,19 @@
       "cold_kwh": 0,
       "heat_kwh": 1609.0,
       "water_m3": 4.11,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.08865,
+      "cold_total": 0,
+      "heat_price": 0.08865,
+      "heat_total": 142.63785,
+      "water_price": 6.29,
+      "water_total": 25.8519,
+      "daily_amount": 5.000868,
+      "cold_share": 0,
+      "heat_share": 0.648241,
+      "water_share": 0.117488,
+      "fixed_share": 0.060717,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3008,7 +3402,19 @@
       "cold_kwh": 0,
       "heat_kwh": 399.0,
       "water_m3": 1.47,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.08865,
+      "cold_total": 0,
+      "heat_price": 0.08865,
+      "heat_total": 35.37135,
+      "water_price": 6.29,
+      "water_total": 9.2463,
+      "daily_amount": 4.38456,
+      "cold_share": 0,
+      "heat_share": 0.504203,
+      "water_share": 0.131802,
+      "fixed_share": 0.190441,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3021,7 +3427,19 @@
       "cold_kwh": 0,
       "heat_kwh": 251.0,
       "water_m3": 3.95,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.07055,
+      "cold_total": 0,
+      "heat_price": 0.07055,
+      "heat_total": 17.70805,
+      "water_price": 5.33,
+      "water_total": 21.0535,
+      "daily_amount": 1.911123,
+      "cold_share": 0,
+      "heat_share": 0.280781,
+      "water_share": 0.333827,
+      "fixed_share": 0.211838,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3034,7 +3452,19 @@
       "cold_kwh": 0,
       "heat_kwh": 3.0,
       "water_m3": 3.6,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.0566,
+      "cold_total": 0,
+      "heat_price": 0.0566,
+      "heat_total": 0.1698,
+      "water_price": 4.54,
+      "water_total": 16.344,
+      "daily_amount": 1.20491,
+      "cold_share": 0,
+      "heat_share": 0.004697,
+      "water_share": 0.45215,
+      "fixed_share": 0.369599,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3047,7 +3477,19 @@
       "cold_kwh": 340.0,
       "heat_kwh": 0,
       "water_m3": 3.2,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.04826,
+      "cold_total": 16.4084,
+      "heat_price": 0.04826,
+      "heat_total": 0,
+      "water_price": 4.04,
+      "water_total": 12.928,
+      "daily_amount": 1.722088,
+      "cold_share": 0.317607,
+      "heat_share": 0,
+      "water_share": 0.250239,
+      "fixed_share": 0.258601,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3060,7 +3502,19 @@
       "cold_kwh": 403.0,
       "heat_kwh": 0,
       "water_m3": 2.5,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.11173,
+      "cold_total": 45.02719,
+      "heat_price": 0.11173,
+      "heat_total": 0,
+      "water_price": 8.03,
+      "water_total": 20.075,
+      "daily_amount": 3.062556,
+      "cold_share": 0.474274,
+      "heat_share": 0,
+      "water_share": 0.211451,
+      "fixed_share": 0.140722,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3073,7 +3527,19 @@
       "cold_kwh": 108.0,
       "heat_kwh": 0,
       "water_m3": 0.8,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.11014,
+      "cold_total": 11.89512,
+      "heat_price": 0.11014,
+      "heat_total": 0,
+      "water_price": 7.94,
+      "water_total": 6.352,
+      "daily_amount": 1.233697,
+      "cold_share": 0.311027,
+      "heat_share": 0,
+      "water_share": 0.166089,
+      "fixed_share": 0.34933,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3086,7 +3552,19 @@
       "cold_kwh": 0,
       "heat_kwh": 0,
       "water_m3": 3.6,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.10915,
+      "cold_total": 0,
+      "heat_price": 0.10915,
+      "heat_total": 0,
+      "water_price": 7.89,
+      "water_total": 28.404,
+      "daily_amount": 1.684481,
+      "cold_share": 0,
+      "heat_share": 0,
+      "water_share": 0.562072,
+      "fixed_share": 0.264374,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3099,7 +3577,19 @@
       "cold_kwh": 1.0,
       "heat_kwh": 12.0,
       "water_m3": 3.4,
-      "fixed": 13.36
+      "fixed": 13.36,
+      "cold_price": 0.10443,
+      "cold_total": 0.10443,
+      "heat_price": 0.10443,
+      "heat_total": 1.25316,
+      "water_price": 7.63,
+      "water_total": 25.942,
+      "daily_amount": 1.587036,
+      "cold_share": 0.002123,
+      "heat_share": 0.025472,
+      "water_share": 0.527297,
+      "fixed_share": 0.271555,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3112,7 +3602,19 @@
       "cold_kwh": 0,
       "heat_kwh": 871.0,
       "water_m3": 5.848,
-      "fixed": 21.56
+      "fixed": 21.56,
+      "cold_price": 0.05,
+      "cold_total": 0,
+      "heat_price": 0.05,
+      "heat_total": 43.55,
+      "water_price": 3.0,
+      "water_total": 17.544,
+      "daily_amount": 1.686816,
+      "cold_share": 0,
+      "heat_share": 0.526895,
+      "water_share": 0.212258,
+      "fixed_share": 0.260846,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3125,7 +3627,19 @@
       "cold_kwh": 0,
       "heat_kwh": 1213.0,
       "water_m3": 2.574,
-      "fixed": 14.08
+      "fixed": 14.08,
+      "cold_price": 0.05,
+      "cold_total": 0,
+      "heat_price": 0.05,
+      "heat_total": 60.65,
+      "water_price": 3.0,
+      "water_total": 7.722,
+      "daily_amount": 2.576625,
+      "cold_share": 0,
+      "heat_share": 0.735579,
+      "water_share": 0.093654,
+      "fixed_share": 0.170766,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3138,7 +3652,19 @@
       "cold_kwh": 0,
       "heat_kwh": 1223.0,
       "water_m3": 5.416,
-      "fixed": 15.84
+      "fixed": 15.84,
+      "cold_price": 0.05,
+      "cold_total": 0,
+      "heat_price": 0.05,
+      "heat_total": 61.15,
+      "water_price": 3.0,
+      "water_total": 16.248,
+      "daily_amount": 2.589944,
+      "cold_share": 0,
+      "heat_share": 0.655848,
+      "water_share": 0.174264,
+      "fixed_share": 0.169888,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3151,7 +3677,19 @@
       "cold_kwh": 0,
       "heat_kwh": 430.0,
       "water_m3": 3.881,
-      "fixed": 13.2
+      "fixed": 13.2,
+      "cold_price": 0.05,
+      "cold_total": 0,
+      "heat_price": 0.05,
+      "heat_total": 21.5,
+      "water_price": 3.0,
+      "water_total": 11.643,
+      "daily_amount": 1.544767,
+      "cold_share": 0,
+      "heat_share": 0.463932,
+      "water_share": 0.251235,
+      "fixed_share": 0.284833,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3164,7 +3702,19 @@
       "cold_kwh": 0,
       "heat_kwh": 136.0,
       "water_m3": 3.192,
-      "fixed": 11.44
+      "fixed": 11.44,
+      "cold_price": 0.05,
+      "cold_total": 0,
+      "heat_price": 0.05,
+      "heat_total": 6.8,
+      "water_price": 3.0,
+      "water_total": 9.576,
+      "daily_amount": 1.069846,
+      "cold_share": 0,
+      "heat_share": 0.244464,
+      "water_share": 0.344262,
+      "fixed_share": 0.411274,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3177,7 +3727,19 @@
       "cold_kwh": 8.0,
       "heat_kwh": 0,
       "water_m3": 2.996,
-      "fixed": 12.32
+      "fixed": 12.32,
+      "cold_price": 0.04,
+      "cold_total": 0.32,
+      "heat_price": 0.04,
+      "heat_total": 0,
+      "water_price": 2.5,
+      "water_total": 7.49,
+      "daily_amount": 0.718929,
+      "cold_share": 0.015897,
+      "heat_share": 0,
+      "water_share": 0.372081,
+      "fixed_share": 0.612022,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3190,7 +3752,19 @@
       "cold_kwh": 370.0,
       "heat_kwh": 0,
       "water_m3": 2.424,
-      "fixed": 11.88
+      "fixed": 11.88,
+      "cold_price": 0.04,
+      "cold_total": 14.8,
+      "heat_price": 0.04,
+      "heat_total": 0,
+      "water_price": 2.5,
+      "water_total": 6.06,
+      "daily_amount": 1.212593,
+      "cold_share": 0.452046,
+      "heat_share": 0,
+      "water_share": 0.185095,
+      "fixed_share": 0.362859,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3203,7 +3777,19 @@
       "cold_kwh": 755.0,
       "heat_kwh": 0,
       "water_m3": 2.445,
-      "fixed": 12.76
+      "fixed": 12.76,
+      "cold_price": 0.04,
+      "cold_total": 30.2,
+      "heat_price": 0.04,
+      "heat_total": 0,
+      "water_price": 2.5,
+      "water_total": 6.1125,
+      "daily_amount": 1.692155,
+      "cold_share": 0.615416,
+      "heat_share": 0,
+      "water_share": 0.124561,
+      "fixed_share": 0.260023,
+      "vat_rate": 21
     },
     {
       "property": "César Cort Botí",
@@ -3216,7 +3802,19 @@
       "cold_kwh": 298.0,
       "heat_kwh": 0,
       "water_m3": 0.743,
-      "fixed": 13.2
+      "fixed": 13.2,
+      "cold_price": 0.04,
+      "cold_total": 11.92,
+      "heat_price": 0.04,
+      "heat_total": 0,
+      "water_price": 2.5,
+      "water_total": 1.8575,
+      "daily_amount": 0.89925,
+      "cold_share": 0.44185,
+      "heat_share": 0,
+      "water_share": 0.068854,
+      "fixed_share": 0.489297,
+      "vat_rate": 21
     }
   ],
   "vehicle": [
@@ -3267,91 +3865,117 @@
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 16.9
+      "amount": 16.9,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-02-04",
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 17.95
+      "amount": 17.95,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-03-03",
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 15.6
+      "amount": 15.6,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-03-06",
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 10.89
+      "amount": 10.89,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-03-27",
       "description": "Pago en E.S.ALFAMBRA S.A. MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 19.72
+      "amount": 19.72,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-04-12",
       "description": "Pago en FRONTERA FRONTERA ES",
       "category": "Gasolina",
       "vehicle": "Otros",
-      "amount": 48.07
+      "amount": 48.07,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-04-14",
       "description": "Pago en DISA PADRE ANCHIETA LA LAGUNA (TEES",
       "category": "Gasolina",
       "vehicle": "Otros",
-      "amount": 68.25
+      "amount": 68.25,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-04-23",
       "description": "Pago en E.S.MONTEJANO AREA SERV.SMADRID ES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 66.58
+      "amount": 66.58,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-04-23",
       "description": "Pago en REPSOL WAYLET MADRID ES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 26.89
+      "amount": 26.89,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-04-29",
       "description": "Pago en E.S.ALFAMBRA S.A. MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 14.82
+      "amount": 14.82,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-05-09",
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 16.82
+      "amount": 16.82,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-05-13",
       "description": "Pago en CEDIPSA 17017-1 TRUJILLO TRUJILLO ES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 56.59
+      "amount": 56.59,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-05-16",
       "description": "Pago en NAVALMORAL DE LA MATA NAVALMORAL DEES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 67.97
+      "amount": 67.97,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-05-25",
@@ -3365,7 +3989,9 @@
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 16.39
+      "amount": 16.39,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-05-31",
@@ -3379,819 +4005,1053 @@
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 59.21
+      "amount": 59.21,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-06-21",
       "description": "Pago en CEPSA 33108-1 PINAR DE CHMADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 20.8
+      "amount": 20.8,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-06-28",
       "description": "Pago en CEPSA 31164-1 E.S.MANOTERMADRID ES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 68.15
+      "amount": 68.15,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-07-11",
       "description": "Pago en E.S. VIA DE CINTURA S.L.PALMA DE MALLES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 25.59
+      "amount": 25.59,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-07-17",
       "description": "Pago en CEPSA 31164-1 E.S.MANOTERMADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 15.72
+      "amount": 15.72,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-07-21",
       "description": "Pago en E1298 PARACUELLOS DE JARACARRETERA BARES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 27.84
+      "amount": 27.84,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-09-03",
       "description": "Pago en CEPSA 33108-1 PINAR DE CHMADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 14.39
+      "amount": 14.39,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-09-11",
       "description": "Pago en VALLECAS MADRID ES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 35.66
+      "amount": 35.66,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-09-17",
       "description": "Pago en E.S. LANDA BURGOS ES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 65.53
+      "amount": 65.53,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-09-27",
       "description": "Pago en PARQUE FORESTAL MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 14.17
+      "amount": 14.17,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-10-02",
       "description": "Pago en E1298 PARACUELLOS DE JARACARRETERA BARES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 32.08
+      "amount": 32.08,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-10-15",
       "description": "Pago en PARQUE FORESTAL MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 14.32
+      "amount": 14.32,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-10-27",
       "description": "Pago en CEPSA 33108-1 PINAR DE CHMADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 14.93
+      "amount": 14.93,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-11-08",
       "description": "Pago en E S PRENDES AMBAS (CARRE¥ES",
       "category": "Gasolina",
       "vehicle": "Coche",
-      "amount": 84.16
+      "amount": 84.16,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-11-18",
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 14.19
+      "amount": 14.19,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2022-12-14",
       "description": "Pago en LA MORALEJA MADRID ES",
       "category": "Gasolina",
       "vehicle": "Moto",
-      "amount": 13.03
+      "amount": 13.03,
+      "unit_price": null,
+      "quantity": null
     },
     {
       "date": "2023-03-06",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Cepsa",
-      "amount": 1.699
+      "amount": 68.78,
+      "unit_price": 1.699,
+      "quantity": 40.482637
     },
     {
       "date": "2023-03-13",
       "description": "Seguro",
       "category": "Gasolina",
       "vehicle": "Mapfre",
-      "amount": 1.0
+      "amount": 351.23,
+      "unit_price": 1.0,
+      "quantity": null
     },
     {
       "date": "2023-03-14",
       "description": "Taller",
       "category": "Gasolina",
       "vehicle": "Diso",
-      "amount": 1.0
+      "amount": 150.0,
+      "unit_price": 1.0,
+      "quantity": null
     },
     {
       "date": "2023-03-28",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Cepsa",
-      "amount": 1.619
+      "amount": 66.9,
+      "unit_price": 1.619,
+      "quantity": 41.321804
     },
     {
       "date": "2023-04-05",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.599
+      "amount": 70.01,
+      "unit_price": 1.599,
+      "quantity": 43.783615
     },
     {
       "date": "2023-04-05",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.619
+      "amount": 27.52,
+      "unit_price": 1.619,
+      "quantity": 16.998147
     },
     {
       "date": "2023-04-10",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.629
+      "amount": 73.31,
+      "unit_price": 1.629,
+      "quantity": 45.003069
     },
     {
       "date": "2023-04-21",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.559
+      "amount": 73.9,
+      "unit_price": 1.559,
+      "quantity": 47.402181
     },
     {
       "date": "2023-05-07",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Cepsa",
-      "amount": 1.519
+      "amount": 69.89,
+      "unit_price": 1.519,
+      "quantity": 46.010533
     },
     {
       "date": "2023-05-22",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.439
+      "amount": 69.83,
+      "unit_price": 1.439,
+      "quantity": 48.526755
     },
     {
       "date": "2023-06-08",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.459
+      "amount": 63.73,
+      "unit_price": 1.459,
+      "quantity": 43.680603
     },
     {
       "date": "2023-06-15",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.489
+      "amount": 76.94,
+      "unit_price": 1.489,
+      "quantity": 51.672263
     },
     {
       "date": "2023-06-28",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.509
+      "amount": 57.96,
+      "unit_price": 1.509,
+      "quantity": 38.409543
     },
     {
       "date": "2023-07-11",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.539
+      "amount": 68.49,
+      "unit_price": 1.539,
+      "quantity": 44.502924
     },
     {
       "date": "2023-07-27",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.569
+      "amount": 74.0,
+      "unit_price": 1.569,
+      "quantity": 47.163799
     },
     {
       "date": "2023-08-04",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.659
+      "amount": 69.62,
+      "unit_price": 1.659,
+      "quantity": 41.965039
     },
     {
       "date": "2023-08-18",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.679
+      "amount": 69.26,
+      "unit_price": 1.679,
+      "quantity": 41.250744
     },
     {
       "date": "2023-08-28",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.679
+      "amount": 75.05,
+      "unit_price": 1.679,
+      "quantity": 44.699226
     },
     {
       "date": "2023-09-14",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.769
+      "amount": 83.34,
+      "unit_price": 1.769,
+      "quantity": 47.111362
     },
     {
       "date": "2023-09-14",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.768
+      "amount": 38.01,
+      "unit_price": 1.768,
+      "quantity": 21.498869
     },
     {
       "date": "2023-09-21",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.808
+      "amount": 83.78,
+      "unit_price": 1.808,
+      "quantity": 46.338496
     },
     {
       "date": "2023-10-10",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.749
+      "amount": 81.21,
+      "unit_price": 1.749,
+      "quantity": 46.432247
     },
     {
       "date": "2023-10-13",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.794
+      "amount": 52.47,
+      "unit_price": 1.794,
+      "quantity": 29.247492
     },
     {
       "date": "2023-10-23",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.739
+      "amount": 80.01,
+      "unit_price": 1.739,
+      "quantity": 46.009201
     },
     {
       "date": "2023-11-07",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Cepsa",
-      "amount": 1.709
+      "amount": 77.49,
+      "unit_price": 1.709,
+      "quantity": 45.342305
     },
     {
       "date": "2023-11-28",
       "description": "Ad Blue",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.149
+      "amount": 13.87,
+      "unit_price": 1.149,
+      "quantity": 12.071366
     },
     {
       "date": "2023-11-28",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.639
+      "amount": 77.9,
+      "unit_price": 1.639,
+      "quantity": 47.528981
     },
     {
       "date": "2023-12-04",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.629
+      "amount": 35.89,
+      "unit_price": 1.629,
+      "quantity": 22.031921
     },
     {
       "date": "2023-12-12",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.628
+      "amount": 76.66,
+      "unit_price": 1.628,
+      "quantity": 47.088452
     },
     {
       "date": "2023-12-20",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.569
+      "amount": 73.27,
+      "unit_price": 1.569,
+      "quantity": 46.698534
     },
     {
       "date": "2023-12-29",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.588
+      "amount": 72.48,
+      "unit_price": 1.588,
+      "quantity": 45.642317
     },
     {
       "date": "2024-01-04",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.579
+      "amount": 72.35,
+      "unit_price": 1.579,
+      "quantity": 45.820139
     },
     {
       "date": "2024-01-10",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.509
+      "amount": 62.79,
+      "unit_price": 1.509,
+      "quantity": 41.610338
     },
     {
       "date": "2024-01-29",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.609
+      "amount": 75.98,
+      "unit_price": 1.609,
+      "quantity": 47.221877
     },
     {
       "date": "2024-02-06",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.639
+      "amount": 77.62,
+      "unit_price": 1.639,
+      "quantity": 47.358145
     },
     {
       "date": "2024-02-16",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Cepsa",
-      "amount": 1.679
+      "amount": 69.43,
+      "unit_price": 1.679,
+      "quantity": 41.351995
     },
     {
       "date": "2024-03-01",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.669
+      "amount": 77.29,
+      "unit_price": 1.669,
+      "quantity": 46.309167
     },
     {
       "date": "2024-03-21",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.659
+      "amount": 71.82,
+      "unit_price": 1.659,
+      "quantity": 43.291139
     },
     {
       "date": "2024-04-08",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Cepsa",
-      "amount": 1.769
+      "amount": 80.56,
+      "unit_price": 1.769,
+      "quantity": 45.539853
     },
     {
       "date": "2024-04-22",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.639
+      "amount": 74.8,
+      "unit_price": 1.639,
+      "quantity": 45.637584
     },
     {
       "date": "2024-05-14",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.609
+      "amount": 61.21,
+      "unit_price": 1.609,
+      "quantity": 38.042262
     },
     {
       "date": "2024-05-17",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.598
+      "amount": 45.0,
+      "unit_price": 1.598,
+      "quantity": 28.1602
     },
     {
       "date": "2024-06-10",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.559
+      "amount": 73.63,
+      "unit_price": 1.559,
+      "quantity": 47.228993
     },
     {
       "date": "2024-06-20",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Cepsa",
-      "amount": 1.545
+      "amount": 73.56,
+      "unit_price": 1.545,
+      "quantity": 47.61165
     },
     {
       "date": "2024-06-26",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.559
+      "amount": 81.71,
+      "unit_price": 1.559,
+      "quantity": 52.411802
     },
     {
       "date": "2024-07-09",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.678
+      "amount": 72.1,
+      "unit_price": 1.678,
+      "quantity": 42.967819
     },
     {
       "date": "2024-07-26",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.678
+      "amount": 72.83,
+      "unit_price": 1.678,
+      "quantity": 43.402861
     },
     {
       "date": "2024-08-01",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.539
+      "amount": 72.26,
+      "unit_price": 1.539,
+      "quantity": 46.952567
     },
     {
       "date": "2024-08-15",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.549
+      "amount": 10.01,
+      "unit_price": 1.549,
+      "quantity": 6.462234
     },
     {
       "date": "2024-08-16",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.538
+      "amount": 70.03,
+      "unit_price": 1.538,
+      "quantity": 45.53316
     },
     {
       "date": "2024-08-22",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.579
+      "amount": 70.0,
+      "unit_price": 1.579,
+      "quantity": 44.331856
     },
     {
       "date": "2024-08-23",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.538
+      "amount": 15.75,
+      "unit_price": 1.538,
+      "quantity": 10.240572
     },
     {
       "date": "2024-08-28",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.604
+      "amount": 70.59,
+      "unit_price": 1.604,
+      "quantity": 44.008728
     },
     {
       "date": "2024-09-04",
       "description": "Ad Blue",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.049
+      "amount": 11.75,
+      "unit_price": 1.049,
+      "quantity": 11.201144
     },
     {
       "date": "2024-09-04",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.498
+      "amount": 70.63,
+      "unit_price": 1.498,
+      "quantity": 47.149533
     },
     {
       "date": "2024-09-24",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.509
+      "amount": 70.59,
+      "unit_price": 1.509,
+      "quantity": 46.779324
     },
     {
       "date": "2024-10-03",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.468
+      "amount": 70.0,
+      "unit_price": 1.468,
+      "quantity": 47.683924
     },
     {
       "date": "2024-10-15",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.489
+      "amount": 68.88,
+      "unit_price": 1.489,
+      "quantity": 46.259234
     },
     {
       "date": "2024-10-31",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.479
+      "amount": 68.68,
+      "unit_price": 1.479,
+      "quantity": 46.436782
     },
     {
       "date": "2024-11-18",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.519
+      "amount": 73.75,
+      "unit_price": 1.519,
+      "quantity": 48.551679
     },
     {
       "date": "2024-12-02",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.548
+      "amount": 73.92,
+      "unit_price": 1.548,
+      "quantity": 47.751938
     },
     {
       "date": "2024-12-24",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.528
+      "amount": 68.68,
+      "unit_price": 1.528,
+      "quantity": 44.947644
     },
     {
       "date": "2025-01-07",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.589
+      "amount": 72.49,
+      "unit_price": 1.589,
+      "quantity": 45.619887
     },
     {
       "date": "2025-01-15",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.609
+      "amount": 67.11,
+      "unit_price": 1.609,
+      "quantity": 41.709136
     },
     {
       "date": "2025-02-06",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.619
+      "amount": 68.87,
+      "unit_price": 1.619,
+      "quantity": 42.538604
     },
     {
       "date": "2025-02-27",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.598
+      "amount": 71.46,
+      "unit_price": 1.598,
+      "quantity": 44.718398
     },
     {
       "date": "2025-03-21",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.529
+      "amount": 46.02,
+      "unit_price": 1.529,
+      "quantity": 30.098103
     },
     {
       "date": "2025-03-31",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.559
+      "amount": 71.45,
+      "unit_price": 1.559,
+      "quantity": 45.830661
     },
     {
       "date": "2025-04-29",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.489
+      "amount": 52.17,
+      "unit_price": 1.489,
+      "quantity": 35.036938
     },
     {
       "date": "2025-05-02",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.479
+      "amount": 57.55,
+      "unit_price": 1.479,
+      "quantity": 38.911427
     },
     {
       "date": "2025-05-07",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.459
+      "amount": 67.2,
+      "unit_price": 1.459,
+      "quantity": 46.058944
     },
     {
       "date": "2025-05-27",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.459
+      "amount": 67.7,
+      "unit_price": 1.459,
+      "quantity": 46.401645
     },
     {
       "date": "2025-06-20",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.459
+      "amount": 61.93,
+      "unit_price": 1.459,
+      "quantity": 42.446881
     },
     {
       "date": "2025-07-09",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.489
+      "amount": 69.59,
+      "unit_price": 1.489,
+      "quantity": 46.736064
     },
     {
       "date": "2025-07-29",
       "description": "Ad Blue",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.409
+      "amount": 14.43,
+      "unit_price": 1.409,
+      "quantity": 10.241306
     },
     {
       "date": "2025-07-29",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.489
+      "amount": 71.46,
+      "unit_price": 1.489,
+      "quantity": 47.991941
     },
     {
       "date": "2025-08-14",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.538
+      "amount": 69.27,
+      "unit_price": 1.538,
+      "quantity": 45.039012
     },
     {
       "date": "2025-08-20",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.473
+      "amount": 71.2,
+      "unit_price": 1.473,
+      "quantity": 48.336728
     },
     {
       "date": "2025-08-27",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.499
+      "amount": 57.8,
+      "unit_price": 1.499,
+      "quantity": 38.559039
     },
     {
       "date": "2025-09-11",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.459
+      "amount": 67.0,
+      "unit_price": 1.459,
+      "quantity": 45.921864
     },
     {
       "date": "2025-10-03",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.509
+      "amount": 48.09,
+      "unit_price": 1.509,
+      "quantity": 31.868787
     },
     {
       "date": "2025-10-22",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.479
+      "amount": 68.42,
+      "unit_price": 1.479,
+      "quantity": 46.260987
     },
     {
       "date": "2025-11-10",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.519
+      "amount": 68.57,
+      "unit_price": 1.519,
+      "quantity": 45.14154
     },
     {
       "date": "2025-12-01",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.549
+      "amount": 72.4,
+      "unit_price": 1.549,
+      "quantity": 46.739832
     },
     {
       "date": "2025-12-26",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.499
+      "amount": 67.77,
+      "unit_price": 1.499,
+      "quantity": 45.21014
     },
     {
       "date": "2026-01-12",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.499
+      "amount": 70.0,
+      "unit_price": 1.499,
+      "quantity": 46.697799
     },
     {
       "date": "2026-01-16",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.529
+      "amount": 50.32,
+      "unit_price": 1.529,
+      "quantity": 32.910399
     },
     {
       "date": "2026-01-26",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.479
+      "amount": 72.1,
+      "unit_price": 1.479,
+      "quantity": 48.749155
     },
     {
       "date": "2026-02-19",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.519
+      "amount": 65.12,
+      "unit_price": 1.519,
+      "quantity": 42.870309
     },
     {
       "date": "2026-02-26",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Cepsa",
-      "amount": 1.544
+      "amount": 62.92,
+      "unit_price": 1.544,
+      "quantity": 40.751295
     },
     {
       "date": "2026-03-20",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.544
+      "amount": 80.0,
+      "unit_price": 1.544,
+      "quantity": 51.813472
     },
     {
       "date": "2026-04-13",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.909
+      "amount": 81.48,
+      "unit_price": 1.909,
+      "quantity": 42.682032
     },
     {
       "date": "2026-06-08",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.675
+      "amount": 82.48,
+      "unit_price": 1.675,
+      "quantity": 49.241791
     },
     {
       "date": "2026-07-01",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.604
+      "amount": 72.55,
+      "unit_price": 1.604,
+      "quantity": 45.230673
     },
     {
       "date": "2026-07-20",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.779
+      "amount": 74.68,
+      "unit_price": 1.779,
+      "quantity": 41.97864
     },
     {
       "date": "2026-07-30",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.879
+      "amount": 80.72,
+      "unit_price": 1.879,
+      "quantity": 42.959021
     },
     {
       "date": "2026-08-10",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.889
+      "amount": 75.48,
+      "unit_price": 1.889,
+      "quantity": 39.95765
     },
     {
       "date": "2026-08-17",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.948
+      "amount": 82.35,
+      "unit_price": 1.948,
+      "quantity": 42.274127
     },
     {
       "date": "2026-08-25",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.965
+      "amount": 18.0,
+      "unit_price": 1.965,
+      "quantity": 9.160305
     },
     {
       "date": "2026-08-28",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.949
+      "amount": 15.0,
+      "unit_price": 1.949,
+      "quantity": 7.696254
     },
     {
       "date": "2026-09-01",
       "description": "Gasolina",
       "category": "Gasolina",
       "vehicle": "Repsol",
-      "amount": 1.858
+      "amount": 87.62,
+      "unit_price": 1.858,
+      "quantity": 47.158235
     }
   ]
 }

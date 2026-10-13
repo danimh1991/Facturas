@@ -26,3 +26,16 @@ test("monthly rows are chronological and internally consistent", () => {
 test("excluded calculation sheets are not exported", () => {
   assert.deepEqual(data.meta.excluded_sheets, ["Previsión Luz", "X Gasolina Moto", "Comparación"]);
 });
+
+test("calculated workbook fields remain available as formulas in the app", () => {
+  const light = data.electricity.find((row) => row.consumption > 0 && row.amount > 0);
+  assert.ok(Math.abs(light.daily_consumption - light.consumption / light.days) < 0.000001);
+  assert.ok(Math.abs(light.cost_per_kwh - light.amount / light.consumption) < 0.000001);
+
+  const floor = data.floor.find((row) => row.amount > 0);
+  assert.ok(Math.abs(floor.daily_amount - floor.amount / floor.days) < 0.000001);
+  assert.ok(Math.abs(floor.cold_total - floor.cold_kwh * floor.cold_price) < 0.01);
+
+  const fuel = data.vehicle.find((row) => row.unit_price > 0 && row.amount > 0);
+  assert.ok(Math.abs(fuel.quantity - fuel.amount / fuel.unit_price) < 0.000001);
+});
