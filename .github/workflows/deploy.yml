@@ -28,7 +28,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 404c90385b0b5a704fbf8a9690122f3a
       - name: Deploy Worker
-        run: npx wrangler deploy
+        run: npx wrangler deploy --tag "$GITHUB_SHA" --message "GitHub Actions · $GITHUB_REPOSITORY@$GITHUB_SHA"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 404c90385b0b5a704fbf8a9690122f3a
