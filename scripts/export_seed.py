@@ -42,7 +42,6 @@ def iso_date(value):
 
 
 book = openpyxl.load_workbook(SOURCE, data_only=True, read_only=False)
-formula_book = openpyxl.load_workbook(SOURCE, data_only=False, read_only=True)
 
 summary = []
 sheet = book["Resumen Hist"]
@@ -110,44 +109,40 @@ for row in range(3, sheet.max_row + 1):
 
 
 monthly = []
-formula_sheet = formula_book["Facturas"]
-property_name = None
-for row in range(3, sheet.max_row + 1):
-    house = clean_text(sheet.cell(row, 2).value)
-    if house and house != "Total":
-        property_name = house
-    if house == "Total" or not property_name:
-        continue
-    start_date = iso_date(sheet.cell(row, 36).value)
-    end_date = iso_date(sheet.cell(row, 37).value)
-    days = int(sheet.cell(row, 38).value or 0)
-    if not start_date or not end_date or days < 1:
-        continue
-
-    total_formula = str(formula_sheet.cell(row, 40).value or "")
-    rate_row = row - 2 if "VLOOKUP" in total_formula else row
-    rate_amount = lambda column: round(float(sheet.cell(rate_row, column).value or 0) * days, 6)
-    categories = {
-        "Alquiler": number(sheet.cell(row, 7).value) or 0,
-        "Luz": rate_amount(42),
-        "Calefacción": rate_amount(43),
-        "Agua": rate_amount(44),
-        "Internet": number(sheet.cell(row, 30).value) or 0,
-        "Limpieza": number(sheet.cell(row, 35).value) or 0,
-    }
-    total = round(sum(categories.values()), 6)
-    monthly.append(
+monthly_map = {}
+for invoice in invoices:
+    key = (invoice["property"], invoice["start_date"][:7] + "-01")
+    if key not in monthly_map:
+        monthly_map[key] = {
+            "property": invoice["property"],
+            "month": key[1],
+            "daily_average": 0,
+            "total": 0,
+            "categories": {category: 0 for category in invoice_columns},
+            "category_daily": {category: 0 for category in invoice_columns},
+            "category_details": {category: [] for category in invoice_columns},
+        }
+    item = monthly_map[key]
+    category = invoice["category"]
+    item["categories"][category] += invoice["total"]
+    item["category_daily"][category] += invoice["daily_average"]
+    item["category_details"][category].append(
         {
-            "property": property_name,
-            "month": start_date[:7] + "-01",
-            "start_date": start_date,
-            "end_date": end_date,
-            "days": days,
-            "daily_average": round(total / days, 6),
-            "total": total,
-            "categories": categories,
+            "start_date": invoice["start_date"],
+            "end_date": invoice["end_date"],
+            "days": invoice["days"],
+            "daily_average": invoice["daily_average"],
+            "total": invoice["total"],
         }
     )
+
+for item in monthly_map.values():
+    item["categories"] = {category: round(value, 6) for category, value in item["categories"].items()}
+    item["category_daily"] = {category: round(value, 6) for category, value in item["category_daily"].items()}
+    item["total"] = round(sum(item["categories"].values()), 6)
+    item["daily_average"] = round(sum(item["category_daily"].values()), 6)
+    monthly.append(item)
+monthly.sort(key=lambda item: (item["month"], item["property"]))
 
 electricity = []
 sheet = book["Consumo Luz"]

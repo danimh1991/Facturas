@@ -112,6 +112,12 @@ td.number, th.number { text-align: right; font-variant-numeric: tabular-nums; }
 .stacked-cell { display: inline-grid; gap: 2px; }
 .stacked-cell small { color: var(--muted); font-size: 9px; font-weight: 500; }
 .stacked-cell.number { justify-items: end; }
+.invoice-stack { display: grid; gap: 6px; }
+.invoice-cell { display: grid; gap: 1px; min-width: 92px; }
+.invoice-cell strong { font-variant-numeric: tabular-nums; }
+.invoice-cell small { color: var(--muted); font-size: 8px; line-height: 1.25; }
+.invoice-cell + .invoice-cell { padding-top: 5px; border-top: 1px solid var(--line); }
+.empty-amount { color: #b5bdb8; }
 .bar-cell { min-width: 120px; }.microbar { height: 5px; border-radius: 5px; background: #e8ede9; overflow: hidden; }.microbar span { display: block; height: 100%; border-radius: inherit; background: var(--green); }
 .full-card { min-height: 600px; }
 .entry-history-card { margin-top: 14px; }

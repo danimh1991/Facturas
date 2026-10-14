@@ -6,7 +6,7 @@ const data = JSON.parse(await readFile(new URL("../data/seed.json", import.meta.
 
 test("exports the workbook history used by the dashboard", () => {
   assert.equal(data.invoices.length, 567);
-  assert.equal(data.monthly.length, 107);
+  assert.equal(data.monthly.length, 109);
   assert.equal(data.electricity.length, 74);
   assert.equal(data.floor.length, 19);
   assert.equal(data.vehicle.length, 139);
@@ -34,25 +34,26 @@ test("invoice history is a direct export of the Facturas periods", () => {
   }
 });
 
-test("monthly rows reproduce the Excel monthly view and are internally consistent", () => {
+test("monthly rows group complete invoices by their start month", () => {
   const months = data.monthly.map((row) => row.month);
   assert.deepEqual(months, [...months].sort());
   for (const row of data.monthly) {
     assert.ok(row.total >= 0);
-    assert.ok(row.days > 0);
-    assert.ok(row.start_date <= row.end_date);
     const categoryTotal = Object.values(row.categories).reduce((total, value) => total + value, 0);
     assert.ok(Math.abs(categoryTotal - row.total) < 0.000001, `${row.month} differs by ${categoryTotal - row.total}`);
-    assert.ok(Math.abs(row.daily_average - row.total / row.days) < 0.000001);
+    const dailyTotal = Object.values(row.category_daily).reduce((total, value) => total + value, 0);
+    assert.ok(Math.abs(dailyTotal - row.daily_average) < 0.000001);
   }
+  const invoiceTotal = data.invoices.reduce((total, row) => total + row.total, 0);
   const monthlyTotal = data.monthly.reduce((total, row) => total + row.total, 0);
-  assert.ok(Math.abs(monthlyTotal - 104577.631868) < 0.000001);
+  assert.ok(Math.abs(monthlyTotal - invoiceTotal) < 0.000001);
 
-  const firstManuelMonth = data.monthly.find((row) => row.property === "Manuel Gutierrez Mellado");
-  assert.equal(firstManuelMonth.start_date, "2020-02-15");
-  assert.equal(firstManuelMonth.end_date, "2020-02-29");
-  assert.equal(firstManuelMonth.days, 15);
-  assert.ok(Math.abs(firstManuelMonth.total - 672.76166) < 0.000001);
+  const october = data.monthly.find((row) => row.property === "Ana de Austria" && row.month === "2017-10-01");
+  assert.equal(october.categories.Luz, 93.02);
+  assert.equal(october.category_details.Luz[0].start_date, "2017-10-01");
+  assert.equal(october.category_details.Luz[0].end_date, "2017-11-23");
+  assert.equal(october.category_details.Luz[0].days, 54);
+  assert.equal(october.category_details.Luz[0].daily_average, 1.722593);
 });
 
 test("excluded calculation sheets are not exported", () => {

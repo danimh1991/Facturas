@@ -38,13 +38,12 @@ function monthKey(value) {
   return `${String(value).slice(0, 7)}-01`;
 }
 
-function daysInMonth(value) {
-  const date = utcDate(monthKey(value));
-  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0)).getUTCDate();
-}
-
 function emptyCategories() {
   return Object.fromEntries(CATEGORIES.map((category) => [category, 0]));
+}
+
+function emptyCategoryDetails() {
+  return Object.fromEntries(CATEGORIES.map((category) => [category, []]));
 }
 
 function cloneBaseData() {
@@ -72,25 +71,19 @@ function allocateHomeEntry(data, payload, entryId = null) {
     total: amount,
   });
 
-  let cursor = utcDate(monthKey(start));
-  const lastMonth = utcDate(monthKey(end));
-  while (cursor <= lastMonth) {
-    const key = cursor.toISOString().slice(0, 10);
-    const monthEnd = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 0));
-    const overlapStart = utcDate(start) > cursor ? utcDate(start) : cursor;
-    const overlapEnd = utcDate(end) < monthEnd ? utcDate(end) : monthEnd;
-    const overlapDays = Math.floor((overlapEnd - overlapStart) / 86400000) + 1;
-    const allocated = round((amount / totalDays) * Math.max(0, overlapDays));
-    let row = data.monthly.find((item) => item.property === payload.property && item.month === key);
-    if (!row) {
-      row = { property: payload.property, month: key, start_date: key, end_date: monthEnd.toISOString().slice(0, 10), days: daysInMonth(key), daily_average: 0, total: 0, categories: emptyCategories() };
-      data.monthly.push(row);
-    }
-    row.categories[payload.category] = round(number(row.categories[payload.category]) + allocated);
-    row.total = round(CATEGORIES.reduce((sum, category) => sum + number(row.categories[category]), 0));
-    row.daily_average = round(row.total / Math.max(1, row.days));
-    cursor = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 1));
+  const key = monthKey(start);
+  let row = data.monthly.find((item) => item.property === payload.property && item.month === key);
+  if (!row) {
+    row = { property: payload.property, month: key, daily_average: 0, total: 0, categories: emptyCategories(), category_daily: emptyCategories(), category_details: emptyCategoryDetails() };
+    data.monthly.push(row);
   }
+  row.category_daily ||= emptyCategories();
+  row.category_details ||= emptyCategoryDetails();
+  row.categories[payload.category] = round(number(row.categories[payload.category]) + amount);
+  row.category_daily[payload.category] = round(number(row.category_daily[payload.category]) + amount / totalDays);
+  row.category_details[payload.category].push({ start_date: start, end_date: end, days: totalDays, daily_average: round(amount / totalDays), total: amount, entry_id: entryId });
+  row.total = round(CATEGORIES.reduce((sum, category) => sum + number(row.categories[category]), 0));
+  row.daily_average = round(CATEGORIES.reduce((sum, category) => sum + number(row.category_daily[category]), 0));
 }
 
 function electricityEntry(payload) {

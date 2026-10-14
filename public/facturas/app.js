@@ -363,7 +363,7 @@ function renderSummary() {
   const chartRows = rows.slice(-48);
   const values = chartRows.map((row) => {
     const amount = category === "Total" ? row.total : Number(row.categories[category]) || 0;
-    return dailyMetric ? amount / Math.max(1, Number(row.days) || 1) : amount;
+    return dailyMetric ? (category === "Total" ? Number(row.daily_average) || 0 : Number(row.category_daily?.[category]) || 0) : amount;
   });
   const metricLabel = dailyMetric ? "Gasto diario" : "Importe mensual";
   $("#monthly-chart-title").textContent = `${metricLabel} · ${category}`;
@@ -379,6 +379,19 @@ function tableMarkup(headers, rows, numericColumns = []) {
   return `<table><thead><tr>${headers.map((header, index) => `<th class="${numericColumns.includes(index) ? "number" : ""}">${esc(header)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((cell, index) => `<td class="${numericColumns.includes(index) ? "number" : ""}">${cell ?? "—"}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }
 
+function shortDate(value, includeYear = false) {
+  return new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "short", ...(includeYear ? { year: "2-digit" } : {}), timeZone: "UTC" }).format(dateValue(value)).replaceAll(" ", " ");
+}
+
+function monthlyCategoryCell(row, category) {
+  const details = row.category_details?.[category] || [];
+  if (!details.length) return `<span class="empty-amount">—</span>`;
+  return `<span class="invoice-stack">${details.map((detail) => {
+    const differentYear = detail.start_date.slice(0, 4) !== detail.end_date.slice(0, 4);
+    return `<span class="invoice-cell"><strong>${euro.format(detail.total)}</strong><small>${euro.format(detail.daily_average)}/día · ${detail.days} días</small><small>${shortDate(detail.start_date, differentYear)}–${shortDate(detail.end_date, differentYear)}</small></span>`;
+  }).join("")}</span>`;
+}
+
 function historyRows() {
   const query = state.query.toLocaleLowerCase("es");
   return filteredMonthly().filter((row) => !query || `${row.property} ${labelMonth(row.month, true)} ${row.start_date || ""} ${row.end_date || ""}`.toLocaleLowerCase("es").includes(query)).slice().reverse();
@@ -389,11 +402,11 @@ function renderHistory() {
   const pages = Math.max(1, Math.ceil(rows.length / state.pageSize));
   state.page = Math.min(state.page, pages);
   const visible = rows.slice((state.page - 1) * state.pageSize, state.page * state.pageSize);
-  $("#history-table").innerHTML = tableMarkup(["Periodo", "Vivienda", ...CATEGORY_ORDER, "Total"], visible.map((row) => [
-    `<span class="stacked-cell"><strong>${labelMonth(row.month, true)}</strong><small>${row.days} días</small></span>`,
+  $("#history-table").innerHTML = tableMarkup(["Mes de inicio", "Vivienda", ...CATEGORY_ORDER, "Total"], visible.map((row) => [
+    `<strong>${labelMonth(row.month, true)}</strong>`,
     esc(row.property),
-    ...CATEGORY_ORDER.map((category) => euro.format(row.categories[category] || 0)),
-    `<span class="stacked-cell number"><strong>${euro.format(row.total)}</strong><small>${euro.format(row.daily_average)}/día</small></span>`,
+    ...CATEGORY_ORDER.map((category) => monthlyCategoryCell(row, category)),
+    `<strong>${euro.format(row.total)}</strong>`,
   ]), [2,3,4,5,6,7,8]);
   $("#history-pagination").innerHTML = `<span>${rows.length ? (state.page-1)*state.pageSize+1 : 0}–${Math.min(state.page*state.pageSize,rows.length)} de ${rows.length}</span><div class="pagination-buttons"><button data-page="${state.page-1}" ${state.page===1?"disabled":""}>‹</button><button disabled>${state.page}</button><button data-page="${state.page+1}" ${state.page===pages?"disabled":""}>›</button></div>`;
   $$("#history-pagination [data-page]").forEach((button) => button.addEventListener("click", () => { state.page = Number(button.dataset.page); renderHistory(); }));
@@ -524,7 +537,7 @@ function setupEvents() {
   $("#chart-metric").addEventListener("change",(event)=>{ state.chartMetric=event.target.value; renderSummary(); });
   $("#download-csv").addEventListener("click",()=>{
     const rows=historyRows().slice().reverse();
-    const lines=[["Mes","Fecha inicio","Fecha fin","Vivienda","Días",...CATEGORY_ORDER,"Total","Gasto diario"],...rows.map((r)=>[r.month,r.start_date,r.end_date,r.property,r.days,...CATEGORY_ORDER.map((c)=>r.categories[c]||0),r.total,r.daily_average])];
+    const lines=[["Mes de inicio","Vivienda",...CATEGORY_ORDER.flatMap((category)=>[category,`${category} €/día`]),"Total","Gasto diario total"],...rows.map((r)=>[r.month,r.property,...CATEGORY_ORDER.flatMap((c)=>[r.categories[c]||0,r.category_daily?.[c]||0]),r.total,r.daily_average])];
     const csv=lines.map((line)=>line.map((value)=>`"${String(value).replaceAll('"','""')}"`).join(";")).join("\n");
     const link=document.createElement("a"); link.href=URL.createObjectURL(new Blob(["\ufeff",csv],{type:"text/csv;charset=utf-8"})); link.download="historico-facturas.csv"; link.click(); URL.revokeObjectURL(link.href);
   });
