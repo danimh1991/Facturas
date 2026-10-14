@@ -167,8 +167,9 @@ function finalizeData(data) {
 
 async function loadDashboard(db) {
   const data = cloneBaseData();
-  const rows = await db.prepare("SELECT kind, payload FROM facturas_entries ORDER BY id").all();
+  const rows = await db.prepare("SELECT id, kind, payload, created_at FROM facturas_entries ORDER BY id").all();
   for (const entry of rows.results) applyEntry(data, entry);
+  data.entries = rows.results.map((entry) => ({ id: entry.id, kind: entry.kind, payload: JSON.parse(entry.payload), created_at: entry.created_at }));
   data.meta = { ...data.meta, editable: true, added_entries: rows.results.length };
   return finalizeData(data);
 }
@@ -202,6 +203,20 @@ async function createEntry(request, env) {
   return json({ ok: true }, 201);
 }
 
+async function updateEntry(request, env, id) {
+  const origin = request.headers.get("origin");
+  if (origin && new URL(origin).hostname !== new URL(request.url).hostname) return json({ error: "Origen no permitido" }, 403);
+  let body;
+  try { body = await request.json(); } catch { return json({ error: "Datos no válidos" }, 400); }
+  const kind = String(body.kind || "");
+  const payload = body.payload && typeof body.payload === "object" ? body.payload : {};
+  const error = validateEntry(kind, payload);
+  if (error) return json({ error }, 400);
+  const result = await env.DB.prepare("UPDATE facturas_entries SET kind = ?, payload = ? WHERE id = ?").bind(kind, JSON.stringify(payload), id).run();
+  if (!result.meta?.changes) return json({ error: "El registro ya no existe" }, 404);
+  return json({ ok: true, id });
+}
+
 async function serveAsset(request, env, pathname) {
   if (pathname === "/") return Response.redirect(new URL("/facturas/", request.url), 302);
   if (pathname === "/facturas") return Response.redirect(new URL("/facturas/", request.url), 308);
@@ -231,6 +246,8 @@ export default {
       }
     }
     if (apiPath === "/api/entries" && request.method === "POST") return createEntry(request, env);
+    const entryMatch = apiPath.match(/^\/api\/entries\/(\d+)$/);
+    if (entryMatch && request.method === "PUT") return updateEntry(request, env, Number(entryMatch[1]));
     if (apiPath.startsWith("/api/")) return json({ error: "Ruta o método no permitido" }, 405);
     return serveAsset(request, env, pathname);
   },

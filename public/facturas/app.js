@@ -16,6 +16,7 @@ const state = {
   page: 1,
   pageSize: 12,
   query: "",
+  editingEntryId: null,
   chartCategory: "Total",
   chartMetric: "absolute",
   timelines: {
@@ -102,6 +103,10 @@ function renderEntryForm() {
   const type = $("#entry-kind").value;
   $("#entry-fields").innerHTML = entryFieldsMarkup(type);
   $("#entry-message").hidden = true;
+  $("#entry-kicker").textContent = state.editingEntryId ? "CORREGIR REGISTRO" : "NUEVO REGISTRO";
+  $("#entry-title").textContent = state.editingEntryId ? "Editar dato" : "Añadir datos";
+  $("#save-entry").textContent = state.editingEntryId ? "Guardar cambios" : "Guardar y recalcular";
+  $("#copy-last-entry").hidden = Boolean(state.editingEntryId);
   renderEntryPreview();
 }
 
@@ -155,6 +160,18 @@ function copyLastEntry() {
   renderEntryPreview();
 }
 
+function beginEditEntry(id) {
+  const entry = (state.data.entries || []).find((item) => item.id === id);
+  if (!entry) return;
+  state.editingEntryId = id;
+  const type = entry.kind === "home" ? entry.payload.category : entry.kind;
+  $("#entry-kind").value = type;
+  renderEntryForm();
+  Object.entries(entry.payload).forEach(([name, value]) => setEntryField(name, value));
+  renderEntryPreview();
+  $("#entry-dialog").showModal();
+}
+
 async function saveEntry(event) {
   event.preventDefault();
   const values = entryValues();
@@ -162,24 +179,26 @@ async function saveEntry(event) {
   const kind = SIMPLE_ENTRY_TYPES.has(type) ? "home" : type;
   if (SIMPLE_ENTRY_TYPES.has(type)) values.category = type;
   delete values.entry_type;
+  const editingId = state.editingEntryId;
   const button = $("#save-entry");
   button.disabled = true;
   button.textContent = "Guardando…";
   const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
   try {
-    const response = await fetch(`${base}/api/entries`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, payload: values }) });
+    const response = await fetch(`${base}/api/entries${editingId ? `/${editingId}` : ""}`, { method: editingId ? "PUT" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, payload: values }) });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || "No se pudo guardar");
     state.data = await loadData();
     fillFilters();
     renderAll();
     $("#entry-dialog").close();
+    state.editingEntryId = null;
   } catch (error) {
     $("#entry-message").textContent = error.message;
     $("#entry-message").hidden = false;
   } finally {
     button.disabled = false;
-    button.textContent = "Guardar y recalcular";
+    button.textContent = state.editingEntryId ? "Guardar cambios" : "Guardar y recalcular";
   }
 }
 
@@ -379,6 +398,44 @@ function renderHistory() {
   $("#history-table").innerHTML = tableMarkup(["Mes", "Vivienda", ...CATEGORY_ORDER, "Total"], visible.map((row) => [labelMonth(row.month, true), esc(row.property), ...CATEGORY_ORDER.map((category) => euro.format(row.categories[category] || 0)), `<strong>${euro.format(row.total)}</strong>`]), [2,3,4,5,6,7,8]);
   $("#history-pagination").innerHTML = `<span>${rows.length ? (state.page-1)*state.pageSize+1 : 0}–${Math.min(state.page*state.pageSize,rows.length)} de ${rows.length}</span><div class="pagination-buttons"><button data-page="${state.page-1}" ${state.page===1?"disabled":""}>‹</button><button disabled>${state.page}</button><button data-page="${state.page+1}" ${state.page===pages?"disabled":""}>›</button></div>`;
   $$("#history-pagination [data-page]").forEach((button) => button.addEventListener("click", () => { state.page = Number(button.dataset.page); renderHistory(); }));
+  renderEditableEntries();
+}
+
+function editableEntryAmount(entry) {
+  const payload = entry.payload || {};
+  if (entry.kind !== "floor") return Number(payload.amount) || 0;
+  const subtotal = (Number(payload.cold_kwh) || 0) * (Number(payload.cold_price) || 0)
+    + (Number(payload.heat_kwh) || 0) * (Number(payload.heat_price) || 0)
+    + (Number(payload.water_m3) || 0) * (Number(payload.water_price) || 0)
+    + (Number(payload.fixed) || 0);
+  return subtotal * (1 + (Number(payload.vat_rate) || 0) / 100);
+}
+
+function entryTypeLabel(entry) {
+  if (entry.kind === "home") return entry.payload.category || "Vivienda";
+  if (entry.kind === "electricity") return "Luz";
+  if (entry.kind === "floor") return "Calefacción";
+  return entry.payload.category || "Vehículo";
+}
+
+function entryPeriodLabel(payload) {
+  const format = (value) => value ? new Intl.DateTimeFormat("es-ES", { dateStyle: "medium", timeZone: "UTC" }).format(dateValue(value)) : "—";
+  if (payload.start_date || payload.end_date) return `${format(payload.start_date)} — ${format(payload.end_date)}`;
+  return format(payload.date);
+}
+
+function renderEditableEntries() {
+  const entries = (state.data.entries || []).slice().reverse();
+  if (!entries.length) {
+    $("#entries-table").innerHTML = `<div class="empty">Todavía no hay datos añadidos desde la aplicación.</div>`;
+    return;
+  }
+  $("#entries-table").innerHTML = tableMarkup(["Tipo", "Periodo", "Vivienda / detalle", "Importe", "Acción"], entries.map((entry) => {
+    const payload = entry.payload || {};
+    const detail = payload.property || [payload.vehicle, payload.description].filter(Boolean).join(" · ") || "—";
+    return [esc(entryTypeLabel(entry)), entryPeriodLabel(payload), esc(detail), euro.format(editableEntryAmount(entry)), `<button class="edit-entry-button" type="button" data-edit-entry="${entry.id}">Editar</button>`];
+  }), [3]);
+  $$("#entries-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
 }
 
 function renderLight(refreshTimeline = true) {
@@ -456,9 +513,9 @@ function setupEvents() {
   $$("[data-go]").forEach((button)=>button.addEventListener("click",()=>activateView(button.dataset.go)));
   $("#history-search").addEventListener("input",(event)=>{ state.query=event.target.value; state.page=1; renderHistory(); });
   $("#comparison-form").addEventListener("input",renderComparison);
-  $("#open-entry").addEventListener("click",()=>{ renderEntryForm(); $("#entry-dialog").showModal(); });
-  $("#close-entry").addEventListener("click",()=>$("#entry-dialog").close());
-  $("#cancel-entry").addEventListener("click",()=>$("#entry-dialog").close());
+  $("#open-entry").addEventListener("click",()=>{ state.editingEntryId=null; renderEntryForm(); $("#entry-dialog").showModal(); });
+  $("#close-entry").addEventListener("click",()=>{ state.editingEntryId=null; $("#entry-dialog").close(); });
+  $("#cancel-entry").addEventListener("click",()=>{ state.editingEntryId=null; $("#entry-dialog").close(); });
   $("#entry-kind").addEventListener("change",renderEntryForm);
   $("#copy-last-entry").addEventListener("click",copyLastEntry);
   $("#entry-form").addEventListener("input",renderEntryPreview);

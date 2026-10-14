@@ -72,6 +72,10 @@
             <div id="history-table" class="data-table"></div>
             <div id="history-pagination" class="pagination"></div>
           </article>
+          <article class="card entry-history-card">
+            <div class="card-heading"><div><p class="card-kicker">DATOS INTRODUCIDOS</p><h2>Registros editables</h2><p class="subcopy">Aquí puedes corregir los datos añadidos desde la aplicación. El histórico original del Excel es de solo lectura.</p></div></div>
+            <div id="entries-table" class="data-table"></div>
+          </article>
         </section>
 
         <section id="view-luz" class="view">
@@ -123,7 +127,7 @@
     <dialog id="entry-dialog" aria-labelledby="entry-title">
       <form id="entry-form" method="dialog">
         <div class="dialog-heading">
-          <div><p class="card-kicker">NUEVO REGISTRO</p><h2 id="entry-title">Añadir datos</h2><p class="subcopy">Introduce únicamente los datos de la factura. Los totales, días, medias y porcentajes se calculan automáticamente.</p></div>
+          <div><p class="card-kicker" id="entry-kicker">NUEVO REGISTRO</p><h2 id="entry-title">Añadir datos</h2><p class="subcopy">Introduce únicamente los datos de la factura. Los totales, días, medias y porcentajes se calculan automáticamente.</p></div>
           <button id="close-entry" class="icon-button" type="button" aria-label="Cerrar">×</button>
         </div>
         <div class="entry-type-row">
