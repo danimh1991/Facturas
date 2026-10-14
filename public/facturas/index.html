@@ -52,7 +52,7 @@
           <div id="kpis" class="kpi-grid"></div>
           <div class="dashboard-grid">
             <article class="card chart-card wide">
-              <div class="card-heading"><div><p class="card-kicker">EVOLUCIÓN</p><h2>Gasto mensual</h2></div><div class="legend"><span><i class="dot total"></i>Total</span><span><i class="dot media"></i>Media móvil</span></div></div>
+              <div class="card-heading"><div><p class="card-kicker">EVOLUCIÓN</p><h2 id="monthly-chart-title">Gasto mensual · Total</h2></div><label class="chart-category">Tipo<select id="chart-category"><option>Total</option><option>Alquiler</option><option>Luz</option><option>Calefacción</option><option>Agua</option><option>Internet</option><option>Limpieza</option></select></label></div>
               <div id="monthly-chart" class="chart" role="img" aria-label="Evolución del gasto mensual"></div>
             </article>
             <article class="card breakdown-card">
@@ -80,6 +80,7 @@
             <article class="card chart-card"><div class="card-heading"><div><p class="card-kicker">REFERENCIA EXCEL</p><h2>Gasto de luz</h2></div></div><div id="light-cost-chart" class="chart medium"></div></article>
             <article class="card chart-card"><div class="card-heading"><div><p class="card-kicker">CONSUMO</p><h2>kWh por periodo</h2></div></div><div id="light-use-chart" class="chart medium"></div></article>
           </div>
+          <div id="light-timeline" class="timeline-control" aria-label="Mover periodo visible de las gráficas de luz"></div>
           <article class="card table-card"><div id="light-table" class="data-table"></div></article>
         </section>
 
@@ -89,6 +90,7 @@
             <article class="card chart-card"><div class="card-heading"><div><p class="card-kicker">REFERENCIA EXCEL</p><h2>Gasto de suelo</h2></div></div><div id="floor-cost-chart" class="chart medium"></div></article>
             <article class="card chart-card"><div class="card-heading"><div><p class="card-kicker">CONSUMO</p><h2>Calor, frío y agua</h2></div></div><div id="floor-use-chart" class="chart medium"></div></article>
           </div>
+          <div id="floor-timeline" class="timeline-control" aria-label="Mover periodo visible de las gráficas de suelo radiante"></div>
           <article class="card table-card"><div id="floor-table" class="data-table"></div></article>
         </section>
 
@@ -124,14 +126,20 @@
           <div><p class="card-kicker">NUEVO REGISTRO</p><h2 id="entry-title">Añadir datos</h2><p class="subcopy">Introduce únicamente los datos de la factura. Los totales, días, medias y porcentajes se calculan automáticamente.</p></div>
           <button id="close-entry" class="icon-button" type="button" aria-label="Cerrar">×</button>
         </div>
-        <label class="form-field full">Tipo de dato
-          <select name="kind" id="entry-kind">
-            <option value="home">Factura de vivienda</option>
-            <option value="electricity">Consumo de luz</option>
-            <option value="floor">Suelo radiante y agua</option>
-            <option value="vehicle">Gasto de vehículo</option>
-          </select>
-        </label>
+        <div class="entry-type-row">
+          <label class="form-field full">Tipo de dato
+            <select name="entry_type" id="entry-kind">
+              <option value="Alquiler">Alquiler</option>
+              <option value="Agua">Agua</option>
+              <option value="Limpieza">Limpieza</option>
+              <option value="Internet">Internet</option>
+              <option value="electricity">Luz</option>
+              <option value="floor">Calefacción · suelo radiante y agua</option>
+              <option value="vehicle">Gasto de vehículo</option>
+            </select>
+          </label>
+          <button id="copy-last-entry" class="copy-button" type="button"><span>↻</span> Copiar último mes</button>
+        </div>
         <div id="entry-fields" class="form-grid"></div>
         <div id="entry-preview" class="formula-preview" aria-live="polite"></div>
         <div id="entry-message" class="form-message" hidden></div>

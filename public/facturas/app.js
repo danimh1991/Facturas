@@ -9,7 +9,19 @@ const VIEW_COPY = {
   comparar: ["SIMULADOR", "Una comparación sencilla"],
 };
 
-const state = { data: null, property: "Todas", period: "all", page: 1, pageSize: 12, query: "" };
+const state = {
+  data: null,
+  property: "Todas",
+  period: "all",
+  page: 1,
+  pageSize: 12,
+  query: "",
+  chartCategory: "Total",
+  timelines: {
+    light: { window: 12, end: null },
+    floor: { window: 12, end: null },
+  },
+};
 const euro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" });
 const compactEuro = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 const decimal = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 2 });
@@ -26,6 +38,17 @@ const dateValue = (value) => new Date(`${String(value).slice(0, 10)}T00:00:00Z`)
 const labelMonth = (value, full = false) => (full ? fullMonthFmt : monthFmt).format(dateValue(value)).replace(" de ", " ");
 const today = () => new Date().toISOString().slice(0, 10);
 const daysBetween = (start, end) => start && end ? Math.max(0, Math.floor((dateValue(end) - dateValue(start)) / 86400000) + 1) : 0;
+const SIMPLE_ENTRY_TYPES = new Set(["Alquiler", "Agua", "Limpieza", "Internet"]);
+
+function shiftMonth(value, amount = 1) {
+  if (!value) return today();
+  const source = dateValue(value);
+  const day = source.getUTCDate();
+  const target = new Date(Date.UTC(source.getUTCFullYear(), source.getUTCMonth() + amount, 1));
+  const lastDay = new Date(Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0)).getUTCDate();
+  target.setUTCDate(Math.min(day, lastDay));
+  return target.toISOString().slice(0, 10);
+}
 
 function propertyInput() {
   const properties = [...new Set(state.data.monthly.map((row) => row.property))];
@@ -37,11 +60,11 @@ function moneyField(name, label, value = "") {
   return `<label class="form-field">${label}<input name="${name}" type="number" min="0" step="0.01" ${value !== "" ? `value="${value}"` : ""} required /></label>`;
 }
 
-function entryFieldsMarkup(kind) {
+function entryFieldsMarkup(type) {
   const date = today();
-  if (kind === "home") return `${propertyInput()}<label class="form-field">Categoría<select name="category" required>${CATEGORY_ORDER.map((item) => `<option>${item}</option>`).join("")}</select></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}`;
-  if (kind === "electricity") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}${moneyField("p1", "Consumo P1 (kWh)", 0)}${moneyField("p2", "Consumo P2 (kWh)", 0)}${moneyField("p3", "Consumo P3 (kWh)", 0)}`;
-  if (kind === "floor") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("cold_kwh", "Consumo frío (kWh)", 0)}${moneyField("cold_price", "Precio frío (€/kWh)", 0)}${moneyField("heat_kwh", "Consumo calor (kWh)", 0)}${moneyField("heat_price", "Precio calor (€/kWh)", 0)}${moneyField("water_m3", "Consumo agua (m³)", 0)}${moneyField("water_price", "Precio agua (€/m³)", 0)}${moneyField("fixed", "Cuota fija (€)", 0)}<label class="form-field">IVA (%)<input name="vat_rate" type="number" min="0" step="0.1" value="21" required /></label>`;
+  if (SIMPLE_ENTRY_TYPES.has(type)) return `${propertyInput()}<label class="form-field">Fecha<input name="date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe (€)")}`;
+  if (type === "electricity") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}${moneyField("p1", "Consumo P1 (kWh)", 0)}${moneyField("p2", "Consumo P2 (kWh)", 0)}${moneyField("p3", "Consumo P3 (kWh)", 0)}`;
+  if (type === "floor") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("cold_kwh", "Consumo frío (kWh)", 0)}${moneyField("cold_price", "Precio frío (€/kWh)", 0)}${moneyField("heat_kwh", "Consumo calor (kWh)", 0)}${moneyField("heat_price", "Precio calor (€/kWh)", 0)}${moneyField("water_m3", "Consumo agua (m³)", 0)}${moneyField("water_price", "Precio agua (€/m³)", 0)}${moneyField("fixed", "Cuota fija (€)", 0)}<label class="form-field">IVA (%)<input name="vat_rate" type="number" min="0" step="0.1" value="21" required /></label>`;
   return `<label class="form-field">Fecha<input name="date" type="date" value="${date}" required /></label><label class="form-field">Categoría<select name="category"><option>Gasolina</option><option>Seguro</option><option>Taller</option><option>Impuestos</option><option>Otros</option></select></label><label class="form-field">Vehículo<input name="vehicle" placeholder="Coche, moto…" /></label><label class="form-field">Descripción<input name="description" /></label>${moneyField("amount", "Importe total (€)")}<label class="form-field">Precio por litro (€)<input name="unit_price" type="number" min="0" step="0.001" /></label>`;
 }
 
@@ -55,32 +78,82 @@ function renderEntryPreview() {
   const n = (name) => Math.max(0, Number(values[name]) || 0);
   const days = daysBetween(values.start_date, values.end_date);
   let lines = [];
-  if (values.kind === "home") lines = [["Días incluidos", days || "—"], ["Media diaria", days ? euro.format(n("amount") / days) : "—"], ["Cálculo mensual", "Prorrateo por días de cada mes"]];
-  if (values.kind === "electricity") {
+  if (SIMPLE_ENTRY_TYPES.has(values.entry_type)) lines = [["Dato introducido", euro.format(n("amount"))], ["Categoría", values.entry_type], ["Resumen", "Se sumará al mes de la fecha"]];
+  if (values.entry_type === "electricity") {
     const consumption = n("p1") + n("p2") + n("p3");
     lines = [["Días", days || "—"], ["Consumo total", `${decimal.format(consumption)} kWh`], ["Consumo diario", days ? `${decimal.format(consumption / days)} kWh` : "—"], ["Coste por kWh", consumption ? euro.format(n("amount") / consumption) : "—"]];
   }
-  if (values.kind === "floor") {
+  if (values.entry_type === "floor") {
     const cold = n("cold_kwh") * n("cold_price"), heat = n("heat_kwh") * n("heat_price"), water = n("water_m3") * n("water_price");
     const total = (cold + heat + water + n("fixed")) * (1 + n("vat_rate") / 100);
     lines = [["Frío", euro.format(cold)], ["Calor", euro.format(heat)], ["Agua", euro.format(water)], ["Factura calculada", euro.format(total)], ["Importe diario", days ? euro.format(total / days) : "—"]];
   }
-  if (values.kind === "vehicle") lines = [["Cantidad calculada", n("unit_price") ? `${decimal.format(n("amount") / n("unit_price"))} l` : "Añade el precio/litro"], ["Resumen", "Se agrega al mes, año y categoría"]];
+  if (values.entry_type === "vehicle") lines = [["Cantidad calculada", n("unit_price") ? `${decimal.format(n("amount") / n("unit_price"))} l` : "Añade el precio/litro"], ["Resumen", "Se agrega al mes, año y categoría"]];
   $("#entry-preview").innerHTML = `<strong>Cálculos automáticos</strong>${lines.map(([label, value]) => `<span><small>${label}</small><b>${value}</b></span>`).join("")}`;
 }
 
 function renderEntryForm() {
-  const kind = $("#entry-kind").value;
-  $("#entry-fields").innerHTML = entryFieldsMarkup(kind);
+  const type = $("#entry-kind").value;
+  $("#entry-fields").innerHTML = entryFieldsMarkup(type);
   $("#entry-message").hidden = true;
+  renderEntryPreview();
+}
+
+function setEntryField(name, value) {
+  const field = $(`#entry-fields [name="${name}"]`);
+  if (field && value !== undefined && value !== null) field.value = value;
+}
+
+function showEntryMessage(message, error = false) {
+  const box = $("#entry-message");
+  box.textContent = message;
+  box.classList.toggle("success", !error);
+  box.hidden = false;
+}
+
+function copyLastEntry() {
+  const type = $("#entry-kind").value;
+  const property = $(`#entry-fields [name="property"]`)?.value;
+  let source;
+  if (SIMPLE_ENTRY_TYPES.has(type)) {
+    source = state.data.monthly.slice().reverse().find((row) => (!property || row.property === property) && Number(row.categories?.[type]) > 0);
+    if (source) {
+      setEntryField("date", shiftMonth(source.month));
+      setEntryField("amount", source.categories[type]);
+    }
+  } else if (type === "electricity") {
+    source = state.data.electricity.slice().reverse().find((row) => !property || row.property === property);
+    if (source) {
+      ["company", "amount", "p1", "p2", "p3"].forEach((name) => setEntryField(name, source[name]));
+      setEntryField("start_date", shiftMonth(source.start_date || source.month));
+      setEntryField("end_date", shiftMonth(source.end_date || source.month));
+    }
+  } else if (type === "floor") {
+    source = state.data.floor.slice().reverse().find((row) => !property || row.property === property);
+    if (source) {
+      ["company", "cold_kwh", "cold_price", "heat_kwh", "heat_price", "water_m3", "water_price", "fixed", "vat_rate"].forEach((name) => setEntryField(name, source[name]));
+      setEntryField("start_date", shiftMonth(source.start_date || source.month));
+      setEntryField("end_date", shiftMonth(source.end_date || source.month));
+    }
+  } else {
+    source = state.data.vehicle.at(-1);
+    if (source) {
+      ["category", "vehicle", "description", "amount", "unit_price"].forEach((name) => setEntryField(name, source[name]));
+      setEntryField("date", shiftMonth(source.date));
+    }
+  }
+  if (!source) return showEntryMessage("No hay un registro anterior de este tipo para copiar.", true);
+  showEntryMessage("Último registro copiado. Revisa las fechas y guarda cuando esté listo.");
   renderEntryPreview();
 }
 
 async function saveEntry(event) {
   event.preventDefault();
   const values = entryValues();
-  const kind = values.kind;
-  delete values.kind;
+  const type = values.entry_type;
+  const kind = SIMPLE_ENTRY_TYPES.has(type) ? "home" : type;
+  if (SIMPLE_ENTRY_TYPES.has(type)) values.category = type;
+  delete values.entry_type;
   const button = $("#save-entry");
   button.disabled = true;
   button.textContent = "Guardando…";
@@ -149,6 +222,37 @@ function movingAverage(values, windowSize = 4) {
   return values.map((_, index) => mean(values.slice(Math.max(0, index - windowSize + 1), index + 1)));
 }
 
+function timelineSlice(rows, key) {
+  const config = state.timelines[key];
+  if (!rows.length) return [];
+  const size = config.window === "all" ? rows.length : Math.min(Number(config.window), rows.length);
+  const end = Math.max(size - 1, Math.min(config.end ?? rows.length - 1, rows.length - 1));
+  const start = Math.max(0, end - size + 1);
+  return rows.slice(start, end + 1);
+}
+
+function renderTimeline(container, rows, key, rerender) {
+  if (!container) return;
+  if (!rows.length) { container.innerHTML = ""; return; }
+  const config = state.timelines[key];
+  const visible = timelineSlice(rows, key);
+  const end = rows.indexOf(visible.at(-1));
+  const minimumEnd = visible.length - 1;
+  const first = visible.at(0);
+  const last = visible.at(-1);
+  container.innerHTML = `<div class="timeline-heading"><div><strong>Periodo visible</strong><span>${labelMonth(first.month, true)} — ${labelMonth(last.month, true)}</span></div><div class="timeline-windows">${[[6,"6 m"],[12,"12 m"],[24,"24 m"],["all","Todo"]].map(([value,label]) => `<button type="button" data-window="${value}" class="${String(config.window) === String(value) ? "active" : ""}">${label}</button>`).join("")}</div></div><input class="timeline-range" type="range" min="${minimumEnd}" max="${rows.length - 1}" value="${end}" step="1" aria-label="Desplazar el periodo visible" ${rows.length <= visible.length ? "disabled" : ""}/><div class="timeline-ends"><span>${labelMonth(rows[0].month)}</span><span>${labelMonth(rows.at(-1).month)}</span></div>`;
+  container.querySelector(".timeline-range")?.addEventListener("input", (event) => {
+    config.end = Number(event.target.value);
+    const selected = timelineSlice(rows, key);
+    container.querySelector(".timeline-heading span").textContent = `${labelMonth(selected.at(0).month, true)} — ${labelMonth(selected.at(-1).month, true)}`;
+    rerender(false);
+  });
+  container.querySelectorAll("[data-window]").forEach((button) => button.addEventListener("click", () => {
+    config.window = button.dataset.window === "all" ? "all" : Number(button.dataset.window);
+    rerender();
+  }));
+}
+
 function lineChart(container, series, options = {}) {
   if (!container) return;
   const usable = series.filter((item) => item.values?.length);
@@ -172,7 +276,7 @@ function lineChart(container, series, options = {}) {
     const color = item.color || COLORS[seriesIndex];
     const points = item.values.map((value, index) => `${x(index)},${y(Number(value) || 0)}`).join(" ");
     const area = item.area ? `<polygon class="chart-area" fill="${color}" points="${pad.left},${height-pad.bottom} ${points} ${x(item.values.length-1)},${height-pad.bottom}"/>` : "";
-    const circles = item.values.map((value, index) => index === item.values.length - 1 ? `<circle class="chart-point" cx="${x(index)}" cy="${y(value)}" r="3.5" fill="${color}"/>` : "").join("");
+    const circles = item.values.map((value, index) => index === item.values.length - 1 ? `<circle class="chart-point-halo" cx="${x(index)}" cy="${y(value)}" r="7" fill="${color}"/><circle class="chart-point" cx="${x(index)}" cy="${y(value)}" r="4.5" fill="${color}"/>` : "").join("");
     return `${area}<polyline class="chart-line" stroke="${color}" points="${points}"/>${circles}`;
   }).join("");
   container.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">${grid}${xLabels}${drawings}</svg>`;
@@ -206,11 +310,11 @@ function renderSummary() {
     kpi("Último mes", latest ? euro.format(latest.total) : "—", latest ? `<span class="${change > 0 ? "trend-up" : "trend-down"}">${change > 0 ? "+" : ""}${decimal.format(change)}%</span> frente al anterior` : "Sin datos"),
     kpi("Cobertura", `${years} ${years === 1 ? "año" : "años"}`, rows.length ? `${labelMonth(rows[0].month, true)} — ${labelMonth(rows.at(-1).month, true)}` : "Sin datos"),
   ].join("");
+  const category = state.chartCategory;
   const chartRows = rows.slice(-48);
-  lineChart($("#monthly-chart"), [
-    { values: chartRows.map((row) => row.total), color: COLORS[0], area: true },
-    { values: movingAverage(chartRows.map((row) => row.total), 4), color: COLORS[1] },
-  ], { labels: chartRows.map((row) => labelMonth(row.month)), currency: true });
+  const values = chartRows.map((row) => category === "Total" ? row.total : Number(row.categories[category]) || 0);
+  $("#monthly-chart-title").textContent = `Gasto mensual · ${category}`;
+  lineChart($("#monthly-chart"), [{ values, color: COLORS[Math.max(0, CATEGORY_ORDER.indexOf(category))] || COLORS[0], area: true }], { labels: chartRows.map((row) => labelMonth(row.month)), currency: true });
   const categoryItems = CATEGORY_ORDER.map((category, index) => ({ label: category, value: sum(rows, (row) => row.categories[category]), color: COLORS[index] }));
   donut($("#category-chart"), categoryItems, "en el periodo");
   const recent = rows.slice(-5).reverse();
@@ -237,23 +341,26 @@ function renderHistory() {
   $$("#history-pagination [data-page]").forEach((button) => button.addEventListener("click", () => { state.page = Number(button.dataset.page); renderHistory(); }));
 }
 
-function renderLight() {
+function renderLight(refreshTimeline = true) {
   const rows = filterByGlobalPeriod(state.data.electricity);
   const consumption = sum(rows, (row) => row.consumption);
   const latest = rows.at(-1);
   $("#light-kpis").innerHTML = [kpi("Facturas", rows.length, "periodos registrados", true), kpi("Gasto", euro.format(sum(rows, (r) => r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} de media`), kpi("Consumo", `${decimal.format(consumption)} kWh`, `${decimal.format(mean(rows.map((r)=>r.daily_consumption)))} kWh/día`), kpi("Última compañía", latest?.company || "—", latest ? labelMonth(latest.month, true) : "Sin datos")].join("");
-  const chartRows = rows.slice(-48);
+  const chartRows = timelineSlice(rows, "light");
   lineChart($("#light-cost-chart"), [{ values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
   lineChart($("#light-use-chart"), [{ values: chartRows.map((r)=>r.p1), color: COLORS[1] }, { values: chartRows.map((r)=>r.p2), color: COLORS[2] }, { values: chartRows.map((r)=>r.p3), color: COLORS[3] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
+  if (refreshTimeline) renderTimeline($("#light-timeline"), rows, "light", renderLight);
   $("#light-table").innerHTML = tableMarkup(["Periodo", "Vivienda", "Compañía", "Días", "P1", "P2", "P3", "Total kWh", "kWh/día", "€/kWh", "Importe"], rows.slice().reverse().slice(0, 24).map((r)=>[labelMonth(r.month,true),esc(r.property),esc(r.company),r.days,decimal.format(r.p1),decimal.format(r.p2),decimal.format(r.p3),`<strong>${decimal.format(r.consumption)}</strong>`,decimal.format(r.daily_consumption),r.cost_per_kwh ? euro.format(r.cost_per_kwh) : "—",euro.format(r.amount)]), [3,4,5,6,7,8,9,10]);
 }
 
-function renderFloor() {
+function renderFloor(refreshTimeline = true) {
   const rows = filterByGlobalPeriod(state.data.floor);
   const latest = rows.at(-1);
   $("#floor-kpis").innerHTML = [kpi("Facturas", rows.length, "periodos registrados", true), kpi("Gasto", euro.format(sum(rows,(r)=>r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} de media`), kpi("Energía", `${decimal.format(sum(rows,(r)=>r.cold_kwh+r.heat_kwh))} kWh`, "frío y calor"), kpi("Última compañía", latest?.company || "—", latest ? labelMonth(latest.month,true) : "Sin datos")].join("");
-  lineChart($("#floor-cost-chart"), [{ values: rows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: rows.map((r)=>labelMonth(r.month)), currency: true });
-  lineChart($("#floor-use-chart"), [{ values: rows.map((r)=>r.cold_kwh), color: COLORS[3] }, { values: rows.map((r)=>r.heat_kwh), color: COLORS[1] }, { values: rows.map((r)=>r.water_m3*50), color: COLORS[0] }], { labels: rows.map((r)=>labelMonth(r.month)) });
+  const chartRows = timelineSlice(rows, "floor");
+  lineChart($("#floor-cost-chart"), [{ values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
+  lineChart($("#floor-use-chart"), [{ values: chartRows.map((r)=>r.cold_kwh), color: COLORS[3] }, { values: chartRows.map((r)=>r.heat_kwh), color: COLORS[1] }, { values: chartRows.map((r)=>r.water_m3*50), color: COLORS[0] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
+  if (refreshTimeline) renderTimeline($("#floor-timeline"), rows, "floor", renderFloor);
   $("#floor-table").innerHTML = tableMarkup(["Periodo", "Compañía", "Días", "Frío kWh", "Calor kWh", "Agua m³", "Fijo", "€/día", "Importe"], rows.slice().reverse().map((r)=>[labelMonth(r.month,true),esc(r.company),r.days,decimal.format(r.cold_kwh),decimal.format(r.heat_kwh),decimal.format(r.water_m3),euro.format(r.fixed),r.daily_amount ? euro.format(r.daily_amount) : euro.format(r.amount / Math.max(r.days,1)),euro.format(r.amount)]), [2,3,4,5,6,7,8]);
 }
 
@@ -293,8 +400,8 @@ function fillFilters() {
 
 function setupFilters() {
   fillFilters();
-  $("#property-filter").addEventListener("change", (event)=>{ state.property=event.target.value; state.page=1; renderAll(); });
-  $("#period-filter").addEventListener("change", (event)=>{ state.period=event.target.value; state.page=1; renderAll(); });
+  $("#property-filter").addEventListener("change", (event)=>{ state.property=event.target.value; state.page=1; state.timelines.light.end=null; state.timelines.floor.end=null; renderAll(); });
+  $("#period-filter").addEventListener("change", (event)=>{ state.period=event.target.value; state.page=1; state.timelines.light.end=null; state.timelines.floor.end=null; renderAll(); });
 }
 
 function activateView(name) {
@@ -313,8 +420,10 @@ function setupEvents() {
   $("#close-entry").addEventListener("click",()=>$("#entry-dialog").close());
   $("#cancel-entry").addEventListener("click",()=>$("#entry-dialog").close());
   $("#entry-kind").addEventListener("change",renderEntryForm);
+  $("#copy-last-entry").addEventListener("click",copyLastEntry);
   $("#entry-form").addEventListener("input",renderEntryPreview);
   $("#entry-form").addEventListener("submit",saveEntry);
+  $("#chart-category").addEventListener("change",(event)=>{ state.chartCategory=event.target.value; renderSummary(); });
   $("#download-csv").addEventListener("click",()=>{
     const rows=historyRows().slice().reverse();
     const lines=[["Mes","Vivienda",...CATEGORY_ORDER,"Total"],...rows.map((r)=>[r.month,r.property,...CATEGORY_ORDER.map((c)=>r.categories[c]||0),r.total])];

@@ -52,8 +52,8 @@ function cloneBaseData() {
 }
 
 function allocateHomeEntry(data, payload) {
-  const start = isoDate(payload.start_date);
-  const end = isoDate(payload.end_date);
+  const start = isoDate(payload.start_date || payload.date);
+  const end = isoDate(payload.end_date || payload.date);
   const totalDays = inclusiveDays(start, end);
   const amount = number(payload.amount);
   if (!start || !end || totalDays < 1 || amount < 0 || !CATEGORIES.includes(payload.category)) return;
@@ -138,8 +138,16 @@ function vehicleEntry(payload) {
 function applyEntry(data, entry) {
   const payload = JSON.parse(entry.payload);
   if (entry.kind === "home") allocateHomeEntry(data, payload);
-  if (entry.kind === "electricity") data.electricity.push(electricityEntry(payload));
-  if (entry.kind === "floor") data.floor.push(floorEntry(payload));
+  if (entry.kind === "electricity") {
+    const calculated = electricityEntry(payload);
+    data.electricity.push(calculated);
+    allocateHomeEntry(data, { ...payload, category: "Luz", amount: calculated.amount });
+  }
+  if (entry.kind === "floor") {
+    const calculated = floorEntry(payload);
+    data.floor.push(calculated);
+    allocateHomeEntry(data, { ...payload, category: "Calefacción", amount: calculated.amount });
+  }
   if (entry.kind === "vehicle") data.vehicle.push(vehicleEntry(payload));
 }
 
@@ -169,6 +177,9 @@ function validateEntry(kind, payload) {
   if (!ENTRY_KINDS.has(kind)) return "Tipo de dato no válido";
   if (kind === "vehicle") {
     if (!isoDate(payload.date)) return "Indica una fecha válida";
+  } else if (kind === "home") {
+    if (!payload.property?.trim()) return "Indica la vivienda";
+    if (!isoDate(payload.date || payload.start_date)) return "Indica una fecha válida";
   } else {
     if (!payload.property?.trim()) return "Indica la vivienda";
     if (!isoDate(payload.start_date) || !isoDate(payload.end_date) || inclusiveDays(payload.start_date, payload.end_date) < 1) return "El intervalo de fechas no es válido";
