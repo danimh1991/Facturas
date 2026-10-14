@@ -11,6 +11,7 @@ SOURCE = pathlib.Path(r"\\Danieta_Nas\Danieta\Casa\Facturas.xlsx")
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "seed.json"
 PUBLIC_DATA_PATH = ROOT / "public" / "facturas" / "data.json"
+VEHICLE_START_DATE = "2023-03-05"
 
 
 def clean_text(value):
@@ -233,7 +234,7 @@ for row in range(2, sheet.max_row + 1):
     price_or_amount = number(sheet.cell(row, 4).value)
     extended_amount = number(sheet.cell(row, 5).value)
     amount = extended_amount if extended_amount is not None else price_or_amount
-    if date and amount is not None:
+    if date and date >= VEHICLE_START_DATE and amount is not None:
         description = clean_text(sheet.cell(row, 2).value)
         is_fuel_table = extended_amount is not None
         vehicle.append(
@@ -249,7 +250,7 @@ for row in range(2, sheet.max_row + 1):
         )
     service_date = iso_date(sheet.cell(row, 14).value)
     service_amount = number(sheet.cell(row, 21).value)
-    if service_date and service_amount is not None:
+    if service_date and service_date >= VEHICLE_START_DATE and service_amount is not None:
         vehicle.append(
             {
                 "date": service_date,

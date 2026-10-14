@@ -9,7 +9,7 @@ test("exports the workbook history used by the dashboard", () => {
   assert.equal(data.monthly.length, 109);
   assert.equal(data.electricity.length, 74);
   assert.equal(data.floor.length, 19);
-  assert.equal(data.vehicle.length, 139);
+  assert.equal(data.vehicle.length, 101);
   assert.equal(data.summary.find((row) => row.property === "Total" && row.category === "Total").total, 93767.52);
 });
 
@@ -71,6 +71,11 @@ test("calculated workbook fields remain available as formulas in the app", () =>
 
   const fuel = data.vehicle.find((row) => row.unit_price > 0 && row.amount > 0);
   assert.ok(Math.abs(fuel.quantity - fuel.amount / fuel.unit_price) < 0.000001);
+});
+
+test("vehicle history excludes test data before 5 March 2023", () => {
+  assert.ok(data.vehicle.length > 0);
+  assert.ok(data.vehicle.every((row) => row.date >= "2023-03-05"));
 });
 
 test("light and floor use the real inclusive period and its start month", () => {
