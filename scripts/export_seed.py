@@ -1,5 +1,4 @@
 import datetime as dt
-import calendar
 import json
 import math
 import pathlib
@@ -43,6 +42,7 @@ def iso_date(value):
 
 
 book = openpyxl.load_workbook(SOURCE, data_only=True, read_only=False)
+formula_book = openpyxl.load_workbook(SOURCE, data_only=False, read_only=True)
 
 summary = []
 sheet = book["Resumen Hist"]
@@ -109,48 +109,45 @@ for row in range(3, sheet.max_row + 1):
         )
 
 
-def month_start(value):
-    return value.replace(day=1)
-
-
-def next_month(value):
-    return (value.replace(day=28) + dt.timedelta(days=4)).replace(day=1)
-
-
-monthly_map = {}
-for invoice in invoices:
-    start = dt.date.fromisoformat(invoice["start_date"])
-    end = dt.date.fromisoformat(invoice["end_date"])
-    total_days = (end - start).days + 1
-    if total_days < 1:
-        continue
-    cursor = month_start(start)
-    while cursor <= month_start(end):
-        last_day = dt.date(cursor.year, cursor.month, calendar.monthrange(cursor.year, cursor.month)[1])
-        overlap_start = max(start, cursor)
-        overlap_end = min(end, last_day)
-        overlap_days = max(0, (overlap_end - overlap_start).days + 1)
-        key = (invoice["property"], cursor.isoformat())
-        if key not in monthly_map:
-            monthly_map[key] = {
-                "property": invoice["property"],
-                "month": cursor.isoformat(),
-                "days": last_day.day,
-                "daily_average": 0,
-                "total": 0,
-                "categories": {category: 0 for category in invoice_columns},
-            }
-        allocated = invoice["total"] / total_days * overlap_days
-        monthly_map[key]["categories"][invoice["category"]] += allocated
-        cursor = next_month(cursor)
-
 monthly = []
-for item in monthly_map.values():
-    item["categories"] = {category: round(value, 6) for category, value in item["categories"].items()}
-    item["total"] = round(sum(item["categories"].values()), 6)
-    item["daily_average"] = round(item["total"] / item["days"], 6)
-    monthly.append(item)
-monthly.sort(key=lambda item: (item["month"], item["property"]))
+formula_sheet = formula_book["Facturas"]
+property_name = None
+for row in range(3, sheet.max_row + 1):
+    house = clean_text(sheet.cell(row, 2).value)
+    if house and house != "Total":
+        property_name = house
+    if house == "Total" or not property_name:
+        continue
+    start_date = iso_date(sheet.cell(row, 36).value)
+    end_date = iso_date(sheet.cell(row, 37).value)
+    days = int(sheet.cell(row, 38).value or 0)
+    if not start_date or not end_date or days < 1:
+        continue
+
+    total_formula = str(formula_sheet.cell(row, 40).value or "")
+    rate_row = row - 2 if "VLOOKUP" in total_formula else row
+    rate_amount = lambda column: round(float(sheet.cell(rate_row, column).value or 0) * days, 6)
+    categories = {
+        "Alquiler": number(sheet.cell(row, 7).value) or 0,
+        "Luz": rate_amount(42),
+        "Calefacción": rate_amount(43),
+        "Agua": rate_amount(44),
+        "Internet": number(sheet.cell(row, 30).value) or 0,
+        "Limpieza": number(sheet.cell(row, 35).value) or 0,
+    }
+    total = round(sum(categories.values()), 6)
+    monthly.append(
+        {
+            "property": property_name,
+            "month": start_date[:7] + "-01",
+            "start_date": start_date,
+            "end_date": end_date,
+            "days": days,
+            "daily_average": round(total / days, 6),
+            "total": total,
+            "categories": categories,
+        }
+    )
 
 electricity = []
 sheet = book["Consumo Luz"]

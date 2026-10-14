@@ -1,7 +1,7 @@
 {
   "meta": {
     "source_updated": 1788958261.1258361,
-    "generated": "2026-10-14T07:46:48.628025+00:00",
+    "generated": "2026-10-14T08:09:45.635232+00:00",
     "excluded_sheets": [
       "Previsión Luz",
       "X Gasolina Moto",
@@ -7701,30 +7701,17 @@
   "monthly": [
     {
       "property": "Ana de Austria",
-      "month": "2017-10-01",
-      "days": 31,
-      "daily_average": 35.378697,
-      "total": 1096.739621,
-      "categories": {
-        "Alquiler": 1032.258065,
-        "Luz": 53.40037,
-        "Calefacción": 0,
-        "Agua": 11.081186,
-        "Internet": 0,
-        "Limpieza": 0
-      }
-    },
-    {
-      "property": "Ana de Austria",
       "month": "2017-11-01",
+      "start_date": "2017-11-01",
+      "end_date": "2017-11-30",
       "days": 30,
-      "daily_average": 39.054127,
-      "total": 1171.623822,
+      "daily_average": 39.850556,
+      "total": 1195.516667,
       "categories": {
-        "Alquiler": 967.741935,
-        "Luz": 50.22213,
-        "Calefacción": 37.984118,
-        "Agua": 10.685639,
+        "Alquiler": 1000.0,
+        "Luz": 45.439286,
+        "Calefacción": 34.935,
+        "Agua": 10.152381,
         "Internet": 44.99,
         "Limpieza": 60.0
       }
@@ -7732,13 +7719,15 @@
     {
       "property": "Ana de Austria",
       "month": "2017-12-01",
+      "start_date": "2017-12-01",
+      "end_date": "2017-12-31",
       "days": 31,
-      "daily_average": 39.36692,
-      "total": 1220.374534,
+      "daily_average": 39.53468,
+      "total": 1225.57508,
       "categories": {
         "Alquiler": 1000.0,
         "Luz": 46.953929,
-        "Calefacción": 57.939811,
+        "Calefacción": 63.140357,
         "Agua": 10.490794,
         "Internet": 44.99,
         "Limpieza": 60.0
@@ -7747,14 +7736,16 @@
     {
       "property": "Ana de Austria",
       "month": "2018-01-01",
+      "start_date": "2018-01-01",
+      "end_date": "2018-01-31",
       "days": 31,
-      "daily_average": 39.595247,
-      "total": 1227.452655,
+      "daily_average": 39.776804,
+      "total": 1233.080913,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 47.543571,
-        "Calefacción": 64.387405,
-        "Agua": 10.531679,
+        "Luz": 48.36,
+        "Calefacción": 67.972667,
+        "Agua": 11.758246,
         "Internet": 44.99,
         "Limpieza": 60.0
       }
@@ -7762,13 +7753,15 @@
     {
       "property": "Ana de Austria",
       "month": "2018-02-01",
+      "start_date": "2018-02-01",
+      "end_date": "2018-02-28",
       "days": 28,
-      "daily_average": 43.587351,
-      "total": 1220.445818,
+      "daily_average": 43.556027,
+      "total": 1219.568751,
       "categories": {
         "Alquiler": 1000.0,
         "Luz": 43.68,
-        "Calefacción": 61.155467,
+        "Calefacción": 60.2784,
         "Agua": 10.620351,
         "Internet": 44.99,
         "Limpieza": 60.0
@@ -7777,14 +7770,16 @@
     {
       "property": "Ana de Austria",
       "month": "2018-03-01",
+      "start_date": "2018-03-01",
+      "end_date": "2018-03-31",
       "days": 31,
-      "daily_average": 38.79266,
-      "total": 1202.572452,
+      "daily_average": 38.126674,
+      "total": 1181.926884,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 46.77403,
-        "Calefacción": 54.656533,
-        "Agua": 11.801889,
+        "Luz": 44.848209,
+        "Calefacción": 35.529444,
+        "Agua": 12.209231,
         "Internet": 29.34,
         "Limpieza": 60.0
       }
@@ -7792,13 +7787,15 @@
     {
       "property": "Ana de Austria",
       "month": "2018-04-01",
+      "start_date": "2018-04-01",
+      "end_date": "2018-04-30",
       "days": 30,
-      "daily_average": 39.326043,
-      "total": 1179.781287,
+      "daily_average": 39.698186,
+      "total": 1190.945588,
       "categories": {
         "Alquiler": 1000.0,
         "Luz": 43.401493,
-        "Calefacción": 37.174409,
+        "Calefacción": 48.33871,
         "Agua": 11.815385,
         "Internet": 27.39,
         "Limpieza": 60.0
@@ -7807,13 +7804,15 @@
     {
       "property": "Ana de Austria",
       "month": "2018-05-01",
+      "start_date": "2018-05-01",
+      "end_date": "2018-05-31",
       "days": 31,
-      "daily_average": 39.411282,
-      "total": 1221.749757,
+      "daily_average": 38.903642,
+      "total": 1206.012891,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 44.910033,
-        "Calefacción": 46.130493,
+        "Luz": 45.087778,
+        "Calefacción": 30.215882,
         "Agua": 12.209231,
         "Internet": 28.5,
         "Limpieza": 90.0
@@ -7822,14 +7821,16 @@
     {
       "property": "Ana de Austria",
       "month": "2018-06-01",
+      "start_date": "2018-06-01",
+      "end_date": "2018-06-30",
       "days": 30,
-      "daily_average": 39.087561,
-      "total": 1172.626825,
+      "daily_average": 39.241882,
+      "total": 1177.256473,
       "categories": {
         "Alquiler": 1000.0,
         "Luz": 43.633333,
-        "Calefacción": 29.574072,
-        "Agua": 10.91942,
+        "Calefacción": 34.234615,
+        "Agua": 10.888525,
         "Internet": 28.5,
         "Limpieza": 60.0
       }
@@ -7837,13 +7838,15 @@
     {
       "property": "Ana de Austria",
       "month": "2018-07-01",
+      "start_date": "2018-07-01",
+      "end_date": "2018-07-31",
       "days": 31,
-      "daily_average": 38.017396,
-      "total": 1178.539278,
+      "daily_average": 37.833187,
+      "total": 1172.828808,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 45.135111,
-        "Calefacción": 33.652692,
+        "Luz": 45.332333,
+        "Calefacción": 27.745,
         "Agua": 11.251475,
         "Internet": 28.5,
         "Limpieza": 60.0
@@ -7852,14 +7855,16 @@
     {
       "property": "Ana de Austria",
       "month": "2018-08-01",
+      "start_date": "2018-08-01",
+      "end_date": "2018-08-31",
       "days": 31,
-      "daily_average": 36.837042,
-      "total": 1141.948316,
+      "daily_average": 36.802799,
+      "total": 1140.886762,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 45.161417,
-        "Calefacción": 27.635588,
-        "Agua": 10.661311,
+        "Luz": 44.575417,
+        "Calefacción": 27.179706,
+        "Agua": 10.641639,
         "Internet": 28.49,
         "Limpieza": 30.0
       }
@@ -7867,13 +7872,15 @@
     {
       "property": "Ana de Austria",
       "month": "2018-09-01",
+      "start_date": "2018-09-01",
+      "end_date": "2018-09-30",
       "days": 30,
-      "daily_average": 39.926412,
-      "total": 1197.792356,
+      "daily_average": 41.163097,
+      "total": 1234.89291,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 24.444583,
-        "Calefacción": 24.549412,
+        "Luz": 35.705263,
+        "Calefacción": 50.389286,
         "Agua": 10.298361,
         "Internet": 28.5,
         "Limpieza": 110.0
@@ -7881,187 +7888,179 @@
     },
     {
       "property": "Isabel Clara Eugenia",
-      "month": "2018-09-01",
-      "days": 30,
-      "daily_average": 0.877261,
-      "total": 26.317833,
-      "categories": {
-        "Alquiler": 0,
-        "Luz": 9.521404,
-        "Calefacción": 16.796429,
-        "Agua": 0,
-        "Internet": 0,
-        "Limpieza": 0
-      }
-    },
-    {
-      "property": "Ana de Austria",
       "month": "2018-10-01",
+      "start_date": "2018-10-01",
+      "end_date": "2018-10-31",
       "days": 31,
-      "daily_average": 0.011074,
-      "total": 0.343279,
-      "categories": {
-        "Alquiler": 0,
-        "Luz": 0,
-        "Calefacción": 0,
-        "Agua": 0.343279,
-        "Internet": 0,
-        "Limpieza": 0
-      }
-    },
-    {
-      "property": "Isabel Clara Eugenia",
-      "month": "2018-10-01",
-      "days": 31,
-      "daily_average": 34.749753,
-      "total": 1077.242357,
+      "daily_average": 35.175435,
+      "total": 1090.438486,
       "categories": {
         "Alquiler": 900.0,
         "Luz": 36.895439,
         "Calefacción": 52.068929,
         "Agua": 12.254118,
-        "Internet": 16.023871,
+        "Internet": 29.22,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2018-11-01",
+      "start_date": "2018-11-01",
+      "end_date": "2018-11-30",
       "days": 30,
-      "daily_average": 37.744072,
-      "total": 1132.322148,
+      "daily_average": 39.315521,
+      "total": 1179.46562,
       "categories": {
         "Alquiler": 900.0,
-        "Luz": 36.237158,
-        "Calefacción": 93.49303,
-        "Agua": 12.830498,
-        "Internet": 29.761462,
+        "Luz": 37.035,
+        "Calefacción": 136.596774,
+        "Agua": 14.773846,
+        "Internet": 31.06,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2018-12-01",
+      "start_date": "2018-12-01",
+      "end_date": "2018-12-31",
       "days": 31,
-      "daily_average": 38.186051,
-      "total": 1183.767571,
+      "daily_average": 38.105994,
+      "total": 1181.285808,
       "categories": {
         "Alquiler": 900.0,
         "Luz": 38.2695,
         "Calefacción": 141.15,
         "Agua": 15.266308,
-        "Internet": 29.081763,
+        "Internet": 26.6,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-01-01",
+      "start_date": "2019-01-01",
+      "end_date": "2019-01-31",
       "days": 31,
-      "daily_average": 37.807497,
-      "total": 1172.032415,
+      "daily_average": 37.495995,
+      "total": 1162.375859,
       "categories": {
         "Alquiler": 900.0,
-        "Luz": 38.270568,
-        "Calefacción": 130.655923,
-        "Agua": 15.463989,
-        "Internet": 27.641935,
+        "Luz": 38.271864,
+        "Calefacción": 119.462241,
+        "Agua": 16.141754,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-02-01",
+      "start_date": "2019-02-01",
+      "end_date": "2019-02-28",
       "days": 28,
-      "daily_average": 40.863219,
-      "total": 1144.170132,
+      "daily_average": 40.91247,
+      "total": 1145.549164,
       "categories": {
         "Alquiler": 900.0,
         "Luz": 34.568136,
         "Calefacción": 107.901379,
         "Agua": 14.579649,
-        "Internet": 27.120968,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-03-01",
+      "start_date": "2019-03-01",
+      "end_date": "2019-03-31",
       "days": 31,
-      "daily_average": 36.441553,
-      "total": 1129.688143,
+      "daily_average": 35.368323,
+      "total": 1096.418023,
       "categories": {
         "Alquiler": 900.0,
-        "Luz": 38.585574,
-        "Calefacción": 85.108553,
-        "Agua": 16.114984,
-        "Internet": 29.879032,
+        "Luz": 38.966508,
+        "Calefacción": 52.90197,
+        "Agua": 16.049545,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-04-01",
+      "start_date": "2019-04-01",
+      "end_date": "2019-04-30",
       "days": 30,
-      "daily_average": 36.416926,
-      "total": 1092.507765,
+      "daily_average": 36.431227,
+      "total": 1092.936797,
       "categories": {
         "Alquiler": 900.0,
         "Luz": 37.709524,
         "Calefacción": 51.195455,
         "Agua": 15.531818,
-        "Internet": 28.070968,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-05-01",
+      "start_date": "2019-05-01",
+      "end_date": "2019-05-31",
       "days": 31,
-      "daily_average": 35.062125,
-      "total": 1086.925863,
+      "daily_average": 34.455013,
+      "total": 1068.105411,
       "categories": {
         "Alquiler": 900.0,
-        "Luz": 39.348461,
-        "Calefacción": 42.65219,
-        "Agua": 15.99618,
-        "Internet": 28.929032,
+        "Luz": 39.95322,
+        "Calefacción": 24.016226,
+        "Agua": 15.635965,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-06-01",
+      "start_date": "2019-06-01",
+      "end_date": "2019-06-30",
       "days": 30,
-      "daily_average": 35.503615,
-      "total": 1065.108463,
+      "daily_average": 35.517916,
+      "total": 1065.537495,
       "categories": {
         "Alquiler": 900.0,
         "Luz": 38.664407,
         "Calefacción": 23.241509,
         "Agua": 15.131579,
-        "Internet": 28.070968,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-07-01",
+      "start_date": "2019-07-01",
+      "end_date": "2019-07-31",
       "days": 31,
-      "daily_average": 34.361875,
-      "total": 1065.218114,
+      "daily_average": 34.250016,
+      "total": 1061.750501,
       "categories": {
         "Alquiler": 900.0,
-        "Luz": 39.538355,
-        "Calefacción": 21.427816,
-        "Agua": 15.322911,
-        "Internet": 28.929032,
+        "Luz": 39.03459,
+        "Calefacción": 19.79303,
+        "Agua": 14.422881,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-08-01",
+      "start_date": "2019-08-01",
+      "end_date": "2019-08-31",
       "days": 31,
       "daily_average": 34.250016,
       "total": 1061.750501,
@@ -8077,74 +8076,84 @@
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-09-01",
+      "start_date": "2019-09-01",
+      "end_date": "2019-09-30",
       "days": 30,
-      "daily_average": 35.657948,
-      "total": 1069.738443,
+      "daily_average": 36.108887,
+      "total": 1083.266602,
       "categories": {
         "Alquiler": 900.0,
-        "Luz": 38.904627,
-        "Calefacción": 27.896097,
-        "Agua": 14.866751,
-        "Internet": 28.070968,
+        "Luz": 40.195161,
+        "Calefacción": 37.886441,
+        "Agua": 16.685,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-10-01",
+      "start_date": "2019-10-01",
+      "end_date": "2019-10-31",
       "days": 31,
-      "daily_average": 35.059823,
-      "total": 1086.854521,
+      "daily_average": 35.045984,
+      "total": 1086.425489,
       "categories": {
         "Alquiler": 900.0,
         "Luz": 41.535,
         "Calefacción": 39.149322,
         "Agua": 17.241167,
-        "Internet": 28.929032,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-11-01",
+      "start_date": "2019-11-01",
+      "end_date": "2019-11-30",
       "days": 30,
-      "daily_average": 37.438211,
-      "total": 1123.146321,
+      "daily_average": 38.631126,
+      "total": 1158.933776,
       "categories": {
         "Alquiler": 900.0,
-        "Luz": 41.540591,
-        "Calefacción": 77.429262,
-        "Agua": 16.1055,
-        "Internet": 28.070968,
+        "Luz": 43.3,
+        "Calefacción": 112.029231,
+        "Agua": 15.104545,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2019-12-01",
+      "start_date": "2019-12-01",
+      "end_date": "2019-12-31",
       "days": 31,
-      "daily_average": 37.582062,
-      "total": 1165.043933,
+      "daily_average": 37.568223,
+      "total": 1164.614901,
       "categories": {
         "Alquiler": 900.0,
         "Luz": 44.743333,
         "Calefacción": 115.763538,
         "Agua": 15.60803,
-        "Internet": 28.929032,
+        "Internet": 28.5,
         "Limpieza": 60.0
       }
     },
     {
       "property": "Isabel Clara Eugenia",
       "month": "2020-01-01",
+      "start_date": "2020-01-01",
+      "end_date": "2020-01-31",
       "days": 31,
-      "daily_average": 36.223049,
-      "total": 1122.914507,
+      "daily_average": 35.963915,
+      "total": 1114.881363,
       "categories": {
         "Alquiler": 900.0,
-        "Luz": 27.423333,
-        "Calefacción": 94.907538,
-        "Agua": 12.083636,
+        "Luz": 44.743333,
+        "Calefacción": 66.03,
+        "Agua": 15.60803,
         "Internet": 28.5,
         "Limpieza": 60.0
       }
@@ -8152,29 +8161,33 @@
     {
       "property": "Isabel Clara Eugenia",
       "month": "2020-02-01",
+      "start_date": "2020-02-01",
+      "end_date": "2020-02-29",
       "days": 29,
-      "daily_average": 18.241068,
-      "total": 528.990968,
+      "daily_average": 18.55526,
+      "total": 538.102542,
       "categories": {
         "Alquiler": 435.0,
-        "Luz": 0,
-        "Calefacción": 51.12,
-        "Agua": 0,
-        "Internet": 12.870968,
+        "Luz": 36.531471,
+        "Calefacción": 27.4775,
+        "Agua": 9.093571,
+        "Internet": 0,
         "Limpieza": 30.0
       }
     },
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-02-01",
-      "days": 29,
-      "daily_average": 22.632951,
-      "total": 656.355567,
+      "start_date": "2020-02-15",
+      "end_date": "2020-02-29",
+      "days": 15,
+      "daily_average": 44.850777,
+      "total": 672.761659,
       "categories": {
         "Alquiler": 570.0,
-        "Luz": 11.337353,
-        "Calefacción": 4.7375,
-        "Agua": 5.330714,
+        "Luz": 18.895588,
+        "Calefacción": 14.2125,
+        "Agua": 4.703571,
         "Internet": 34.95,
         "Limpieza": 30.0
       }
@@ -8182,14 +8195,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-03-01",
+      "start_date": "2020-03-01",
+      "end_date": "2020-03-31",
       "days": 31,
-      "daily_average": 36.425933,
-      "total": 1129.203935,
+      "daily_average": 36.92658,
+      "total": 1144.723973,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 41.979522,
-        "Calefacción": 30.889643,
-        "Agua": 11.38477,
+        "Luz": 54.182187,
+        "Calefacción": 33.291786,
+        "Agua": 12.3,
         "Internet": 34.95,
         "Limpieza": 60.0
       }
@@ -8197,13 +8212,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-04-01",
+      "start_date": "2020-04-01",
+      "end_date": "2020-04-30",
       "days": 30,
-      "daily_average": 37.810992,
-      "total": 1134.329753,
+      "daily_average": 37.336238,
+      "total": 1120.087153,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 51.306573,
-        "Calefacción": 26.169954,
+        "Luz": 43.975862,
+        "Calefacción": 19.258065,
         "Agua": 11.903226,
         "Internet": 34.95,
         "Limpieza": 60.0
@@ -8212,14 +8229,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-05-01",
+      "start_date": "2020-05-01",
+      "end_date": "2020-05-31",
       "days": 31,
-      "daily_average": 36.161406,
-      "total": 1121.003585,
+      "daily_average": 36.045835,
+      "total": 1117.420877,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 44.84139,
-        "Calefacción": 19.114972,
-        "Agua": 12.097223,
+        "Luz": 42.34,
+        "Calefacción": 18.161724,
+        "Agua": 11.969153,
         "Internet": 34.95,
         "Limpieza": 60.0
       }
@@ -8227,13 +8246,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-06-01",
+      "start_date": "2020-06-01",
+      "end_date": "2020-06-30",
       "days": 30,
-      "daily_average": 37.171096,
-      "total": 1115.132884,
+      "daily_average": 37.433186,
+      "total": 1122.995565,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 42.927419,
-        "Calefacción": 15.672414,
+        "Luz": 52.693548,
+        "Calefacción": 13.768966,
         "Agua": 11.583051,
         "Internet": 34.95,
         "Limpieza": 60.0
@@ -8242,14 +8263,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-07-01",
+      "start_date": "2020-07-01",
+      "end_date": "2020-07-31",
       "days": 31,
-      "daily_average": 36.364928,
-      "total": 1127.312777,
+      "daily_average": 36.054823,
+      "total": 1117.6995,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 52.699409,
-        "Calefacción": 13.627851,
-        "Agua": 11.935517,
+        "Luz": 43.596333,
+        "Calefacción": 13.133667,
+        "Agua": 11.9195,
         "Internet": 39.05,
         "Limpieza": 60.0
       }
@@ -8257,13 +8280,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-08-01",
+      "start_date": "2020-08-01",
+      "end_date": "2020-08-31",
       "days": 31,
-      "daily_average": 36.86779,
-      "total": 1142.9015,
+      "daily_average": 36.781898,
+      "total": 1140.238833,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 42.984333,
-        "Calefacción": 12.977667,
+        "Luz": 40.434333,
+        "Calefacción": 12.865,
         "Agua": 11.9195,
         "Internet": 35.02,
         "Limpieza": 90.0
@@ -8272,14 +8297,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-09-01",
+      "start_date": "2020-09-01",
+      "end_date": "2020-09-30",
       "days": 30,
-      "daily_average": 37.028646,
-      "total": 1110.859374,
+      "daily_average": 37.130513,
+      "total": 1113.915396,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 39.090452,
-        "Calefacción": 15.252414,
-        "Agua": 11.566508,
+        "Luz": 38.932258,
+        "Calefacción": 18.455172,
+        "Agua": 11.577966,
         "Internet": 34.95,
         "Limpieza": 60.0
       }
@@ -8287,13 +8314,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-10-01",
+      "start_date": "2020-10-01",
+      "end_date": "2020-10-31",
       "days": 31,
-      "daily_average": 36.106968,
-      "total": 1119.316002,
+      "daily_average": 36.104331,
+      "total": 1119.234254,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 39.304173,
-        "Calefacción": 23.097931,
+        "Luz": 35.446563,
+        "Calefacción": 26.873793,
         "Agua": 11.963898,
         "Internet": 34.95,
         "Limpieza": 60.0
@@ -8302,14 +8331,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-11-01",
+      "start_date": "2020-11-01",
+      "end_date": "2020-11-30",
       "days": 30,
-      "daily_average": 37.50134,
-      "total": 1125.040215,
+      "daily_average": 37.788515,
+      "total": 1133.655446,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 34.727775,
-        "Calefacción": 33.604655,
-        "Agua": 11.757785,
+        "Luz": 37.488,
+        "Calefacción": 39.414706,
+        "Agua": 11.80274,
         "Internet": 34.95,
         "Limpieza": 60.0
       }
@@ -8317,13 +8348,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2020-12-01",
+      "start_date": "2020-12-01",
+      "end_date": "2020-12-31",
       "days": 31,
-      "daily_average": 37.160243,
-      "total": 1151.967526,
+      "daily_average": 37.791299,
+      "total": 1171.53026,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 39.773029,
-        "Calefacción": 55.048333,
+        "Luz": 41.947429,
+        "Calefacción": 72.436667,
         "Agua": 12.196164,
         "Internet": 34.95,
         "Limpieza": 60.0
@@ -8332,14 +8365,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-01-01",
+      "start_date": "2021-01-01",
+      "end_date": "2021-01-31",
       "days": 31,
-      "daily_average": 37.352286,
-      "total": 1157.920868,
+      "daily_average": 36.640414,
+      "total": 1135.852838,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 41.742256,
-        "Calefacción": 59.08381,
-        "Agua": 12.144802,
+        "Luz": 40.887368,
+        "Calefacción": 37.941786,
+        "Agua": 12.073684,
         "Internet": 34.95,
         "Limpieza": 60.0
       }
@@ -8347,13 +8382,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-02-01",
+      "start_date": "2021-02-01",
+      "end_date": "2021-02-28",
       "days": 28,
-      "daily_average": 39.008834,
-      "total": 1092.247356,
+      "daily_average": 38.779861,
+      "total": 1085.836112,
       "categories": {
         "Alquiler": 950.0,
         "Luz": 36.930526,
-        "Calefacción": 29.461567,
+        "Calefacción": 23.050323,
         "Agua": 10.905263,
         "Internet": 34.95,
         "Limpieza": 30.0
@@ -8362,14 +8399,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-03-01",
+      "start_date": "2021-03-01",
+      "end_date": "2021-03-31",
       "days": 31,
-      "daily_average": 36.106538,
-      "total": 1119.302669,
+      "daily_average": 35.995622,
+      "total": 1115.864286,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 38.804822,
-        "Calefacción": 23.394839,
-        "Agua": 12.153008,
+        "Luz": 38.646667,
+        "Calefacción": 20.03,
+        "Agua": 12.237619,
         "Internet": 34.95,
         "Limpieza": 60.0
       }
@@ -8377,13 +8416,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-04-01",
+      "start_date": "2021-04-01",
+      "end_date": "2021-04-30",
       "days": 30,
-      "daily_average": 37.049659,
-      "total": 1111.489775,
+      "daily_average": 36.911231,
+      "total": 1107.336943,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 36.232079,
-        "Calefacción": 18.464839,
+        "Luz": 33.666667,
+        "Calefacción": 16.877419,
         "Agua": 11.842857,
         "Internet": 34.95,
         "Limpieza": 60.0
@@ -8392,14 +8433,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-05-01",
+      "start_date": "2021-05-01",
+      "end_date": "2021-05-31",
       "days": 31,
-      "daily_average": 35.76622,
-      "total": 1108.752824,
+      "daily_average": 35.731222,
+      "total": 1107.667895,
       "categories": {
         "Alquiler": 950.0,
         "Luz": 34.788889,
-        "Calefacción": 17.057168,
-        "Agua": 11.956767,
+        "Calefacción": 16.361111,
+        "Agua": 11.567895,
         "Internet": 34.95,
         "Limpieza": 60.0
       }
@@ -8407,13 +8450,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-06-01",
+      "start_date": "2021-06-01",
+      "end_date": "2021-06-30",
       "days": 30,
-      "daily_average": 36.49922,
-      "total": 1094.976589,
+      "daily_average": 36.479473,
+      "total": 1094.384181,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 31.0,
-        "Calefacción": 16.211852,
+        "Luz": 29.975,
+        "Calefacción": 16.644444,
         "Agua": 11.194737,
         "Internet": 26.57,
         "Limpieza": 60.0
@@ -8422,14 +8467,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-07-01",
+      "start_date": "2021-07-01",
+      "end_date": "2021-07-31",
       "days": 31,
-      "daily_average": 35.336753,
-      "total": 1095.439355,
+      "daily_average": 35.21738,
+      "total": 1091.73879,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 35.654516,
-        "Calefacción": 15.306593,
-        "Agua": 11.848246,
+        "Luz": 33.09,
+        "Calefacción": 13.939667,
+        "Agua": 12.079123,
         "Internet": 22.63,
         "Limpieza": 60.0
       }
@@ -8437,13 +8484,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-08-01",
+      "start_date": "2021-08-01",
+      "end_date": "2021-08-31",
       "days": 31,
-      "daily_average": 35.440645,
-      "total": 1098.659982,
+      "daily_average": 35.411091,
+      "total": 1097.743811,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 32.732359,
-        "Calefacción": 14.8485,
+        "Luz": 31.242188,
+        "Calefacción": 15.4225,
         "Agua": 12.079123,
         "Internet": 29.0,
         "Limpieza": 60.0
@@ -8452,14 +8501,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-09-01",
+      "start_date": "2021-09-01",
+      "end_date": "2021-09-30",
       "days": 30,
-      "daily_average": 36.51241,
-      "total": 1095.372286,
+      "daily_average": 36.301642,
+      "total": 1089.049249,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 29.226573,
-        "Calefacción": 15.625,
-        "Agua": 11.520713,
+        "Luz": 22.675862,
+        "Calefacción": 15.925,
+        "Agua": 11.448387,
         "Internet": 29.0,
         "Limpieza": 60.0
       }
@@ -8467,13 +8518,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-10-01",
+      "start_date": "2021-10-01",
+      "end_date": "2021-10-31",
       "days": 31,
-      "daily_average": 35.319605,
-      "total": 1094.907762,
+      "daily_average": 35.453548,
+      "total": 1099.06,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 23.501068,
-        "Calefacción": 20.576694,
+        "Luz": 23.79,
+        "Calefacción": 24.44,
         "Agua": 11.83,
         "Internet": 29.0,
         "Limpieza": 60.0
@@ -8482,14 +8535,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-11-01",
+      "start_date": "2021-11-01",
+      "end_date": "2021-11-30",
       "days": 30,
-      "daily_average": 36.931281,
-      "total": 1107.938431,
+      "daily_average": 37.246682,
+      "total": 1117.400446,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 22.640246,
-        "Calefacción": 35.200806,
-        "Agua": 11.097379,
+        "Luz": 20.728571,
+        "Calefacción": 46.75,
+        "Agua": 10.921875,
         "Internet": 29.0,
         "Limpieza": 60.0
       }
@@ -8497,13 +8552,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2021-12-01",
+      "start_date": "2021-12-01",
+      "end_date": "2021-12-31",
       "days": 31,
-      "daily_average": 37.213016,
-      "total": 1153.603487,
+      "daily_average": 37.332562,
+      "total": 1157.30943,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 24.056488,
-        "Calefacción": 49.261061,
+        "Luz": 26.86925,
+        "Calefacción": 50.154242,
         "Agua": 11.285938,
         "Internet": 29.0,
         "Limpieza": 90.0
@@ -8512,14 +8569,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-01-01",
+      "start_date": "2022-01-01",
+      "end_date": "2022-01-31",
       "days": 31,
-      "daily_average": 36.336071,
-      "total": 1126.41821,
+      "daily_average": 36.472728,
+      "total": 1130.654576,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 28.746932,
-        "Calefacción": 46.927939,
-        "Agua": 11.743339,
+        "Luz": 36.570606,
+        "Calefacción": 43.010286,
+        "Agua": 12.073684,
         "Internet": 29.0,
         "Limpieza": 60.0
       }
@@ -8527,13 +8586,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-02-01",
+      "start_date": "2022-02-01",
+      "end_date": "2022-02-28",
       "days": 28,
-      "daily_average": 40.031907,
-      "total": 1120.893393,
+      "daily_average": 40.475054,
+      "total": 1133.301513,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 33.659943,
-        "Calefacción": 37.328187,
+        "Luz": 50.6275,
+        "Calefacción": 32.76875,
         "Agua": 10.905263,
         "Internet": 29.0,
         "Limpieza": 60.0
@@ -8542,14 +8603,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-03-01",
+      "start_date": "2022-03-01",
+      "end_date": "2022-03-31",
       "days": 31,
-      "daily_average": 36.673329,
-      "total": 1136.873207,
+      "daily_average": 36.458203,
+      "total": 1130.204286,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 49.864732,
-        "Calefacción": 36.092006,
-        "Agua": 11.916469,
+        "Luz": 44.064286,
+        "Calefacción": 35.31,
+        "Agua": 11.83,
         "Internet": 29.0,
         "Limpieza": 60.0
       }
@@ -8557,13 +8620,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-04-01",
+      "start_date": "2022-04-01",
+      "end_date": "2022-04-30",
       "days": 30,
-      "daily_average": 37.244504,
-      "total": 1117.33513,
+      "daily_average": 36.917305,
+      "total": 1107.519146,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 34.347143,
-        "Calefacción": 32.5396,
+        "Luz": 32.688,
+        "Calefacción": 24.382759,
         "Agua": 11.448387,
         "Internet": 29.0,
         "Limpieza": 60.0
@@ -8572,14 +8637,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-05-01",
+      "start_date": "2022-05-01",
+      "end_date": "2022-05-31",
       "days": 31,
-      "daily_average": 35.818003,
-      "total": 1110.358104,
+      "daily_average": 35.904608,
+      "total": 1113.042854,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 35.056875,
-        "Calefacción": 24.413207,
-        "Agua": 11.888022,
+        "Luz": 40.387187,
+        "Calefacción": 21.731,
+        "Agua": 11.924667,
         "Internet": 29.0,
         "Limpieza": 60.0
       }
@@ -8587,13 +8654,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-06-01",
+      "start_date": "2022-06-01",
+      "end_date": "2022-06-30",
       "days": 30,
-      "daily_average": 37.07336,
-      "total": 1112.2008,
+      "daily_average": 37.340835,
+      "total": 1120.225057,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 40.000022,
-        "Calefacción": 21.660778,
+        "Luz": 45.951724,
+        "Calefacción": 23.733333,
         "Agua": 11.54,
         "Internet": 29.0,
         "Limpieza": 60.0
@@ -8602,14 +8671,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-07-01",
+      "start_date": "2022-07-01",
+      "end_date": "2022-07-31",
       "days": 31,
-      "daily_average": 35.992775,
-      "total": 1115.776025,
+      "daily_average": 35.323634,
+      "total": 1095.032667,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 44.022136,
-        "Calefacción": 21.142556,
-        "Agua": 11.611333,
+        "Luz": 29.6,
+        "Calefacción": 14.993667,
+        "Agua": 11.439,
         "Internet": 29.0,
         "Limpieza": 60.0
       }
@@ -8617,13 +8688,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-08-01",
+      "start_date": "2022-08-01",
+      "end_date": "2022-08-31",
       "days": 31,
-      "daily_average": 35.423495,
-      "total": 1098.128344,
+      "daily_average": 35.757065,
+      "total": 1108.469,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 30.681935,
-        "Calefacción": 18.677409,
+        "Luz": 35.19,
+        "Calefacción": 24.51,
         "Agua": 11.439,
         "Internet": 27.33,
         "Limpieza": 60.0
@@ -8632,14 +8705,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-09-01",
+      "start_date": "2022-09-01",
+      "end_date": "2022-09-30",
       "days": 30,
-      "daily_average": 36.822621,
-      "total": 1104.678624,
+      "daily_average": 36.919889,
+      "total": 1107.596667,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 34.560699,
-        "Calefacción": 23.910258,
-        "Agua": 11.207667,
+        "Luz": 37.09,
+        "Calefacción": 24.24,
+        "Agua": 11.266667,
         "Internet": 25.0,
         "Limpieza": 60.0
       }
@@ -8647,13 +8722,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-10-01",
+      "start_date": "2022-10-01",
+      "end_date": "2022-10-31",
       "days": 31,
-      "daily_average": 35.774082,
-      "total": 1108.996555,
+      "daily_average": 35.671319,
+      "total": 1105.810889,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 37.718333,
-        "Calefacción": 24.636,
+        "Luz": 35.185,
+        "Calefacción": 23.983667,
         "Agua": 11.642222,
         "Internet": 25.0,
         "Limpieza": 60.0
@@ -8662,14 +8739,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-11-01",
+      "start_date": "2022-11-01",
+      "end_date": "2022-11-30",
       "days": 30,
-      "daily_average": 38.109187,
-      "total": 1143.275597,
+      "daily_average": 38.62335,
+      "total": 1158.700496,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 34.444615,
-        "Calefacción": 32.363419,
-        "Agua": 11.467563,
+        "Luz": 36.023077,
+        "Calefacción": 46.093548,
+        "Agua": 11.583871,
         "Internet": 25.0,
         "Limpieza": 90.0
       }
@@ -8677,13 +8756,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2022-12-01",
+      "start_date": "2022-12-01",
+      "end_date": "2022-12-31",
       "days": 31,
-      "daily_average": 36.537542,
-      "total": 1132.663799,
+      "daily_average": 36.579059,
+      "total": 1133.950834,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 37.041218,
-        "Calefacción": 48.652581,
+        "Luz": 36.709167,
+        "Calefacción": 50.271667,
         "Agua": 11.97,
         "Internet": 25.0,
         "Limpieza": 60.0
@@ -8692,14 +8773,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-01-01",
+      "start_date": "2023-01-01",
+      "end_date": "2023-01-31",
       "days": 31,
-      "daily_average": 37.044583,
-      "total": 1148.382061,
+      "daily_average": 37.715526,
+      "total": 1169.181295,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 36.935417,
-        "Calefacción": 64.726429,
-        "Agua": 11.720215,
+        "Luz": 37.878125,
+        "Calefacción": 84.740714,
+        "Agua": 11.562456,
         "Internet": 25.0,
         "Limpieza": 60.0
       }
@@ -8707,13 +8790,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-02-01",
+      "start_date": "2023-02-01",
+      "end_date": "2023-02-28",
       "days": 28,
-      "daily_average": 40.943426,
-      "total": 1146.415936,
+      "daily_average": 40.436699,
+      "total": 1132.227583,
       "categories": {
         "Alquiler": 950.0,
-        "Luz": 33.985893,
-        "Calefacción": 66.796534,
+        "Luz": 31.04,
+        "Calefacción": 55.554074,
         "Agua": 10.443509,
         "Internet": 25.19,
         "Limpieza": 60.0
@@ -8722,14 +8807,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-03-01",
+      "start_date": "2023-03-01",
+      "end_date": "2023-03-31",
       "days": 31,
-      "daily_average": 37.712752,
-      "total": 1169.095303,
+      "daily_average": 37.005448,
+      "total": 1147.168888,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 33.73619,
-        "Calefacción": 39.006751,
-        "Agua": 11.302362,
+        "Luz": 30.462667,
+        "Calefacción": 20.477714,
+        "Agua": 11.178507,
         "Internet": 25.05,
         "Limpieza": 60.0
       }
@@ -8737,13 +8824,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-04-01",
+      "start_date": "2023-04-01",
+      "end_date": "2023-04-30",
       "days": 30,
-      "daily_average": 38.164024,
-      "total": 1144.920725,
+      "daily_average": 38.230919,
+      "total": 1146.927565,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 30.136667,
-        "Calefacción": 18.966148,
+        "Luz": 33.42,
+        "Calefacción": 17.689655,
         "Agua": 10.81791,
         "Internet": 25.0,
         "Limpieza": 60.0
@@ -8752,14 +8841,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-05-01",
+      "start_date": "2023-05-01",
+      "end_date": "2023-05-31",
       "days": 31,
-      "daily_average": 38.088163,
-      "total": 1180.733059,
+      "daily_average": 38.16274,
+      "total": 1183.044944,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 34.643125,
-        "Calefacción": 19.428276,
-        "Agua": 11.611658,
+        "Luz": 35.097812,
+        "Calefacción": 20.823448,
+        "Agua": 12.073684,
         "Internet": 25.05,
         "Limpieza": 90.0
       }
@@ -8767,13 +8858,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-06-01",
+      "start_date": "2023-06-01",
+      "end_date": "2023-06-30",
       "days": 30,
-      "daily_average": 38.291645,
-      "total": 1148.749362,
+      "daily_average": 38.269933,
+      "total": 1148.098004,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 34.220323,
-        "Calefacción": 17.844828,
+        "Luz": 35.875862,
+        "Calefacción": 15.537931,
         "Agua": 11.684211,
         "Internet": 25.0,
         "Limpieza": 60.0
@@ -8782,14 +8875,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-07-01",
+      "start_date": "2023-07-01",
+      "end_date": "2023-07-31",
       "days": 31,
-      "daily_average": 36.966682,
-      "total": 1145.967132,
+      "daily_average": 36.671927,
+      "total": 1136.829736,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 35.344138,
-        "Calefacción": 14.201034,
-        "Agua": 11.42196,
+        "Luz": 28.145862,
+        "Calefacción": 12.673529,
+        "Agua": 11.010345,
         "Internet": 25.0,
         "Limpieza": 60.0
       }
@@ -8797,13 +8892,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-08-01",
+      "start_date": "2023-08-01",
+      "end_date": "2023-08-31",
       "days": 31,
-      "daily_average": 36.779374,
-      "total": 1140.1606,
+      "daily_average": 37.019434,
+      "total": 1147.602447,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 30.191505,
-        "Calefacción": 13.95875,
+        "Luz": 36.072727,
+        "Calefacción": 15.519375,
         "Agua": 11.010345,
         "Internet": 25.0,
         "Limpieza": 60.0
@@ -8812,14 +8909,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-09-01",
+      "start_date": "2023-09-01",
+      "end_date": "2023-09-30",
       "days": 30,
-      "daily_average": 38.251171,
-      "total": 1147.535123,
+      "daily_average": 38.263618,
+      "total": 1147.908525,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 34.377576,
-        "Calefacción": 16.89125,
-        "Agua": 11.266297,
+        "Luz": 31.72,
+        "Calefacción": 19.7,
+        "Agua": 11.488525,
         "Internet": 25.0,
         "Limpieza": 60.0
       }
@@ -8827,13 +8926,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-10-01",
+      "start_date": "2023-10-01",
+      "end_date": "2023-10-31",
       "days": 31,
-      "daily_average": 37.931732,
-      "total": 1175.883683,
+      "daily_average": 38.146457,
+      "total": 1182.540163,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 33.155208,
-        "Calefacción": 24.027,
+        "Luz": 34.729688,
+        "Calefacción": 29.109,
         "Agua": 11.871475,
         "Internet": 25.0,
         "Limpieza": 81.83
@@ -8842,14 +8943,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-11-01",
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-30",
       "days": 30,
-      "daily_average": 39.469212,
-      "total": 1184.07636,
+      "daily_average": 39.538385,
+      "total": 1186.151538,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 32.984792,
-        "Calefacción": 32.8955,
-        "Agua": 11.366068,
+        "Luz": 28.925,
+        "Calefacción": 39.075,
+        "Agua": 11.321538,
         "Internet": 25.0,
         "Limpieza": 81.83
       }
@@ -8857,13 +8960,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2023-12-01",
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-31",
       "days": 31,
-      "daily_average": 38.687343,
-      "total": 1199.307635,
+      "daily_average": 39.059154,
+      "total": 1210.833772,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 31.786667,
-        "Calefacción": 48.992045,
+        "Luz": 35.236667,
+        "Calefacción": 57.068182,
         "Agua": 11.698923,
         "Internet": 25.0,
         "Limpieza": 81.83
@@ -8872,14 +8977,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2024-01-01",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-31",
       "days": 31,
-      "daily_average": 38.634222,
-      "total": 1197.660868,
+      "daily_average": 38.130172,
+      "total": 1182.035327,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 35.394086,
-        "Calefacción": 43.575455,
-        "Agua": 11.861327,
+        "Luz": 36.05,
+        "Calefacción": 27.191429,
+        "Agua": 11.963898,
         "Internet": 25.0,
         "Limpieza": 81.83
       }
@@ -8887,13 +8994,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2024-02-01",
+      "start_date": "2024-02-01",
+      "end_date": "2024-02-29",
       "days": 29,
-      "daily_average": 40.745134,
-      "total": 1181.6089,
+      "daily_average": 41.228198,
+      "total": 1195.617748,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 34.384009,
-        "Calefacción": 29.202857,
+        "Luz": 38.507857,
+        "Calefacción": 39.087857,
         "Agua": 11.192034,
         "Internet": 25.0,
         "Limpieza": 81.83
@@ -8902,14 +9011,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2024-03-01",
+      "start_date": "2024-03-01",
+      "end_date": "2024-03-31",
       "days": 31,
-      "daily_average": 38.506354,
-      "total": 1193.696987,
+      "daily_average": 38.005749,
+      "total": 1178.17821,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 40.612009,
-        "Calefacción": 34.287143,
-        "Agua": 11.967835,
+        "Luz": 38.720937,
+        "Calefacción": 20.657273,
+        "Agua": 11.97,
         "Internet": 25.0,
         "Limpieza": 81.83
       }
@@ -8917,13 +9028,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2024-04-01",
+      "start_date": "2024-04-01",
+      "end_date": "2024-04-30",
       "days": 30,
-      "daily_average": 39.188363,
-      "total": 1175.650895,
+      "daily_average": 38.986864,
+      "total": 1169.605922,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 36.405595,
-        "Calefacción": 19.731429,
+        "Luz": 31.074194,
+        "Calefacción": 19.017857,
         "Agua": 11.583871,
         "Internet": 25.0,
         "Limpieza": 82.93
@@ -8932,14 +9045,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2024-05-01",
+      "start_date": "2024-05-01",
+      "end_date": "2024-05-31",
       "days": 31,
-      "daily_average": 37.747423,
-      "total": 1170.170106,
+      "daily_average": 37.750494,
+      "total": 1170.265319,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 32.800968,
-        "Calefacción": 17.865759,
-        "Agua": 11.573379,
+        "Luz": 36.394,
+        "Calefacción": 14.618438,
+        "Agua": 11.322881,
         "Internet": 25.0,
         "Limpieza": 82.93
       }
@@ -8947,13 +9062,15 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2024-06-01",
+      "start_date": "2024-06-01",
+      "end_date": "2024-06-30",
       "days": 30,
-      "daily_average": 39.047594,
-      "total": 1171.427821,
+      "daily_average": 39.459445,
+      "total": 1183.783341,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 37.076667,
-        "Calefacción": 15.463527,
+        "Luz": 46.36,
+        "Calefacción": 18.535714,
         "Agua": 10.957627,
         "Internet": 25.0,
         "Limpieza": 82.93
@@ -8962,14 +9079,16 @@
     {
       "property": "Manuel Gutierrez Mellado",
       "month": "2024-07-01",
+      "start_date": "2024-07-01",
+      "end_date": "2024-07-31",
       "days": 31,
-      "daily_average": 37.856088,
-      "total": 1173.53872,
+      "daily_average": 37.490301,
+      "total": 1162.199341,
       "categories": {
         "Alquiler": 1000.0,
-        "Luz": 43.515152,
-        "Calefacción": 11.739286,
-        "Agua": 10.354282,
+        "Luz": 25.222727,
+        "Calefacción": 19.153571,
+        "Agua": 9.893043,
         "Internet": 25.0,
         "Limpieza": 82.93
       }
@@ -8977,41 +9096,30 @@
     {
       "property": "Homeless",
       "month": "2024-08-01",
+      "start_date": "2024-08-01",
+      "end_date": "2024-08-31",
       "days": 31,
-      "daily_average": 0.62871,
-      "total": 19.49,
+      "daily_average": 2.379334,
+      "total": 73.759341,
       "categories": {
-        "Alquiler": 0.0,
-        "Luz": 0.0,
-        "Calefacción": 0.0,
-        "Agua": 0.0,
+        "Alquiler": 0,
+        "Luz": 25.222727,
+        "Calefacción": 19.153571,
+        "Agua": 9.893043,
         "Internet": 15.49,
         "Limpieza": 4.0
       }
     },
     {
-      "property": "Manuel Gutierrez Mellado",
-      "month": "2024-08-01",
-      "days": 31,
-      "daily_average": 0.151821,
-      "total": 4.706443,
-      "categories": {
-        "Alquiler": 0,
-        "Luz": 4.068182,
-        "Calefacción": 0,
-        "Agua": 0.638261,
-        "Internet": 0,
-        "Limpieza": 0
-      }
-    },
-    {
       "property": "Homeless",
       "month": "2024-09-01",
+      "start_date": "2024-09-01",
+      "end_date": "2024-09-30",
       "days": 30,
       "daily_average": 2.931,
       "total": 87.93,
       "categories": {
-        "Alquiler": 0.0,
+        "Alquiler": 0,
         "Luz": 0.0,
         "Calefacción": 0.0,
         "Agua": 0.0,
@@ -9022,11 +9130,13 @@
     {
       "property": "Homeless",
       "month": "2024-10-01",
+      "start_date": "2024-10-01",
+      "end_date": "2024-10-31",
       "days": 31,
       "daily_average": 2.836452,
       "total": 87.93,
       "categories": {
-        "Alquiler": 0.0,
+        "Alquiler": 0,
         "Luz": 0.0,
         "Calefacción": 0.0,
         "Agua": 0.0,
@@ -9037,11 +9147,13 @@
     {
       "property": "Homeless",
       "month": "2024-11-01",
+      "start_date": "2024-11-01",
+      "end_date": "2024-11-30",
       "days": 30,
       "daily_average": 3.837333,
       "total": 115.12,
       "categories": {
-        "Alquiler": 0.0,
+        "Alquiler": 0,
         "Luz": 21.33,
         "Calefacción": 0.0,
         "Agua": 0.0,
@@ -9052,13 +9164,15 @@
     {
       "property": "César Cort Botí",
       "month": "2024-12-01",
+      "start_date": "2024-12-01",
+      "end_date": "2024-12-31",
       "days": 31,
-      "daily_average": 13.984787,
-      "total": 433.528405,
+      "daily_average": 14.181069,
+      "total": 439.613142,
       "categories": {
         "Alquiler": 91.9963,
         "Luz": 59.21,
-        "Calefacción": 182.542105,
+        "Calefacción": 188.626842,
         "Agua": 0.0,
         "Internet": 16.85,
         "Limpieza": 82.93
@@ -9067,13 +9181,15 @@
     {
       "property": "César Cort Botí",
       "month": "2025-01-01",
+      "start_date": "2025-01-01",
+      "end_date": "2025-01-31",
       "days": 31,
-      "daily_average": 14.018759,
-      "total": 434.581531,
+      "daily_average": 13.07478,
+      "total": 405.318182,
       "categories": {
-        "Alquiler": 0.0,
+        "Alquiler": 0,
         "Luz": 59.21,
-        "Calefacción": 184.291531,
+        "Calefacción": 155.028182,
         "Agua": 0.0,
         "Internet": 19.95,
         "Limpieza": 171.13
@@ -9082,12 +9198,14 @@
     {
       "property": "César Cort Botí",
       "month": "2025-02-01",
+      "start_date": "2025-02-01",
+      "end_date": "2025-02-28",
       "days": 28,
-      "daily_average": 20.619123,
-      "total": 577.335455,
+      "daily_average": 20.552086,
+      "total": 575.458418,
       "categories": {
         "Alquiler": 202.75,
-        "Luz": 53.48,
+        "Luz": 51.602963,
         "Calefacción": 140.025455,
         "Agua": 0.0,
         "Internet": 19.95,
@@ -9097,14 +9215,16 @@
     {
       "property": "César Cort Botí",
       "month": "2025-03-01",
+      "start_date": "2025-03-01",
+      "end_date": "2025-03-31",
       "days": 31,
-      "daily_average": 17.654401,
-      "total": 547.28642,
+      "daily_average": 18.195081,
+      "total": 564.0475,
       "categories": {
         "Alquiler": 170.23,
-        "Luz": 58.0625,
-        "Calefacción": 135.904545,
-        "Agua": 2.009375,
+        "Luz": 64.344375,
+        "Calefacción": 135.935,
+        "Agua": 12.458125,
         "Internet": 19.95,
         "Limpieza": 161.13
       }
@@ -9112,12 +9232,14 @@
     {
       "property": "César Cort Botí",
       "month": "2025-04-01",
+      "start_date": "2025-04-01",
+      "end_date": "2025-04-30",
       "days": 30,
-      "daily_average": 27.831877,
-      "total": 834.956321,
+      "daily_average": 28.324191,
+      "total": 849.725717,
       "categories": {
         "Alquiler": 521.16,
-        "Luz": 63.323707,
+        "Luz": 78.093103,
         "Calefacción": 57.336364,
         "Agua": 12.05625,
         "Internet": 19.95,
@@ -9127,14 +9249,16 @@
     {
       "property": "César Cort Botí",
       "month": "2025-05-01",
+      "start_date": "2025-05-01",
+      "end_date": "2025-05-31",
       "days": 31,
-      "daily_average": 15.518439,
-      "total": 481.071616,
+      "daily_average": 15.394661,
+      "total": 477.234495,
       "categories": {
         "Alquiler": 170.23,
-        "Luz": 79.803793,
-        "Calefacción": 36.14,
-        "Agua": 13.817823,
+        "Luz": 73.78,
+        "Calefacción": 37.344667,
+        "Agua": 14.799828,
         "Internet": 19.95,
         "Limpieza": 161.13
       }
@@ -9142,12 +9266,14 @@
     {
       "property": "César Cort Botí",
       "month": "2025-06-01",
+      "start_date": "2025-06-01",
+      "end_date": "2025-06-30",
       "days": 30,
-      "daily_average": 16.243414,
-      "total": 487.302414,
+      "daily_average": 15.94008,
+      "total": 478.202414,
       "categories": {
         "Alquiler": 170.23,
-        "Luz": 70.0,
+        "Luz": 60.9,
         "Calefacción": 51.67,
         "Agua": 14.322414,
         "Internet": 19.95,
@@ -9157,14 +9283,16 @@
     {
       "property": "César Cort Botí",
       "month": "2025-07-01",
+      "start_date": "2025-07-01",
+      "end_date": "2025-07-31",
       "days": 31,
-      "daily_average": 16.937319,
-      "total": 525.056883,
+      "daily_average": 16.364499,
+      "total": 507.299466,
       "categories": {
         "Alquiler": 170.23,
-        "Luz": 60.39963,
+        "Luz": 43.31963,
         "Calefacción": 94.95,
-        "Agua": 13.377253,
+        "Agua": 12.699836,
         "Internet": 24.97,
         "Limpieza": 161.13
       }
@@ -9172,12 +9300,14 @@
     {
       "property": "César Cort Botí",
       "month": "2025-08-01",
+      "start_date": "2025-08-01",
+      "end_date": "2025-08-31",
       "days": 31,
-      "daily_average": 28.640867,
-      "total": 887.866873,
+      "daily_average": 28.997683,
+      "total": 898.928169,
       "categories": {
         "Alquiler": 608.77,
-        "Luz": 47.167037,
+        "Luz": 58.228333,
         "Calefacción": 38.1,
         "Agua": 12.699836,
         "Internet": 20.0,
@@ -9187,14 +9317,16 @@
     {
       "property": "César Cort Botí",
       "month": "2025-09-01",
+      "start_date": "2025-09-01",
+      "end_date": "2025-09-30",
       "days": 30,
-      "daily_average": 15.7503,
-      "total": 472.508995,
+      "daily_average": 15.958973,
+      "total": 478.769186,
       "categories": {
         "Alquiler": 170.23,
-        "Luz": 56.748788,
+        "Luz": 62.331818,
         "Calefacción": 50.53,
-        "Agua": 13.870207,
+        "Agua": 14.547368,
         "Internet": 20.0,
         "Limpieza": 161.13
       }
@@ -9202,12 +9334,14 @@
     {
       "property": "César Cort Botí",
       "month": "2025-10-01",
+      "start_date": "2025-10-01",
+      "end_date": "2025-10-31",
       "days": 31,
-      "daily_average": 15.581136,
-      "total": 483.015214,
+      "daily_average": 15.758461,
+      "total": 488.512281,
       "categories": {
         "Alquiler": 170.23,
-        "Luz": 67.432933,
+        "Luz": 72.93,
         "Calefacción": 49.19,
         "Agua": 15.032281,
         "Internet": 20.0,
@@ -9217,14 +9351,16 @@
     {
       "property": "César Cort Botí",
       "month": "2025-11-01",
+      "start_date": "2025-11-01",
+      "end_date": "2025-11-30",
       "days": 30,
-      "daily_average": 19.539623,
-      "total": 586.188683,
+      "daily_average": 20.537349,
+      "total": 616.120479,
       "categories": {
         "Alquiler": 255.31,
-        "Luz": 85.61828,
+        "Luz": 115.7,
         "Calefacción": 50.332653,
-        "Agua": 13.79775,
+        "Agua": 13.647826,
         "Internet": 20.0,
         "Limpieza": 161.13
       }
@@ -9232,13 +9368,15 @@
     {
       "property": "César Cort Botí",
       "month": "2025-12-01",
+      "start_date": "2025-12-01",
+      "end_date": "2025-12-31",
       "days": 31,
-      "daily_average": 20.505232,
-      "total": 635.662184,
+      "daily_average": 20.93882,
+      "total": 649.103433,
       "categories": {
         "Alquiler": 310.8,
-        "Luz": 66.833333,
-        "Calefacción": 62.796097,
+        "Luz": 63.197241,
+        "Calefacción": 79.873438,
         "Agua": 14.102754,
         "Internet": 20.0,
         "Limpieza": 161.13
@@ -9247,14 +9385,16 @@
     {
       "property": "César Cort Botí",
       "month": "2026-01-01",
+      "start_date": "2026-01-01",
+      "end_date": "2026-01-31",
       "days": 31,
-      "daily_average": 20.226498,
-      "total": 627.021424,
+      "daily_average": 20.236422,
+      "total": 627.329084,
       "categories": {
         "Alquiler": 267.66,
-        "Luz": 73.321379,
-        "Calefacción": 80.02125,
-        "Agua": 14.888795,
+        "Luz": 72.792593,
+        "Calefacción": 80.29,
+        "Agua": 15.456491,
         "Internet": 20.0,
         "Limpieza": 171.13
       }
@@ -9262,13 +9402,15 @@
     {
       "property": "César Cort Botí",
       "month": "2026-02-01",
+      "start_date": "2026-02-01",
+      "end_date": "2026-02-28",
       "days": 28,
-      "daily_average": 23.85544,
-      "total": 667.952323,
+      "daily_average": 22.394716,
+      "total": 627.052036,
       "categories": {
         "Alquiler": 310.8,
-        "Luz": 67.677621,
-        "Calefacción": 69.384,
+        "Luz": 52.910667,
+        "Calefacción": 43.250667,
         "Agua": 13.960702,
         "Internet": 20.0,
         "Limpieza": 186.13
@@ -9277,14 +9419,16 @@
     {
       "property": "César Cort Botí",
       "month": "2026-03-01",
+      "start_date": "2026-03-01",
+      "end_date": "2026-03-31",
       "days": 31,
-      "daily_average": 19.177069,
-      "total": 594.489142,
+      "daily_average": 18.780927,
+      "total": 582.20875,
       "categories": {
         "Alquiler": 267.66,
-        "Luz": 58.606,
-        "Calefacción": 45.986,
-        "Agua": 16.107142,
+        "Luz": 58.78375,
+        "Calefacción": 33.17,
+        "Agua": 16.465,
         "Internet": 20.0,
         "Limpieza": 186.13
       }
@@ -9292,13 +9436,15 @@
     {
       "property": "César Cort Botí",
       "month": "2026-04-01",
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-30",
       "days": 30,
-      "daily_average": 17.385077,
-      "total": 521.5523,
+      "daily_average": 17.099391,
+      "total": 512.981728,
       "categories": {
         "Alquiler": 213.37,
-        "Luz": 56.827,
-        "Calefacción": 29.291429,
+        "Luz": 55.98,
+        "Calefacción": 21.567857,
         "Agua": 15.933871,
         "Internet": 20.0,
         "Limpieza": 186.13
@@ -9307,14 +9453,16 @@
     {
       "property": "César Cort Botí",
       "month": "2026-05-01",
+      "start_date": "2026-05-01",
+      "end_date": "2026-05-31",
       "days": 31,
-      "daily_average": 15.483578,
-      "total": 479.990904,
+      "daily_average": 16.10556,
+      "total": 499.272352,
       "categories": {
         "Alquiler": 170.23,
-        "Luz": 58.808625,
-        "Calefacción": 27.733386,
-        "Agua": 17.088893,
+        "Luz": 67.793125,
+        "Calefacción": 37.636296,
+        "Agua": 17.482931,
         "Internet": 20.0,
         "Limpieza": 186.13
       }
@@ -9322,13 +9470,15 @@
     {
       "property": "César Cort Botí",
       "month": "2026-06-01",
+      "start_date": "2026-06-01",
+      "end_date": "2026-06-30",
       "days": 30,
-      "daily_average": 18.155934,
-      "total": 544.678009,
+      "daily_average": 17.964885,
+      "total": 538.946552,
       "categories": {
         "Alquiler": 213.37,
-        "Luz": 65.144892,
-        "Calefacción": 43.114151,
+        "Luz": 51.765517,
+        "Calefacción": 50.762069,
         "Agua": 16.918966,
         "Internet": 20.0,
         "Limpieza": 186.13
@@ -9337,14 +9487,16 @@
     {
       "property": "César Cort Botí",
       "month": "2026-07-01",
+      "start_date": "2026-07-01",
+      "end_date": "2026-07-31",
       "days": 31,
-      "daily_average": 15.273254,
-      "total": 473.470863,
+      "daily_average": 14.920718,
+      "total": 462.542264,
       "categories": {
         "Alquiler": 170.23,
-        "Luz": 52.264805,
-        "Calefacción": 39.770368,
-        "Agua": 5.07569,
+        "Luz": 40.82,
+        "Calefacción": 27.879333,
+        "Agua": 17.482931,
         "Internet": 20.0,
         "Limpieza": 186.13
       }
@@ -9352,14 +9504,16 @@
     {
       "property": "César Cort Botí",
       "month": "2026-08-01",
+      "start_date": "2026-08-01",
+      "end_date": "2026-08-31",
       "days": 31,
-      "daily_average": 15.127753,
-      "total": 468.960344,
+      "daily_average": 16.312331,
+      "total": 505.682264,
       "categories": {
         "Alquiler": 213.37,
-        "Luz": 36.869677,
-        "Calefacción": 12.590667,
-        "Agua": 0,
+        "Luz": 40.82,
+        "Calefacción": 27.879333,
+        "Agua": 17.482931,
         "Internet": 20.0,
         "Limpieza": 186.13
       }

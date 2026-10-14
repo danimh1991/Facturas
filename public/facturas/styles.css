@@ -109,8 +109,12 @@ table { width: 100%; border-collapse: collapse; }
 th { padding: 9px 12px; background: #f4f5f1; color: #829088; font-size: 9px; text-align: left; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
 td { padding: 10px 12px; border-top: 1px solid #ecece5; font-size: 11px; white-space: nowrap; }
 td.number, th.number { text-align: right; font-variant-numeric: tabular-nums; }
+.stacked-cell { display: inline-grid; gap: 2px; }
+.stacked-cell small { color: var(--muted); font-size: 9px; font-weight: 500; }
+.stacked-cell.number { justify-items: end; }
 .bar-cell { min-width: 120px; }.microbar { height: 5px; border-radius: 5px; background: #e8ede9; overflow: hidden; }.microbar span { display: block; height: 100%; border-radius: inherit; background: var(--green); }
 .full-card { min-height: 600px; }
+.entry-history-card { margin-top: 14px; }
 .edit-entry-button { height: 28px; padding: 0 11px; border: 1px solid #cfded7; border-radius: 7px; color: var(--green); background: #f2f8f5; font-size: 9px; font-weight: 700; cursor: pointer; }
 .edit-entry-button:hover { background: #e4f1eb; }
 .source-badge { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 999px; color: var(--muted); background: #f1f2ee; font-size: 9px; font-weight: 700; }

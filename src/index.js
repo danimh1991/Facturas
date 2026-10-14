@@ -83,7 +83,7 @@ function allocateHomeEntry(data, payload, entryId = null) {
     const allocated = round((amount / totalDays) * Math.max(0, overlapDays));
     let row = data.monthly.find((item) => item.property === payload.property && item.month === key);
     if (!row) {
-      row = { property: payload.property, month: key, days: daysInMonth(key), daily_average: 0, total: 0, categories: emptyCategories() };
+      row = { property: payload.property, month: key, start_date: key, end_date: monthEnd.toISOString().slice(0, 10), days: daysInMonth(key), daily_average: 0, total: 0, categories: emptyCategories() };
       data.monthly.push(row);
     }
     row.categories[payload.category] = round(number(row.categories[payload.category]) + allocated);

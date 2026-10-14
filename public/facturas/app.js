@@ -381,16 +381,7 @@ function tableMarkup(headers, rows, numericColumns = []) {
 
 function historyRows() {
   const query = state.query.toLocaleLowerCase("es");
-  const latestMonth = state.data.monthly.length ? dateValue(state.data.monthly.at(-1).month) : new Date();
-  const twelveMonthStart = new Date(Date.UTC(latestMonth.getUTCFullYear(), latestMonth.getUTCMonth() - 11, 1));
-  return state.data.invoices.filter((row) => {
-    const propertyOk = state.property === "Todas" || row.property === state.property;
-    let periodOk = true;
-    if (state.period === "12m") periodOk = dateValue(row.end_date) >= twelveMonthStart;
-    if (/^\d{4}$/.test(state.period)) periodOk = row.start_date <= `${state.period}-12-31` && row.end_date >= `${state.period}-01-01`;
-    const queryOk = !query || `${row.property} ${row.category} ${row.start_date} ${row.end_date}`.toLocaleLowerCase("es").includes(query);
-    return propertyOk && periodOk && queryOk;
-  }).slice().sort((a, b) => b.end_date.localeCompare(a.end_date) || b.start_date.localeCompare(a.start_date) || a.category.localeCompare(b.category));
+  return filteredMonthly().filter((row) => !query || `${row.property} ${labelMonth(row.month, true)} ${row.start_date || ""} ${row.end_date || ""}`.toLocaleLowerCase("es").includes(query)).slice().reverse();
 }
 
 function renderHistory() {
@@ -398,19 +389,52 @@ function renderHistory() {
   const pages = Math.max(1, Math.ceil(rows.length / state.pageSize));
   state.page = Math.min(state.page, pages);
   const visible = rows.slice((state.page - 1) * state.pageSize, state.page * state.pageSize);
-  const formatDate = (value) => new Intl.DateTimeFormat("es-ES", { dateStyle: "medium", timeZone: "UTC" }).format(dateValue(value));
-  $("#history-table").innerHTML = tableMarkup(["Tipo", "Periodo de factura", "Vivienda", "Días", "€/día", "Importe", "Acción"], visible.map((row) => [
-    esc(row.category),
-    `${formatDate(row.start_date)} — ${formatDate(row.end_date)}`,
+  $("#history-table").innerHTML = tableMarkup(["Periodo", "Vivienda", ...CATEGORY_ORDER, "Total"], visible.map((row) => [
+    `<span class="stacked-cell"><strong>${labelMonth(row.month, true)}</strong><small>${row.days} días</small></span>`,
     esc(row.property),
-    row.days,
-    euro.format(row.daily_average),
-    `<strong>${euro.format(row.total)}</strong>`,
-    row.entry_id ? `<button class="edit-entry-button" type="button" data-edit-entry="${row.entry_id}">Editar</button>` : `<span class="source-badge">Excel</span>`,
-  ]), [3,4,5]);
+    ...CATEGORY_ORDER.map((category) => euro.format(row.categories[category] || 0)),
+    `<span class="stacked-cell number"><strong>${euro.format(row.total)}</strong><small>${euro.format(row.daily_average)}/día</small></span>`,
+  ]), [2,3,4,5,6,7,8]);
   $("#history-pagination").innerHTML = `<span>${rows.length ? (state.page-1)*state.pageSize+1 : 0}–${Math.min(state.page*state.pageSize,rows.length)} de ${rows.length}</span><div class="pagination-buttons"><button data-page="${state.page-1}" ${state.page===1?"disabled":""}>‹</button><button disabled>${state.page}</button><button data-page="${state.page+1}" ${state.page===pages?"disabled":""}>›</button></div>`;
   $$("#history-pagination [data-page]").forEach((button) => button.addEventListener("click", () => { state.page = Number(button.dataset.page); renderHistory(); }));
-  $$("#history-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
+  renderEditableEntries();
+}
+
+function editableEntryAmount(entry) {
+  const payload = entry.payload || {};
+  if (entry.kind !== "floor") return Number(payload.amount) || 0;
+  const subtotal = (Number(payload.cold_kwh) || 0) * (Number(payload.cold_price) || 0)
+    + (Number(payload.heat_kwh) || 0) * (Number(payload.heat_price) || 0)
+    + (Number(payload.water_m3) || 0) * (Number(payload.water_price) || 0)
+    + (Number(payload.fixed) || 0);
+  return subtotal * (1 + (Number(payload.vat_rate) || 0) / 100);
+}
+
+function entryTypeLabel(entry) {
+  if (entry.kind === "home") return entry.payload.category || "Vivienda";
+  if (entry.kind === "electricity") return "Luz";
+  if (entry.kind === "floor") return "Calefacción";
+  return entry.payload.category || "Vehículo";
+}
+
+function entryPeriodLabel(payload) {
+  const format = (value) => value ? new Intl.DateTimeFormat("es-ES", { dateStyle: "medium", timeZone: "UTC" }).format(dateValue(value)) : "—";
+  if (payload.start_date || payload.end_date) return `${format(payload.start_date)} — ${format(payload.end_date)}`;
+  return format(payload.date);
+}
+
+function renderEditableEntries() {
+  const entries = (state.data.entries || []).slice().reverse();
+  if (!entries.length) {
+    $("#entries-table").innerHTML = `<div class="empty">Todavía no hay datos añadidos desde la aplicación.</div>`;
+    return;
+  }
+  $("#entries-table").innerHTML = tableMarkup(["Tipo", "Periodo", "Vivienda / detalle", "Importe", "Acción"], entries.map((entry) => {
+    const payload = entry.payload || {};
+    const detail = payload.property || [payload.vehicle, payload.description].filter(Boolean).join(" · ") || "—";
+    return [esc(entryTypeLabel(entry)), entryPeriodLabel(payload), esc(detail), euro.format(editableEntryAmount(entry)), `<button class="edit-entry-button" type="button" data-edit-entry="${entry.id}">Editar</button>`];
+  }), [3]);
+  $$("#entries-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
 }
 
 function renderLight(refreshTimeline = true) {
@@ -500,7 +524,7 @@ function setupEvents() {
   $("#chart-metric").addEventListener("change",(event)=>{ state.chartMetric=event.target.value; renderSummary(); });
   $("#download-csv").addEventListener("click",()=>{
     const rows=historyRows().slice().reverse();
-    const lines=[["Tipo","Fecha inicio","Fecha fin","Vivienda","Días","Gasto diario","Importe"],...rows.map((r)=>[r.category,r.start_date,r.end_date,r.property,r.days,r.daily_average,r.total])];
+    const lines=[["Mes","Fecha inicio","Fecha fin","Vivienda","Días",...CATEGORY_ORDER,"Total","Gasto diario"],...rows.map((r)=>[r.month,r.start_date,r.end_date,r.property,r.days,...CATEGORY_ORDER.map((c)=>r.categories[c]||0),r.total,r.daily_average])];
     const csv=lines.map((line)=>line.map((value)=>`"${String(value).replaceAll('"','""')}"`).join(";")).join("\n");
     const link=document.createElement("a"); link.href=URL.createObjectURL(new Blob(["\ufeff",csv],{type:"text/csv;charset=utf-8"})); link.download="historico-facturas.csv"; link.click(); URL.revokeObjectURL(link.href);
   });

@@ -6,7 +6,7 @@ const data = JSON.parse(await readFile(new URL("../data/seed.json", import.meta.
 
 test("exports the workbook history used by the dashboard", () => {
   assert.equal(data.invoices.length, 567);
-  assert.equal(data.monthly.length, 111);
+  assert.equal(data.monthly.length, 107);
   assert.equal(data.electricity.length, 74);
   assert.equal(data.floor.length, 19);
   assert.equal(data.vehicle.length, 139);
@@ -34,18 +34,25 @@ test("invoice history is a direct export of the Facturas periods", () => {
   }
 });
 
-test("monthly rows are chronological, calculated from periods and internally consistent", () => {
+test("monthly rows reproduce the Excel monthly view and are internally consistent", () => {
   const months = data.monthly.map((row) => row.month);
   assert.deepEqual(months, [...months].sort());
   for (const row of data.monthly) {
     assert.ok(row.total >= 0);
     assert.ok(row.days > 0);
+    assert.ok(row.start_date <= row.end_date);
     const categoryTotal = Object.values(row.categories).reduce((total, value) => total + value, 0);
     assert.ok(Math.abs(categoryTotal - row.total) < 0.000001, `${row.month} differs by ${categoryTotal - row.total}`);
+    assert.ok(Math.abs(row.daily_average - row.total / row.days) < 0.000001);
   }
-  const invoiceTotal = data.invoices.reduce((total, row) => total + row.total, 0);
   const monthlyTotal = data.monthly.reduce((total, row) => total + row.total, 0);
-  assert.ok(Math.abs(invoiceTotal - monthlyTotal) < 0.001);
+  assert.ok(Math.abs(monthlyTotal - 104577.631868) < 0.000001);
+
+  const firstManuelMonth = data.monthly.find((row) => row.property === "Manuel Gutierrez Mellado");
+  assert.equal(firstManuelMonth.start_date, "2020-02-15");
+  assert.equal(firstManuelMonth.end_date, "2020-02-29");
+  assert.equal(firstManuelMonth.days, 15);
+  assert.ok(Math.abs(firstManuelMonth.total - 672.76166) < 0.000001);
 });
 
 test("excluded calculation sheets are not exported", () => {

@@ -68,9 +68,13 @@
 
         <section id="view-historico" class="view">
           <article class="card full-card">
-            <div class="card-heading"><div><p class="card-kicker">FACTURAS DEL EXCEL</p><h2>Histórico por periodos</h2><p class="subcopy">Cada fila reproduce una factura del Excel: tipo, fechas, días, gasto diario e importe. Los datos añadidos aquí se pueden editar.</p></div><div class="table-actions"><input id="history-search" type="search" placeholder="Buscar tipo, fecha o vivienda" /><button id="download-csv" class="outline-button">Exportar CSV</button></div></div>
+            <div class="card-heading"><div><p class="card-kicker">TODOS LOS MESES</p><h2>Histórico mensual</h2><p class="subcopy">Una fila por mes y vivienda, con los mismos días y cálculos del Excel.</p></div><div class="table-actions"><input id="history-search" type="search" placeholder="Buscar mes o vivienda" /><button id="download-csv" class="outline-button">Exportar CSV</button></div></div>
             <div id="history-table" class="data-table"></div>
             <div id="history-pagination" class="pagination"></div>
+          </article>
+          <article class="card entry-history-card">
+            <div class="card-heading"><div><p class="card-kicker">DATOS INTRODUCIDOS</p><h2>Registros editables</h2><p class="subcopy">Corrige aquí los datos añadidos desde la aplicación. El histórico original del Excel es de solo lectura.</p></div></div>
+            <div id="entries-table" class="data-table"></div>
           </article>
         </section>
 
