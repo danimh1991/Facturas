@@ -52,11 +52,6 @@ function shiftMonth(value, amount = 1) {
   return target.toISOString().slice(0, 10);
 }
 
-function endOfMonth(value) {
-  const source = dateValue(value);
-  return new Date(Date.UTC(source.getUTCFullYear(), source.getUTCMonth() + 1, 0)).toISOString().slice(0, 10);
-}
-
 function propertyInput() {
   const properties = [...new Set(state.data.monthly.map((row) => row.property))];
   const selected = state.property !== "Todas" ? state.property : properties.at(-1) || "";
@@ -127,12 +122,11 @@ function copyLastEntry() {
   const property = $(`#entry-fields [name="property"]`)?.value;
   let source;
   if (SIMPLE_ENTRY_TYPES.has(type)) {
-    source = state.data.monthly.slice().reverse().find((row) => (!property || row.property === property) && Number(row.categories?.[type]) > 0);
+    source = state.data.invoices.slice().reverse().find((row) => (!property || row.property === property) && row.category === type);
     if (source) {
-      const nextMonth = shiftMonth(source.month);
-      setEntryField("start_date", nextMonth);
-      setEntryField("end_date", endOfMonth(nextMonth));
-      setEntryField("amount", source.categories[type]);
+      setEntryField("start_date", shiftMonth(source.start_date));
+      setEntryField("end_date", shiftMonth(source.end_date));
+      setEntryField("amount", source.total);
     }
   } else if (type === "electricity") {
     source = state.data.electricity.slice().reverse().find((row) => !property || row.property === property);
@@ -387,7 +381,16 @@ function tableMarkup(headers, rows, numericColumns = []) {
 
 function historyRows() {
   const query = state.query.toLocaleLowerCase("es");
-  return filteredMonthly().filter((row) => !query || `${row.property} ${labelMonth(row.month, true)}`.toLocaleLowerCase("es").includes(query)).slice().reverse();
+  const latestMonth = state.data.monthly.length ? dateValue(state.data.monthly.at(-1).month) : new Date();
+  const twelveMonthStart = new Date(Date.UTC(latestMonth.getUTCFullYear(), latestMonth.getUTCMonth() - 11, 1));
+  return state.data.invoices.filter((row) => {
+    const propertyOk = state.property === "Todas" || row.property === state.property;
+    let periodOk = true;
+    if (state.period === "12m") periodOk = dateValue(row.end_date) >= twelveMonthStart;
+    if (/^\d{4}$/.test(state.period)) periodOk = row.start_date <= `${state.period}-12-31` && row.end_date >= `${state.period}-01-01`;
+    const queryOk = !query || `${row.property} ${row.category} ${row.start_date} ${row.end_date}`.toLocaleLowerCase("es").includes(query);
+    return propertyOk && periodOk && queryOk;
+  }).slice().sort((a, b) => b.end_date.localeCompare(a.end_date) || b.start_date.localeCompare(a.start_date) || a.category.localeCompare(b.category));
 }
 
 function renderHistory() {
@@ -395,47 +398,19 @@ function renderHistory() {
   const pages = Math.max(1, Math.ceil(rows.length / state.pageSize));
   state.page = Math.min(state.page, pages);
   const visible = rows.slice((state.page - 1) * state.pageSize, state.page * state.pageSize);
-  $("#history-table").innerHTML = tableMarkup(["Mes", "Vivienda", ...CATEGORY_ORDER, "Total"], visible.map((row) => [labelMonth(row.month, true), esc(row.property), ...CATEGORY_ORDER.map((category) => euro.format(row.categories[category] || 0)), `<strong>${euro.format(row.total)}</strong>`]), [2,3,4,5,6,7,8]);
+  const formatDate = (value) => new Intl.DateTimeFormat("es-ES", { dateStyle: "medium", timeZone: "UTC" }).format(dateValue(value));
+  $("#history-table").innerHTML = tableMarkup(["Tipo", "Periodo de factura", "Vivienda", "Días", "€/día", "Importe", "Acción"], visible.map((row) => [
+    esc(row.category),
+    `${formatDate(row.start_date)} — ${formatDate(row.end_date)}`,
+    esc(row.property),
+    row.days,
+    euro.format(row.daily_average),
+    `<strong>${euro.format(row.total)}</strong>`,
+    row.entry_id ? `<button class="edit-entry-button" type="button" data-edit-entry="${row.entry_id}">Editar</button>` : `<span class="source-badge">Excel</span>`,
+  ]), [3,4,5]);
   $("#history-pagination").innerHTML = `<span>${rows.length ? (state.page-1)*state.pageSize+1 : 0}–${Math.min(state.page*state.pageSize,rows.length)} de ${rows.length}</span><div class="pagination-buttons"><button data-page="${state.page-1}" ${state.page===1?"disabled":""}>‹</button><button disabled>${state.page}</button><button data-page="${state.page+1}" ${state.page===pages?"disabled":""}>›</button></div>`;
   $$("#history-pagination [data-page]").forEach((button) => button.addEventListener("click", () => { state.page = Number(button.dataset.page); renderHistory(); }));
-  renderEditableEntries();
-}
-
-function editableEntryAmount(entry) {
-  const payload = entry.payload || {};
-  if (entry.kind !== "floor") return Number(payload.amount) || 0;
-  const subtotal = (Number(payload.cold_kwh) || 0) * (Number(payload.cold_price) || 0)
-    + (Number(payload.heat_kwh) || 0) * (Number(payload.heat_price) || 0)
-    + (Number(payload.water_m3) || 0) * (Number(payload.water_price) || 0)
-    + (Number(payload.fixed) || 0);
-  return subtotal * (1 + (Number(payload.vat_rate) || 0) / 100);
-}
-
-function entryTypeLabel(entry) {
-  if (entry.kind === "home") return entry.payload.category || "Vivienda";
-  if (entry.kind === "electricity") return "Luz";
-  if (entry.kind === "floor") return "Calefacción";
-  return entry.payload.category || "Vehículo";
-}
-
-function entryPeriodLabel(payload) {
-  const format = (value) => value ? new Intl.DateTimeFormat("es-ES", { dateStyle: "medium", timeZone: "UTC" }).format(dateValue(value)) : "—";
-  if (payload.start_date || payload.end_date) return `${format(payload.start_date)} — ${format(payload.end_date)}`;
-  return format(payload.date);
-}
-
-function renderEditableEntries() {
-  const entries = (state.data.entries || []).slice().reverse();
-  if (!entries.length) {
-    $("#entries-table").innerHTML = `<div class="empty">Todavía no hay datos añadidos desde la aplicación.</div>`;
-    return;
-  }
-  $("#entries-table").innerHTML = tableMarkup(["Tipo", "Periodo", "Vivienda / detalle", "Importe", "Acción"], entries.map((entry) => {
-    const payload = entry.payload || {};
-    const detail = payload.property || [payload.vehicle, payload.description].filter(Boolean).join(" · ") || "—";
-    return [esc(entryTypeLabel(entry)), entryPeriodLabel(payload), esc(detail), euro.format(editableEntryAmount(entry)), `<button class="edit-entry-button" type="button" data-edit-entry="${entry.id}">Editar</button>`];
-  }), [3]);
-  $$("#entries-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
+  $$("#history-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
 }
 
 function renderLight(refreshTimeline = true) {
@@ -471,7 +446,8 @@ function renderVehicle() {
   $("#vehicle-kpis").innerHTML = [kpi("Movimientos", rows.length, "gastos registrados", true), kpi("Gasto total", euro.format(sum(rows,(r)=>r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} por movimiento`), kpi("Gasolina", euro.format(sum(rows.filter((r)=>r.category==="Gasolina"),(r)=>r.amount)), "combustible registrado"), kpi("Último gasto", latest?euro.format(latest.amount):"—", latest?new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(latest.date)):"Sin datos")].join("");
   lineChart($("#vehicle-chart"), [{ label: "Importe", values: months.map((m)=>byMonth.get(m)), color: COLORS[1], area: true }], { labels: months.map(labelMonth), currency: true });
   donut($("#vehicle-breakdown"), categories.map((category,index)=>({label:category,value:sum(rows.filter((r)=>r.category===category),(r)=>r.amount),color:COLORS[index%COLORS.length]})), "en el periodo");
-  $("#vehicle-table").innerHTML = tableMarkup(["Fecha", "Tipo", "Vehículo", "Descripción", "Precio/l", "Litros", "Días desde anterior", "Importe"], rows.slice().reverse().slice(0,30).map((r)=>[new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(r.date)),esc(r.category),esc(r.vehicle||"—"),esc(r.description||"—"),r.unit_price ? euro.format(r.unit_price) : "—",r.quantity ? decimal.format(r.quantity) : "—",r.days_since_previous ?? "—",euro.format(r.amount)]), [4,5,6,7]);
+  $("#vehicle-table").innerHTML = tableMarkup(["Fecha", "Tipo", "Vehículo", "Descripción", "Precio/l", "Litros", "Días desde anterior", "Importe", "Acción"], rows.slice().reverse().slice(0,30).map((r)=>[new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(r.date)),esc(r.category),esc(r.vehicle||"—"),esc(r.description||"—"),r.unit_price ? euro.format(r.unit_price) : "—",r.quantity ? decimal.format(r.quantity) : "—",r.days_since_previous ?? "—",euro.format(r.amount),r.entry_id ? `<button class="edit-entry-button" type="button" data-edit-entry="${r.entry_id}">Editar</button>` : `<span class="source-badge">Excel</span>`]), [4,5,6,7]);
+  $$("#vehicle-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
 }
 
 function renderComparison() {
@@ -524,7 +500,7 @@ function setupEvents() {
   $("#chart-metric").addEventListener("change",(event)=>{ state.chartMetric=event.target.value; renderSummary(); });
   $("#download-csv").addEventListener("click",()=>{
     const rows=historyRows().slice().reverse();
-    const lines=[["Mes","Vivienda",...CATEGORY_ORDER,"Total"],...rows.map((r)=>[r.month,r.property,...CATEGORY_ORDER.map((c)=>r.categories[c]||0),r.total])];
+    const lines=[["Tipo","Fecha inicio","Fecha fin","Vivienda","Días","Gasto diario","Importe"],...rows.map((r)=>[r.category,r.start_date,r.end_date,r.property,r.days,r.daily_average,r.total])];
     const csv=lines.map((line)=>line.map((value)=>`"${String(value).replaceAll('"','""')}"`).join(";")).join("\n");
     const link=document.createElement("a"); link.href=URL.createObjectURL(new Blob(["\ufeff",csv],{type:"text/csv;charset=utf-8"})); link.download="historico-facturas.csv"; link.click(); URL.revokeObjectURL(link.href);
   });

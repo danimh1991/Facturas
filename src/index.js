@@ -51,12 +51,26 @@ function cloneBaseData() {
   return JSON.parse(JSON.stringify(fallbackData));
 }
 
-function allocateHomeEntry(data, payload) {
+function allocateHomeEntry(data, payload, entryId = null) {
   const start = isoDate(payload.start_date || payload.date);
   const end = isoDate(payload.end_date || payload.date);
   const totalDays = inclusiveDays(start, end);
   const amount = number(payload.amount);
   if (!start || !end || totalDays < 1 || amount < 0 || !CATEGORIES.includes(payload.category)) return;
+
+  data.invoices ||= [];
+  data.invoices.push({
+    id: entryId ? `app-${entryId}` : `app-${data.invoices.length + 1}`,
+    entry_id: entryId,
+    source: "app",
+    property: payload.property,
+    category: payload.category,
+    start_date: start,
+    end_date: end,
+    days: totalDays,
+    daily_average: round(amount / totalDays),
+    total: amount,
+  });
 
   let cursor = utcDate(monthKey(start));
   const lastMonth = utcDate(monthKey(end));
@@ -137,22 +151,23 @@ function vehicleEntry(payload) {
 
 function applyEntry(data, entry) {
   const payload = JSON.parse(entry.payload);
-  if (entry.kind === "home") allocateHomeEntry(data, payload);
+  if (entry.kind === "home") allocateHomeEntry(data, payload, entry.id);
   if (entry.kind === "electricity") {
     const calculated = electricityEntry(payload);
     data.electricity.push(calculated);
-    allocateHomeEntry(data, { ...payload, category: "Luz", amount: calculated.amount });
+    allocateHomeEntry(data, { ...payload, category: "Luz", amount: calculated.amount }, entry.id);
   }
   if (entry.kind === "floor") {
     const calculated = floorEntry(payload);
     data.floor.push(calculated);
-    allocateHomeEntry(data, { ...payload, category: "Calefacción", amount: calculated.amount });
+    allocateHomeEntry(data, { ...payload, category: "Calefacción", amount: calculated.amount }, entry.id);
   }
-  if (entry.kind === "vehicle") data.vehicle.push(vehicleEntry(payload));
+  if (entry.kind === "vehicle") data.vehicle.push({ ...vehicleEntry(payload), entry_id: entry.id, source: "app" });
 }
 
 function finalizeData(data) {
   data.monthly.sort((a, b) => a.month.localeCompare(b.month));
+  data.invoices.sort((a, b) => a.start_date.localeCompare(b.start_date) || a.category.localeCompare(b.category));
   data.electricity.sort((a, b) => a.month.localeCompare(b.month));
   data.floor.sort((a, b) => a.month.localeCompare(b.month));
   data.vehicle.sort((a, b) => a.date.localeCompare(b.date));

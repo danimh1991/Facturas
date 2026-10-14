@@ -1,4 +1,5 @@
 import datetime as dt
+import calendar
 import json
 import math
 import pathlib
@@ -11,7 +12,6 @@ SOURCE = pathlib.Path(r"\\Danieta_Nas\Danieta\Casa\Facturas.xlsx")
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "seed.json"
 PUBLIC_DATA_PATH = ROOT / "public" / "facturas" / "data.json"
-MIGRATION_PATH = ROOT / "migrations" / "0001_facturas.sql"
 
 
 def clean_text(value):
@@ -66,44 +66,91 @@ for row in range(1, sheet.max_row + 1):
         }
     )
 
-monthly = []
 sheet = book["Facturas"]
+invoice_columns = {
+    "Alquiler": (3, 4, 7),
+    "Luz": (8, 10, 13),
+    "Calefacción": (14, 16, 19),
+    "Agua": (20, 22, 25),
+    "Internet": (26, 27, 30),
+    "Limpieza": (31, 32, 35),
+}
+invoices = []
 property_name = None
-for row in range(3, 116):
+for row in range(3, sheet.max_row + 1):
     house = clean_text(sheet.cell(row, 2).value)
     if house and house != "Total":
         property_name = house
     if house == "Total" or not property_name:
         continue
-    month = iso_date(sheet.cell(row, 36).value)
-    days = number(sheet.cell(row, 38).value)
-    total = number(sheet.cell(row, 40).value)
-    if not month or not days or total is None:
+    for category, (start_col, end_col, amount_col) in invoice_columns.items():
+        start_date = iso_date(sheet.cell(row, start_col).value)
+        end_date = iso_date(sheet.cell(row, end_col).value)
+        amount = number(sheet.cell(row, amount_col).value)
+        if not start_date or not end_date or amount is None:
+            continue
+        calculated_days = (dt.date.fromisoformat(end_date) - dt.date.fromisoformat(start_date)).days + 1
+        if calculated_days < 1:
+            continue
+        invoices.append(
+            {
+                "id": f"excel-facturas-{row}-{category.lower().replace('ó', 'o')}",
+                "source": "excel",
+                "source_sheet": "Facturas",
+                "source_row": row,
+                "property": property_name,
+                "category": category,
+                "start_date": start_date,
+                "end_date": end_date,
+                "days": calculated_days,
+                "daily_average": round(amount / calculated_days, 6),
+                "total": amount,
+            }
+        )
+
+
+def month_start(value):
+    return value.replace(day=1)
+
+
+def next_month(value):
+    return (value.replace(day=28) + dt.timedelta(days=4)).replace(day=1)
+
+
+monthly_map = {}
+for invoice in invoices:
+    start = dt.date.fromisoformat(invoice["start_date"])
+    end = dt.date.fromisoformat(invoice["end_date"])
+    total_days = (end - start).days + 1
+    if total_days < 1:
         continue
-    category_amounts = {
-        "Alquiler": number(sheet.cell(row, 7).value) or 0,
-        "Luz": round((number(sheet.cell(row, 42).value) or 0) * days, 6),
-        "Calefacción": round((number(sheet.cell(row, 43).value) or 0) * days, 6),
-        "Agua": round((number(sheet.cell(row, 44).value) or 0) * days, 6),
-        "Internet": number(sheet.cell(row, 30).value) or 0,
-        "Limpieza": number(sheet.cell(row, 35).value) or 0,
-    }
-    raw_category_total = sum(category_amounts.values())
-    if raw_category_total and abs(raw_category_total - total) > 0.01:
-        category_amounts = {
-            category: round(amount * total / raw_category_total, 6)
-            for category, amount in category_amounts.items()
-        }
-    monthly.append(
-        {
-            "property": property_name,
-            "month": month[:7] + "-01",
-            "days": int(days),
-            "daily_average": number(sheet.cell(row, 39).value),
-            "total": total,
-            "categories": category_amounts,
-        }
-    )
+    cursor = month_start(start)
+    while cursor <= month_start(end):
+        last_day = dt.date(cursor.year, cursor.month, calendar.monthrange(cursor.year, cursor.month)[1])
+        overlap_start = max(start, cursor)
+        overlap_end = min(end, last_day)
+        overlap_days = max(0, (overlap_end - overlap_start).days + 1)
+        key = (invoice["property"], cursor.isoformat())
+        if key not in monthly_map:
+            monthly_map[key] = {
+                "property": invoice["property"],
+                "month": cursor.isoformat(),
+                "days": last_day.day,
+                "daily_average": 0,
+                "total": 0,
+                "categories": {category: 0 for category in invoice_columns},
+            }
+        allocated = invoice["total"] / total_days * overlap_days
+        monthly_map[key]["categories"][invoice["category"]] += allocated
+        cursor = next_month(cursor)
+
+monthly = []
+for item in monthly_map.values():
+    item["categories"] = {category: round(value, 6) for category, value in item["categories"].items()}
+    item["total"] = round(sum(item["categories"].values()), 6)
+    item["daily_average"] = round(item["total"] / item["days"], 6)
+    monthly.append(item)
+monthly.sort(key=lambda item: (item["month"], item["property"]))
 
 electricity = []
 sheet = book["Consumo Luz"]
@@ -208,6 +255,7 @@ payload = {
         "excluded_sheets": ["Previsión Luz", "X Gasolina Moto", "Comparación"],
     },
     "summary": summary,
+    "invoices": sorted(invoices, key=lambda item: (item["start_date"], item["property"], item["category"])),
     "monthly": monthly,
     "electricity": electricity,
     "floor": floor,
@@ -218,53 +266,6 @@ DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
 DATA_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 PUBLIC_DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
 PUBLIC_DATA_PATH.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
-
-
-def sql_value(value):
-    if value is None:
-        return "NULL"
-    if isinstance(value, (int, float)):
-        return str(value)
-    return "'" + str(value).replace("'", "''") + "'"
-
-
-lines = [
-    "CREATE TABLE IF NOT EXISTS facturas_summary (id INTEGER PRIMARY KEY, property TEXT NOT NULL, category TEXT NOT NULL, start_date TEXT, end_date TEXT, days INTEGER, daily_average REAL, total REAL);",
-    "CREATE TABLE IF NOT EXISTS facturas_monthly (id INTEGER PRIMARY KEY, property TEXT NOT NULL, month TEXT NOT NULL, days INTEGER, daily_average REAL, total REAL, alquiler REAL, luz REAL, calefaccion REAL, agua REAL, internet REAL, limpieza REAL);",
-    "CREATE TABLE IF NOT EXISTS facturas_electricity (id INTEGER PRIMARY KEY, property TEXT, company TEXT, month TEXT, start_date TEXT, end_date TEXT, days INTEGER, amount REAL, p1 REAL, p2 REAL, p3 REAL, consumption REAL, daily_consumption REAL);",
-    "CREATE TABLE IF NOT EXISTS facturas_floor (id INTEGER PRIMARY KEY, property TEXT, company TEXT, month TEXT, start_date TEXT, end_date TEXT, days INTEGER, amount REAL, cold_kwh REAL, heat_kwh REAL, water_m3 REAL, fixed REAL);",
-    "CREATE TABLE IF NOT EXISTS facturas_vehicle (id INTEGER PRIMARY KEY, date TEXT, description TEXT, category TEXT, vehicle TEXT, amount REAL);",
-    "CREATE INDEX IF NOT EXISTS idx_facturas_monthly_month ON facturas_monthly(month);",
-    "CREATE INDEX IF NOT EXISTS idx_facturas_electricity_month ON facturas_electricity(month);",
-    "CREATE INDEX IF NOT EXISTS idx_facturas_floor_month ON facturas_floor(month);",
-    "CREATE INDEX IF NOT EXISTS idx_facturas_vehicle_date ON facturas_vehicle(date);",
-    "DELETE FROM facturas_summary;",
-    "DELETE FROM facturas_monthly;",
-    "DELETE FROM facturas_electricity;",
-    "DELETE FROM facturas_floor;",
-    "DELETE FROM facturas_vehicle;",
-]
-
-for index, item in enumerate(summary, 1):
-    values = [index, item["property"], item["category"], item["start_date"], item["end_date"], item["days"], item["daily_average"], item["total"]]
-    lines.append("INSERT INTO facturas_summary VALUES (" + ",".join(sql_value(value) for value in values) + ");")
-
-for index, item in enumerate(monthly, 1):
-    categories = item["categories"]
-    values = [index, item["property"], item["month"], item["days"], item["daily_average"], item["total"], categories["Alquiler"], categories["Luz"], categories["Calefacción"], categories["Agua"], categories["Internet"], categories["Limpieza"]]
-    lines.append("INSERT INTO facturas_monthly VALUES (" + ",".join(sql_value(value) for value in values) + ");")
-
-for table, items, fields in [
-    ("facturas_electricity", electricity, ["property", "company", "month", "start_date", "end_date", "days", "amount", "p1", "p2", "p3", "consumption", "daily_consumption"]),
-    ("facturas_floor", floor, ["property", "company", "month", "start_date", "end_date", "days", "amount", "cold_kwh", "heat_kwh", "water_m3", "fixed"]),
-    ("facturas_vehicle", vehicle, ["date", "description", "category", "vehicle", "amount"]),
-]:
-    for index, item in enumerate(items, 1):
-        values = [index] + [item[field] for field in fields]
-        lines.append(f"INSERT INTO {table} VALUES (" + ",".join(sql_value(value) for value in values) + ");")
-
-MIGRATION_PATH.parent.mkdir(parents=True, exist_ok=True)
-MIGRATION_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 print(
     json.dumps(
