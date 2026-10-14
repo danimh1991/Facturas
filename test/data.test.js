@@ -78,6 +78,19 @@ test("vehicle history excludes test data before 5 March 2023", () => {
   assert.ok(data.vehicle.every((row) => row.date >= "2023-03-05"));
 });
 
+test("vehicle expenses preserve the type from the green source table", () => {
+  const totals = Object.fromEntries(["Gasolina", "Seguro", "Taller", "Ad Blue"].map((category) => {
+    const rows = data.vehicle.filter((row) => row.category === category);
+    return [category, { count: rows.length, total: Number(rows.reduce((sum, row) => sum + row.amount, 0).toFixed(2)) }];
+  }));
+  assert.deepEqual(totals, {
+    Gasolina: { count: 96, total: 6430.49 },
+    Seguro: { count: 1, total: 351.23 },
+    Taller: { count: 1, total: 150 },
+    "Ad Blue": { count: 3, total: 40.05 },
+  });
+});
+
 test("light and floor use the real inclusive period and its start month", () => {
   for (const row of [...data.electricity, ...data.floor]) {
     const start = new Date(`${row.start_date}T00:00:00Z`);

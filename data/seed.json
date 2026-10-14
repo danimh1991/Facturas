@@ -1,7 +1,7 @@
 {
   "meta": {
     "source_updated": 1788958261.1258361,
-    "generated": "2026-10-14T08:28:07.047151+00:00",
+    "generated": "2026-10-14T18:51:57.382785+00:00",
     "excluded_sheets": [
       "Previsión Luz",
       "X Gasolina Moto",
@@ -17397,7 +17397,7 @@
     {
       "date": "2023-03-13",
       "description": "Seguro",
-      "category": "Gasolina",
+      "category": "Seguro",
       "vehicle": "Mapfre",
       "amount": 351.23,
       "unit_price": 1.0,
@@ -17406,7 +17406,7 @@
     {
       "date": "2023-03-14",
       "description": "Taller",
-      "category": "Gasolina",
+      "category": "Taller",
       "vehicle": "Diso",
       "amount": 150.0,
       "unit_price": 1.0,
@@ -17613,7 +17613,7 @@
     {
       "date": "2023-11-28",
       "description": "Ad Blue",
-      "category": "Gasolina",
+      "category": "Ad Blue",
       "vehicle": "Repsol",
       "amount": 13.87,
       "unit_price": 1.149,
@@ -17865,7 +17865,7 @@
     {
       "date": "2024-09-04",
       "description": "Ad Blue",
-      "category": "Gasolina",
+      "category": "Ad Blue",
       "vehicle": "Repsol",
       "amount": 11.75,
       "unit_price": 1.049,
@@ -18054,7 +18054,7 @@
     {
       "date": "2025-07-29",
       "description": "Ad Blue",
-      "category": "Gasolina",
+      "category": "Ad Blue",
       "vehicle": "Repsol",
       "amount": 14.43,
       "unit_price": 1.409,

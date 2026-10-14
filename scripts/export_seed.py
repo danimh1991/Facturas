@@ -241,7 +241,7 @@ for row in range(2, sheet.max_row + 1):
             {
                 "date": date,
                 "description": description,
-                "category": "Gasolina",
+                "category": description or "Otros",
                 "vehicle": clean_text(sheet.cell(row, 3).value),
                 "amount": amount,
                 "unit_price": price_or_amount if is_fuel_table else None,
