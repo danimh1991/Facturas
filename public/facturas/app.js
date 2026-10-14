@@ -17,6 +17,7 @@ const state = {
   pageSize: 12,
   query: "",
   chartCategory: "Total",
+  chartMetric: "absolute",
   timelines: {
     light: { window: 12, end: null },
     floor: { window: 12, end: null },
@@ -50,6 +51,11 @@ function shiftMonth(value, amount = 1) {
   return target.toISOString().slice(0, 10);
 }
 
+function endOfMonth(value) {
+  const source = dateValue(value);
+  return new Date(Date.UTC(source.getUTCFullYear(), source.getUTCMonth() + 1, 0)).toISOString().slice(0, 10);
+}
+
 function propertyInput() {
   const properties = [...new Set(state.data.monthly.map((row) => row.property))];
   const selected = state.property !== "Todas" ? state.property : properties.at(-1) || "";
@@ -62,7 +68,7 @@ function moneyField(name, label, value = "") {
 
 function entryFieldsMarkup(type) {
   const date = today();
-  if (SIMPLE_ENTRY_TYPES.has(type)) return `${propertyInput()}<label class="form-field">Fecha<input name="date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe (€)")}`;
+  if (SIMPLE_ENTRY_TYPES.has(type)) return `${propertyInput()}<label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}`;
   if (type === "electricity") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}${moneyField("p1", "Consumo P1 (kWh)", 0)}${moneyField("p2", "Consumo P2 (kWh)", 0)}${moneyField("p3", "Consumo P3 (kWh)", 0)}`;
   if (type === "floor") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("cold_kwh", "Consumo frío (kWh)", 0)}${moneyField("cold_price", "Precio frío (€/kWh)", 0)}${moneyField("heat_kwh", "Consumo calor (kWh)", 0)}${moneyField("heat_price", "Precio calor (€/kWh)", 0)}${moneyField("water_m3", "Consumo agua (m³)", 0)}${moneyField("water_price", "Precio agua (€/m³)", 0)}${moneyField("fixed", "Cuota fija (€)", 0)}<label class="form-field">IVA (%)<input name="vat_rate" type="number" min="0" step="0.1" value="21" required /></label>`;
   return `<label class="form-field">Fecha<input name="date" type="date" value="${date}" required /></label><label class="form-field">Categoría<select name="category"><option>Gasolina</option><option>Seguro</option><option>Taller</option><option>Impuestos</option><option>Otros</option></select></label><label class="form-field">Vehículo<input name="vehicle" placeholder="Coche, moto…" /></label><label class="form-field">Descripción<input name="description" /></label>${moneyField("amount", "Importe total (€)")}<label class="form-field">Precio por litro (€)<input name="unit_price" type="number" min="0" step="0.001" /></label>`;
@@ -78,7 +84,7 @@ function renderEntryPreview() {
   const n = (name) => Math.max(0, Number(values[name]) || 0);
   const days = daysBetween(values.start_date, values.end_date);
   let lines = [];
-  if (SIMPLE_ENTRY_TYPES.has(values.entry_type)) lines = [["Dato introducido", euro.format(n("amount"))], ["Categoría", values.entry_type], ["Resumen", "Se sumará al mes de la fecha"]];
+  if (SIMPLE_ENTRY_TYPES.has(values.entry_type)) lines = [["Días del periodo", days || "—"], ["Gasto diario", days ? euro.format(n("amount") / days) : "—"], ["Reparto mensual", "Automático según los días de cada mes"]];
   if (values.entry_type === "electricity") {
     const consumption = n("p1") + n("p2") + n("p3");
     lines = [["Días", days || "—"], ["Consumo total", `${decimal.format(consumption)} kWh`], ["Consumo diario", days ? `${decimal.format(consumption / days)} kWh` : "—"], ["Coste por kWh", consumption ? euro.format(n("amount") / consumption) : "—"]];
@@ -118,7 +124,9 @@ function copyLastEntry() {
   if (SIMPLE_ENTRY_TYPES.has(type)) {
     source = state.data.monthly.slice().reverse().find((row) => (!property || row.property === property) && Number(row.categories?.[type]) > 0);
     if (source) {
-      setEntryField("date", shiftMonth(source.month));
+      const nextMonth = shiftMonth(source.month);
+      setEntryField("start_date", nextMonth);
+      setEntryField("end_date", endOfMonth(nextMonth));
       setEntryField("amount", source.categories[type]);
     }
   } else if (type === "electricity") {
@@ -276,10 +284,37 @@ function lineChart(container, series, options = {}) {
     const color = item.color || COLORS[seriesIndex];
     const points = item.values.map((value, index) => `${x(index)},${y(Number(value) || 0)}`).join(" ");
     const area = item.area ? `<polygon class="chart-area" fill="${color}" points="${pad.left},${height-pad.bottom} ${points} ${x(item.values.length-1)},${height-pad.bottom}"/>` : "";
-    const circles = item.values.map((value, index) => index === item.values.length - 1 ? `<circle class="chart-point-halo" cx="${x(index)}" cy="${y(value)}" r="7" fill="${color}"/><circle class="chart-point" cx="${x(index)}" cy="${y(value)}" r="4.5" fill="${color}"/>` : "").join("");
-    return `${area}<polyline class="chart-line" stroke="${color}" points="${points}"/>${circles}`;
+    return `${area}<polyline class="chart-line" stroke="${color}" points="${points}"/>`;
   }).join("");
-  container.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">${grid}${xLabels}${drawings}</svg>`;
+  const marker = `<g class="chart-marker"><line class="chart-marker-line" x1="0" y1="${pad.top}" x2="0" y2="${height-pad.bottom}"/>${usable.map((item, index) => `<circle class="chart-marker-halo" data-marker="${index}" r="13" fill="${item.color || COLORS[index]}"/><circle class="chart-marker-dot" data-marker="${index}" r="6" fill="${item.color || COLORS[index]}"/>`).join("")}</g>`;
+  container.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">${grid}${xLabels}${drawings}${marker}</svg><div class="chart-tooltip" aria-live="polite"></div>`;
+  const svg = container.querySelector("svg");
+  const tooltip = container.querySelector(".chart-tooltip");
+  const formatValue = (value) => options.currency ? euro.format(value) : decimal.format(value);
+  const showIndex = (index) => {
+    const safeIndex = Math.max(0, Math.min(length - 1, index));
+    const px = x(safeIndex);
+    const markerLine = svg.querySelector(".chart-marker-line");
+    markerLine.setAttribute("x1", px); markerLine.setAttribute("x2", px);
+    usable.forEach((item, seriesIndex) => {
+      const value = Number(item.values[safeIndex]) || 0;
+      svg.querySelectorAll(`[data-marker="${seriesIndex}"]`).forEach((circle) => {
+        circle.setAttribute("cx", px);
+        circle.setAttribute("cy", y(value));
+      });
+    });
+    const label = labels[safeIndex] || `Dato ${safeIndex + 1}`;
+    tooltip.innerHTML = `<strong>${esc(label)}</strong>${usable.map((item, seriesIndex) => `<span><i style="background:${item.color || COLORS[seriesIndex]}"></i>${esc(item.label || "Valor")}: <b>${formatValue(Number(item.values[safeIndex]) || 0)}</b></span>`).join("")}`;
+  };
+  const selectFromPointer = (event) => {
+    const rect = svg.getBoundingClientRect();
+    const viewX = ((event.clientX - rect.left) / Math.max(rect.width, 1)) * width;
+    const index = length <= 1 ? 0 : Math.round(((viewX - pad.left) / (width - pad.left - pad.right)) * (length - 1));
+    showIndex(index);
+  };
+  svg.addEventListener("pointermove", selectFromPointer);
+  svg.addEventListener("pointerdown", selectFromPointer);
+  showIndex(length - 1);
 }
 
 function donut(container, items, centerLabel = "Total") {
@@ -311,10 +346,15 @@ function renderSummary() {
     kpi("Cobertura", `${years} ${years === 1 ? "año" : "años"}`, rows.length ? `${labelMonth(rows[0].month, true)} — ${labelMonth(rows.at(-1).month, true)}` : "Sin datos"),
   ].join("");
   const category = state.chartCategory;
+  const dailyMetric = state.chartMetric === "daily";
   const chartRows = rows.slice(-48);
-  const values = chartRows.map((row) => category === "Total" ? row.total : Number(row.categories[category]) || 0);
-  $("#monthly-chart-title").textContent = `Gasto mensual · ${category}`;
-  lineChart($("#monthly-chart"), [{ values, color: COLORS[Math.max(0, CATEGORY_ORDER.indexOf(category))] || COLORS[0], area: true }], { labels: chartRows.map((row) => labelMonth(row.month)), currency: true });
+  const values = chartRows.map((row) => {
+    const amount = category === "Total" ? row.total : Number(row.categories[category]) || 0;
+    return dailyMetric ? amount / Math.max(1, Number(row.days) || 1) : amount;
+  });
+  const metricLabel = dailyMetric ? "Gasto diario" : "Importe mensual";
+  $("#monthly-chart-title").textContent = `${metricLabel} · ${category}`;
+  lineChart($("#monthly-chart"), [{ label: category, values, color: COLORS[Math.max(0, CATEGORY_ORDER.indexOf(category))] || COLORS[0], area: true }], { labels: chartRows.map((row) => labelMonth(row.month)), currency: true });
   const categoryItems = CATEGORY_ORDER.map((category, index) => ({ label: category, value: sum(rows, (row) => row.categories[category]), color: COLORS[index] }));
   donut($("#category-chart"), categoryItems, "en el periodo");
   const recent = rows.slice(-5).reverse();
@@ -347,8 +387,8 @@ function renderLight(refreshTimeline = true) {
   const latest = rows.at(-1);
   $("#light-kpis").innerHTML = [kpi("Facturas", rows.length, "periodos registrados", true), kpi("Gasto", euro.format(sum(rows, (r) => r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} de media`), kpi("Consumo", `${decimal.format(consumption)} kWh`, `${decimal.format(mean(rows.map((r)=>r.daily_consumption)))} kWh/día`), kpi("Última compañía", latest?.company || "—", latest ? labelMonth(latest.month, true) : "Sin datos")].join("");
   const chartRows = timelineSlice(rows, "light");
-  lineChart($("#light-cost-chart"), [{ values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
-  lineChart($("#light-use-chart"), [{ values: chartRows.map((r)=>r.p1), color: COLORS[1] }, { values: chartRows.map((r)=>r.p2), color: COLORS[2] }, { values: chartRows.map((r)=>r.p3), color: COLORS[3] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
+  lineChart($("#light-cost-chart"), [{ label: "Importe", values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
+  lineChart($("#light-use-chart"), [{ label: "P1", values: chartRows.map((r)=>r.p1), color: COLORS[1] }, { label: "P2", values: chartRows.map((r)=>r.p2), color: COLORS[2] }, { label: "P3", values: chartRows.map((r)=>r.p3), color: COLORS[3] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
   if (refreshTimeline) renderTimeline($("#light-timeline"), rows, "light", renderLight);
   $("#light-table").innerHTML = tableMarkup(["Periodo", "Vivienda", "Compañía", "Días", "P1", "P2", "P3", "Total kWh", "kWh/día", "€/kWh", "Importe"], rows.slice().reverse().slice(0, 24).map((r)=>[labelMonth(r.month,true),esc(r.property),esc(r.company),r.days,decimal.format(r.p1),decimal.format(r.p2),decimal.format(r.p3),`<strong>${decimal.format(r.consumption)}</strong>`,decimal.format(r.daily_consumption),r.cost_per_kwh ? euro.format(r.cost_per_kwh) : "—",euro.format(r.amount)]), [3,4,5,6,7,8,9,10]);
 }
@@ -358,8 +398,8 @@ function renderFloor(refreshTimeline = true) {
   const latest = rows.at(-1);
   $("#floor-kpis").innerHTML = [kpi("Facturas", rows.length, "periodos registrados", true), kpi("Gasto", euro.format(sum(rows,(r)=>r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} de media`), kpi("Energía", `${decimal.format(sum(rows,(r)=>r.cold_kwh+r.heat_kwh))} kWh`, "frío y calor"), kpi("Última compañía", latest?.company || "—", latest ? labelMonth(latest.month,true) : "Sin datos")].join("");
   const chartRows = timelineSlice(rows, "floor");
-  lineChart($("#floor-cost-chart"), [{ values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
-  lineChart($("#floor-use-chart"), [{ values: chartRows.map((r)=>r.cold_kwh), color: COLORS[3] }, { values: chartRows.map((r)=>r.heat_kwh), color: COLORS[1] }, { values: chartRows.map((r)=>r.water_m3*50), color: COLORS[0] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
+  lineChart($("#floor-cost-chart"), [{ label: "Importe", values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
+  lineChart($("#floor-use-chart"), [{ label: "Frío", values: chartRows.map((r)=>r.cold_kwh), color: COLORS[3] }, { label: "Calor", values: chartRows.map((r)=>r.heat_kwh), color: COLORS[1] }, { label: "Agua ×50", values: chartRows.map((r)=>r.water_m3*50), color: COLORS[0] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
   if (refreshTimeline) renderTimeline($("#floor-timeline"), rows, "floor", renderFloor);
   $("#floor-table").innerHTML = tableMarkup(["Periodo", "Compañía", "Días", "Frío kWh", "Calor kWh", "Agua m³", "Fijo", "€/día", "Importe"], rows.slice().reverse().map((r)=>[labelMonth(r.month,true),esc(r.company),r.days,decimal.format(r.cold_kwh),decimal.format(r.heat_kwh),decimal.format(r.water_m3),euro.format(r.fixed),r.daily_amount ? euro.format(r.daily_amount) : euro.format(r.amount / Math.max(r.days,1)),euro.format(r.amount)]), [2,3,4,5,6,7,8]);
 }
@@ -372,7 +412,7 @@ function renderVehicle() {
   const categories = [...new Set(rows.map((r)=>r.category))];
   const latest = rows.at(-1);
   $("#vehicle-kpis").innerHTML = [kpi("Movimientos", rows.length, "gastos registrados", true), kpi("Gasto total", euro.format(sum(rows,(r)=>r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} por movimiento`), kpi("Gasolina", euro.format(sum(rows.filter((r)=>r.category==="Gasolina"),(r)=>r.amount)), "combustible registrado"), kpi("Último gasto", latest?euro.format(latest.amount):"—", latest?new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(latest.date)):"Sin datos")].join("");
-  lineChart($("#vehicle-chart"), [{ values: months.map((m)=>byMonth.get(m)), color: COLORS[1], area: true }], { labels: months.map(labelMonth), currency: true });
+  lineChart($("#vehicle-chart"), [{ label: "Importe", values: months.map((m)=>byMonth.get(m)), color: COLORS[1], area: true }], { labels: months.map(labelMonth), currency: true });
   donut($("#vehicle-breakdown"), categories.map((category,index)=>({label:category,value:sum(rows.filter((r)=>r.category===category),(r)=>r.amount),color:COLORS[index%COLORS.length]})), "en el periodo");
   $("#vehicle-table").innerHTML = tableMarkup(["Fecha", "Tipo", "Vehículo", "Descripción", "Precio/l", "Litros", "Días desde anterior", "Importe"], rows.slice().reverse().slice(0,30).map((r)=>[new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(r.date)),esc(r.category),esc(r.vehicle||"—"),esc(r.description||"—"),r.unit_price ? euro.format(r.unit_price) : "—",r.quantity ? decimal.format(r.quantity) : "—",r.days_since_previous ?? "—",euro.format(r.amount)]), [4,5,6,7]);
 }
@@ -424,6 +464,7 @@ function setupEvents() {
   $("#entry-form").addEventListener("input",renderEntryPreview);
   $("#entry-form").addEventListener("submit",saveEntry);
   $("#chart-category").addEventListener("change",(event)=>{ state.chartCategory=event.target.value; renderSummary(); });
+  $("#chart-metric").addEventListener("change",(event)=>{ state.chartMetric=event.target.value; renderSummary(); });
   $("#download-csv").addEventListener("click",()=>{
     const rows=historyRows().slice().reverse();
     const lines=[["Mes","Vivienda",...CATEGORY_ORDER,"Total"],...rows.map((r)=>[r.month,r.property,...CATEGORY_ORDER.map((c)=>r.categories[c]||0),r.total])];

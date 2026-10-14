@@ -179,7 +179,7 @@ function validateEntry(kind, payload) {
     if (!isoDate(payload.date)) return "Indica una fecha válida";
   } else if (kind === "home") {
     if (!payload.property?.trim()) return "Indica la vivienda";
-    if (!isoDate(payload.date || payload.start_date)) return "Indica una fecha válida";
+    if (!isoDate(payload.start_date) || !isoDate(payload.end_date) || inclusiveDays(payload.start_date, payload.end_date) < 1) return "El intervalo de fechas no es válido";
   } else {
     if (!payload.property?.trim()) return "Indica la vivienda";
     if (!isoDate(payload.start_date) || !isoDate(payload.end_date) || inclusiveDays(payload.start_date, payload.end_date) < 1) return "El intervalo de fechas no es válido";
