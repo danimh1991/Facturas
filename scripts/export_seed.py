@@ -147,61 +147,81 @@ monthly.sort(key=lambda item: (item["month"], item["property"]))
 electricity = []
 sheet = book["Consumo Luz"]
 for row in range(2, sheet.max_row + 1):
-    month = iso_date(sheet.cell(row, 3).value)
-    if not month:
+    start_date = iso_date(sheet.cell(row, 4).value)
+    end_date = iso_date(sheet.cell(row, 5).value)
+    amount = number(sheet.cell(row, 8).value)
+    if not start_date or not end_date or amount is None:
         continue
+    days = (dt.date.fromisoformat(end_date) - dt.date.fromisoformat(start_date)).days + 1
+    p1 = number(sheet.cell(row, 9).value) or 0
+    p2 = number(sheet.cell(row, 12).value) or 0
+    p3 = number(sheet.cell(row, 15).value) or 0
+    consumption = round(p1 + p2 + p3, 6)
     electricity.append(
         {
             "property": clean_text(sheet.cell(row, 1).value),
             "company": clean_text(sheet.cell(row, 2).value),
-            "month": month,
-            "start_date": iso_date(sheet.cell(row, 4).value),
-            "end_date": iso_date(sheet.cell(row, 5).value),
-            "days": int(sheet.cell(row, 6).value or 0),
-            "amount": number(sheet.cell(row, 8).value),
-            "p1": number(sheet.cell(row, 9).value) or 0,
-            "p2": number(sheet.cell(row, 12).value) or 0,
-            "p3": number(sheet.cell(row, 15).value) or 0,
-            "consumption": number(sheet.cell(row, 18).value) or 0,
-            "daily_consumption": number(sheet.cell(row, 19).value) or 0,
-            "daily_amount": number(sheet.cell(row, 7).value) or 0,
-            "cost_per_kwh": number(sheet.cell(row, 20).value) or 0,
-            "p1_share": number(sheet.cell(row, 11).value) or 0,
-            "p2_share": number(sheet.cell(row, 14).value) or 0,
-            "p3_share": number(sheet.cell(row, 17).value) or 0,
+            "month": start_date[:7] + "-01",
+            "start_date": start_date,
+            "end_date": end_date,
+            "days": days,
+            "amount": amount,
+            "p1": p1,
+            "p2": p2,
+            "p3": p3,
+            "consumption": consumption,
+            "daily_consumption": round(consumption / days, 6),
+            "daily_amount": round(amount / days, 6),
+            "cost_per_kwh": round(amount / consumption, 6) if consumption else 0,
+            "p1_share": round(p1 / consumption, 6) if consumption else 0,
+            "p2_share": round(p2 / consumption, 6) if consumption else 0,
+            "p3_share": round(p3 / consumption, 6) if consumption else 0,
         }
     )
 
 floor = []
 sheet = book["Consumo Suelo"]
 for row in range(2, sheet.max_row + 1):
-    month = iso_date(sheet.cell(row, 3).value)
-    if not month:
+    start_date = iso_date(sheet.cell(row, 4).value)
+    end_date = iso_date(sheet.cell(row, 5).value)
+    if not start_date or not end_date:
         continue
+    days = (dt.date.fromisoformat(end_date) - dt.date.fromisoformat(start_date)).days + 1
+    cold_kwh = number(sheet.cell(row, 9).value) or 0
+    cold_price = number(sheet.cell(row, 10).value) or 0
+    heat_kwh = number(sheet.cell(row, 14).value) or 0
+    heat_price = number(sheet.cell(row, 15).value) or 0
+    water_m3 = number(sheet.cell(row, 19).value) or 0
+    water_price = number(sheet.cell(row, 20).value) or 0
+    fixed = number(sheet.cell(row, 24).value) or 0
+    cold_total = round(cold_kwh * cold_price, 6)
+    heat_total = round(heat_kwh * heat_price, 6)
+    water_total = round(water_m3 * water_price, 6)
+    amount = round((cold_total + heat_total + water_total + fixed) * 1.21, 6)
     floor.append(
         {
             "property": clean_text(sheet.cell(row, 1).value),
             "company": clean_text(sheet.cell(row, 2).value),
-            "month": month,
-            "start_date": iso_date(sheet.cell(row, 4).value),
-            "end_date": iso_date(sheet.cell(row, 5).value),
-            "days": int(sheet.cell(row, 6).value or 0),
-            "amount": number(sheet.cell(row, 27).value),
-            "cold_kwh": number(sheet.cell(row, 9).value) or 0,
-            "heat_kwh": number(sheet.cell(row, 14).value) or 0,
-            "water_m3": number(sheet.cell(row, 19).value) or 0,
-            "fixed": number(sheet.cell(row, 24).value) or 0,
-            "cold_price": number(sheet.cell(row, 10).value) or 0,
-            "cold_total": number(sheet.cell(row, 11).value) or 0,
-            "heat_price": number(sheet.cell(row, 15).value) or 0,
-            "heat_total": number(sheet.cell(row, 16).value) or 0,
-            "water_price": number(sheet.cell(row, 20).value) or 0,
-            "water_total": number(sheet.cell(row, 21).value) or 0,
-            "daily_amount": number(sheet.cell(row, 28).value) or 0,
-            "cold_share": number(sheet.cell(row, 13).value) or 0,
-            "heat_share": number(sheet.cell(row, 18).value) or 0,
-            "water_share": number(sheet.cell(row, 23).value) or 0,
-            "fixed_share": number(sheet.cell(row, 26).value) or 0,
+            "month": start_date[:7] + "-01",
+            "start_date": start_date,
+            "end_date": end_date,
+            "days": days,
+            "amount": amount,
+            "cold_kwh": cold_kwh,
+            "heat_kwh": heat_kwh,
+            "water_m3": water_m3,
+            "fixed": fixed,
+            "cold_price": cold_price,
+            "cold_total": cold_total,
+            "heat_price": heat_price,
+            "heat_total": heat_total,
+            "water_price": water_price,
+            "water_total": water_total,
+            "daily_amount": round(amount / days, 6),
+            "cold_share": round(cold_total / amount, 6) if amount else 0,
+            "heat_share": round(heat_total / amount, 6) if amount else 0,
+            "water_share": round(water_total / amount, 6) if amount else 0,
+            "fixed_share": round(fixed / amount, 6) if amount else 0,
             "vat_rate": 21,
         }
     )

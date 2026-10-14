@@ -383,6 +383,10 @@ function shortDate(value, includeYear = false) {
   return new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "short", ...(includeYear ? { year: "2-digit" } : {}), timeZone: "UTC" }).format(dateValue(value)).replaceAll(" ", " ");
 }
 
+function fullPeriod(row) {
+  return `${shortDate(row.start_date, true)}–${shortDate(row.end_date, true)}`;
+}
+
 function monthlyCategoryCell(row, category) {
   const details = row.category_details?.[category] || [];
   if (!details.length) return `<span class="empty-amount">—</span>`;
@@ -459,7 +463,7 @@ function renderLight(refreshTimeline = true) {
   lineChart($("#light-cost-chart"), [{ label: "Importe", values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
   lineChart($("#light-use-chart"), [{ label: "P1", values: chartRows.map((r)=>r.p1), color: COLORS[1] }, { label: "P2", values: chartRows.map((r)=>r.p2), color: COLORS[2] }, { label: "P3", values: chartRows.map((r)=>r.p3), color: COLORS[3] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
   if (refreshTimeline) renderTimeline($("#light-timeline"), rows, "light", renderLight);
-  $("#light-table").innerHTML = tableMarkup(["Periodo", "Vivienda", "Compañía", "Días", "P1", "P2", "P3", "Total kWh", "kWh/día", "€/kWh", "Importe"], rows.slice().reverse().slice(0, 24).map((r)=>[labelMonth(r.month,true),esc(r.property),esc(r.company),r.days,decimal.format(r.p1),decimal.format(r.p2),decimal.format(r.p3),`<strong>${decimal.format(r.consumption)}</strong>`,decimal.format(r.daily_consumption),r.cost_per_kwh ? euro.format(r.cost_per_kwh) : "—",euro.format(r.amount)]), [3,4,5,6,7,8,9,10]);
+  $("#light-table").innerHTML = tableMarkup(["Periodo real", "Vivienda", "Compañía", "Días", "€/día", "P1", "P2", "P3", "Total kWh", "kWh/día", "€/kWh", "Importe"], rows.slice().reverse().slice(0, 24).map((r)=>[fullPeriod(r),esc(r.property),esc(r.company),r.days,euro.format(r.daily_amount),decimal.format(r.p1),decimal.format(r.p2),decimal.format(r.p3),`<strong>${decimal.format(r.consumption)}</strong>`,decimal.format(r.daily_consumption),r.cost_per_kwh ? euro.format(r.cost_per_kwh) : "—",euro.format(r.amount)]), [3,4,5,6,7,8,9,10,11]);
 }
 
 function renderFloor(refreshTimeline = true) {
@@ -470,7 +474,7 @@ function renderFloor(refreshTimeline = true) {
   lineChart($("#floor-cost-chart"), [{ label: "Importe", values: chartRows.map((r)=>r.amount), color: COLORS[0], area: true }], { labels: chartRows.map((r)=>labelMonth(r.month)), currency: true });
   lineChart($("#floor-use-chart"), [{ label: "Frío", values: chartRows.map((r)=>r.cold_kwh), color: COLORS[3] }, { label: "Calor", values: chartRows.map((r)=>r.heat_kwh), color: COLORS[1] }, { label: "Agua ×50", values: chartRows.map((r)=>r.water_m3*50), color: COLORS[0] }], { labels: chartRows.map((r)=>labelMonth(r.month)) });
   if (refreshTimeline) renderTimeline($("#floor-timeline"), rows, "floor", renderFloor);
-  $("#floor-table").innerHTML = tableMarkup(["Periodo", "Compañía", "Días", "Frío kWh", "Calor kWh", "Agua m³", "Fijo", "€/día", "Importe"], rows.slice().reverse().map((r)=>[labelMonth(r.month,true),esc(r.company),r.days,decimal.format(r.cold_kwh),decimal.format(r.heat_kwh),decimal.format(r.water_m3),euro.format(r.fixed),r.daily_amount ? euro.format(r.daily_amount) : euro.format(r.amount / Math.max(r.days,1)),euro.format(r.amount)]), [2,3,4,5,6,7,8]);
+  $("#floor-table").innerHTML = tableMarkup(["Periodo real", "Compañía", "Días", "Frío kWh", "Calor kWh", "Agua m³", "Fijo", "€/día", "Importe"], rows.slice().reverse().map((r)=>[fullPeriod(r),esc(r.company),r.days,decimal.format(r.cold_kwh),decimal.format(r.heat_kwh),decimal.format(r.water_m3),euro.format(r.fixed),euro.format(r.daily_amount),euro.format(r.amount)]), [2,3,4,5,6,7,8]);
 }
 
 function renderVehicle() {

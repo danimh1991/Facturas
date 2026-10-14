@@ -72,3 +72,21 @@ test("calculated workbook fields remain available as formulas in the app", () =>
   const fuel = data.vehicle.find((row) => row.unit_price > 0 && row.amount > 0);
   assert.ok(Math.abs(fuel.quantity - fuel.amount / fuel.unit_price) < 0.000001);
 });
+
+test("light and floor use the real inclusive period and its start month", () => {
+  for (const row of [...data.electricity, ...data.floor]) {
+    const start = new Date(`${row.start_date}T00:00:00Z`);
+    const end = new Date(`${row.end_date}T00:00:00Z`);
+    const inclusiveDays = Math.floor((end - start) / 86400000) + 1;
+    assert.equal(row.days, inclusiveDays);
+    assert.equal(row.month, `${row.start_date.slice(0, 7)}-01`);
+    assert.ok(Math.abs(row.daily_amount - row.amount / row.days) < 0.000001);
+  }
+
+  const shiftedLight = data.electricity.find((row) => row.start_date === "2021-03-05");
+  assert.equal(shiftedLight.month, "2021-03-01");
+  const firstFloor = data.floor[0];
+  assert.equal(firstFloor.start_date, "2024-12-02");
+  assert.equal(firstFloor.month, "2024-12-01");
+  assert.equal(firstFloor.days, 57);
+});
