@@ -103,6 +103,9 @@ h2 { font-size: 17px; letter-spacing: -.02em; }
 .breakdown-row { display: grid; grid-template-columns: 8px 1fr auto; gap: 7px; align-items: center; font-size: 10px; }
 .breakdown-row i { width: 7px; height: 7px; border-radius: 2px; }.breakdown-row span { color: var(--muted); }.breakdown-row strong { font-size: 10px; }
 .recent-card { grid-column: 1 / -1; }
+.vehicle-chart-card { margin-bottom: 14px; }
+.vehicle-summary-card .summary-table { max-height: 360px; overflow: auto; }
+.vehicle-summary-card .summary-table th { position: sticky; top: 0; z-index: 1; }
 .text-button { border: 0; background: transparent; color: var(--green); font-size: 11px; font-weight: 700; cursor: pointer; }
 .compact-table, .data-table { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }

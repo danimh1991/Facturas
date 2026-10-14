@@ -100,10 +100,8 @@
 
         <section id="view-vehiculo" class="view">
           <div id="vehicle-kpis" class="kpi-grid compact"></div>
-          <div class="dashboard-grid">
-            <article class="card chart-card wide"><div class="card-heading"><div><p class="card-kicker">EVOLUCIÓN</p><h2>Gastos del vehículo</h2></div></div><div id="vehicle-chart" class="chart"></div></article>
-            <article class="card breakdown-card"><div class="card-heading"><div><p class="card-kicker">DISTRIBUCIÓN</p><h2>Por tipo</h2></div></div><div id="vehicle-breakdown" class="donut-layout"></div></article>
-          </div>
+          <article class="card chart-card vehicle-chart-card"><div class="card-heading"><div><p class="card-kicker">EVOLUCIÓN</p><h2>Gastos del vehículo</h2></div></div><div id="vehicle-chart" class="chart"></div></article>
+          <article class="card vehicle-summary-card"><div class="card-heading"><div><p class="card-kicker">RESUMEN</p><h2 id="vehicle-summary-title">Gasto por mes</h2><p id="vehicle-summary-copy" class="subcopy">Importe y movimientos registrados en cada mes.</p></div><label class="chart-category">PERIODO<select id="vehicle-summary-period"><option value="monthly">Mensual</option><option value="annual">Anual</option></select></label></div><div id="vehicle-summary" class="data-table summary-table"></div></article>
           <article class="card table-card"><div id="vehicle-table" class="data-table"></div></article>
         </section>
 

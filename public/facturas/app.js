@@ -1,3 +1,6 @@
+import { carryForwardZeros } from "./chart-data.js";
+import { summarizeVehicleExpenses } from "./vehicle-data.js";
+
 const COLORS = ["#2f6f5d", "#e78466", "#d8a94a", "#6c8ebf", "#9d7bb0", "#8dc9b5"];
 const CATEGORY_ORDER = ["Alquiler", "Luz", "Calefacción", "Agua", "Internet", "Limpieza"];
 const VIEW_COPY = {
@@ -19,6 +22,7 @@ const state = {
   editingEntryId: null,
   chartCategory: "Total",
   chartMetric: "absolute",
+  vehicleSummaryPeriod: "monthly",
   timelines: {
     light: { window: 12, end: null },
     floor: { window: 12, end: null },
@@ -361,10 +365,11 @@ function renderSummary() {
   const category = state.chartCategory;
   const dailyMetric = state.chartMetric === "daily";
   const chartRows = rows.slice(-48);
-  const values = chartRows.map((row) => {
+  const rawValues = rows.map((row) => {
     const amount = category === "Total" ? row.total : Number(row.categories[category]) || 0;
     return dailyMetric ? (category === "Total" ? Number(row.daily_average) || 0 : Number(row.category_daily?.[category]) || 0) : amount;
   });
+  const values = (category === "Total" ? rawValues : carryForwardZeros(rawValues)).slice(-48);
   const metricLabel = dailyMetric ? "Gasto diario" : "Importe mensual";
   $("#monthly-chart-title").textContent = `${metricLabel} · ${category}`;
   lineChart($("#monthly-chart"), [{ label: category, values, color: COLORS[Math.max(0, CATEGORY_ORDER.indexOf(category))] || COLORS[0], area: true }], { labels: chartRows.map((row) => labelMonth(row.month)), currency: true });
@@ -479,14 +484,18 @@ function renderFloor(refreshTimeline = true) {
 
 function renderVehicle() {
   const rows = filterByGlobalPeriod(state.data.vehicle, "date");
-  const byMonth = new Map();
-  rows.forEach((row) => { const key = row.date.slice(0,7); byMonth.set(key,(byMonth.get(key)||0)+row.amount); });
-  const months = [...byMonth.keys()].sort();
-  const categories = [...new Set(rows.map((r)=>r.category))];
+  const monthly = summarizeVehicleExpenses(rows, 7);
+  const annual = summarizeVehicleExpenses(rows, 4);
   const latest = rows.at(-1);
   $("#vehicle-kpis").innerHTML = [kpi("Movimientos", rows.length, "gastos registrados", true), kpi("Gasto total", euro.format(sum(rows,(r)=>r.amount)), `${euro.format(mean(rows.map((r)=>r.amount)))} por movimiento`), kpi("Gasolina", euro.format(sum(rows.filter((r)=>r.category==="Gasolina"),(r)=>r.amount)), "combustible registrado"), kpi("Último gasto", latest?euro.format(latest.amount):"—", latest?new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(latest.date)):"Sin datos")].join("");
-  lineChart($("#vehicle-chart"), [{ label: "Importe", values: months.map((m)=>byMonth.get(m)), color: COLORS[1], area: true }], { labels: months.map(labelMonth), currency: true });
-  donut($("#vehicle-breakdown"), categories.map((category,index)=>({label:category,value:sum(rows.filter((r)=>r.category===category),(r)=>r.amount),color:COLORS[index%COLORS.length]})), "en el periodo");
+  lineChart($("#vehicle-chart"), [{ label: "Importe", values: monthly.map((item)=>item.total), color: COLORS[1], area: true }], { labels: monthly.map((item)=>labelMonth(`${item.key}-01`)), currency: true });
+  const annualMode = state.vehicleSummaryPeriod === "annual";
+  $("#vehicle-summary-period").value = state.vehicleSummaryPeriod;
+  $("#vehicle-summary-title").textContent = annualMode ? "Gasto por año" : "Gasto por mes";
+  $("#vehicle-summary-copy").textContent = annualMode ? "Total anual y media de los meses con movimientos." : "Importe y movimientos registrados en cada mes.";
+  $("#vehicle-summary").innerHTML = annualMode
+    ? tableMarkup(["Año", "Movimientos", "Total", "Media mensual"], annual.slice().reverse().map((item)=>[item.key, item.count, euro.format(item.total), euro.format(item.total/Math.max(1, monthly.filter((month)=>month.key.startsWith(item.key)).length))]), [1,2,3])
+    : tableMarkup(["Mes", "Movimientos", "Total", "Media"], monthly.slice().reverse().map((item)=>[labelMonth(`${item.key}-01`, true), item.count, euro.format(item.total), euro.format(item.total/item.count)]), [1,2,3]);
   $("#vehicle-table").innerHTML = tableMarkup(["Fecha", "Tipo", "Vehículo", "Descripción", "Precio/l", "Litros", "Días desde anterior", "Importe", "Acción"], rows.slice().reverse().slice(0,30).map((r)=>[new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(r.date)),esc(r.category),esc(r.vehicle||"—"),esc(r.description||"—"),r.unit_price ? euro.format(r.unit_price) : "—",r.quantity ? decimal.format(r.quantity) : "—",r.days_since_previous ?? "—",euro.format(r.amount),r.entry_id ? `<button class="edit-entry-button" type="button" data-edit-entry="${r.entry_id}">Editar</button>` : `<span class="source-badge">Excel</span>`]), [4,5,6,7]);
   $$("#vehicle-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
 }
@@ -539,6 +548,7 @@ function setupEvents() {
   $("#entry-form").addEventListener("submit",saveEntry);
   $("#chart-category").addEventListener("change",(event)=>{ state.chartCategory=event.target.value; renderSummary(); });
   $("#chart-metric").addEventListener("change",(event)=>{ state.chartMetric=event.target.value; renderSummary(); });
+  $("#vehicle-summary-period").addEventListener("change",(event)=>{ state.vehicleSummaryPeriod=event.target.value; renderVehicle(); });
   $("#download-csv").addEventListener("click",()=>{
     const rows=historyRows().slice().reverse();
     const lines=[["Mes de inicio","Vivienda",...CATEGORY_ORDER.flatMap((category)=>[category,`${category} €/día`]),"Total","Gasto diario total"],...rows.map((r)=>[r.month,r.property,...CATEGORY_ORDER.flatMap((c)=>[r.categories[c]||0,r.category_daily?.[c]||0]),r.total,r.daily_average])];
