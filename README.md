@@ -22,6 +22,6 @@ Si la primera migración ya se aplicó en producción, crea una migración nueva
 
 ## Despliegue
 
-Cada commit a `main` ejecuta las comprobaciones, aplica las migraciones a `aportes-comunes-db` y publica el Worker. El repositorio necesita el secreto `CLOUDFLARE_API_TOKEN` con permisos de Workers y D1.
+El Worker está conectado directamente con este repositorio mediante Cloudflare Builds. Cada commit a `main` ejecuta las comprobaciones, aplica las migraciones a `aportes-comunes-db` y publica el Worker. GitHub Actions también valida los commits y pull requests, pero no realiza el despliegue.
 
 Ruta pública: `https://danieta.com/facturas`
