@@ -76,6 +76,8 @@ test("calculated workbook fields remain available as formulas in the app", () =>
 test("vehicle history excludes test data before 5 March 2023", () => {
   assert.ok(data.vehicle.length > 0);
   assert.ok(data.vehicle.every((row) => row.date >= "2023-03-05"));
+  assert.ok(data.vehicle.every((row) => row.source === "excel" && row.source_id));
+  assert.equal(new Set(data.vehicle.map((row) => row.source_id)).size, data.vehicle.length);
 });
 
 test("vehicle expenses preserve the type from the green source table", () => {

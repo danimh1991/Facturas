@@ -126,6 +126,9 @@ td.number, th.number { text-align: right; font-variant-numeric: tabular-nums; }
 .entry-history-card { margin-top: 14px; }
 .edit-entry-button { height: 28px; padding: 0 11px; border: 1px solid #cfded7; border-radius: 7px; color: var(--green); background: #f2f8f5; font-size: 9px; font-weight: 700; cursor: pointer; }
 .edit-entry-button:hover { background: #e4f1eb; }
+.record-actions { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.delete-entry-button { height: 28px; padding: 0 9px; border: 1px solid #ead2cc; border-radius: 7px; color: #a14d3b; background: #fff7f4; font-size: 9px; font-weight: 700; cursor: pointer; }
+.delete-entry-button:hover { background: #fce8e1; }
 .source-badge { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 999px; color: var(--muted); background: #f1f2ee; font-size: 9px; font-weight: 700; }
 .table-actions { display: flex; gap: 8px; align-items: center; }
 input[type="search"], .outline-button { height: 34px; border: 1px solid var(--line); background: white; border-radius: 9px; }

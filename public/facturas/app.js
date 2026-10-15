@@ -20,6 +20,7 @@ const state = {
   pageSize: 12,
   query: "",
   editingEntryId: null,
+  editingSourceId: null,
   chartCategory: "Total",
   chartMetric: "absolute",
   vehicleSummaryPeriod: "monthly",
@@ -71,7 +72,7 @@ function entryFieldsMarkup(type) {
   if (SIMPLE_ENTRY_TYPES.has(type)) return `${propertyInput()}<label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}`;
   if (type === "electricity") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}${moneyField("p1", "Consumo P1 (kWh)", 0)}${moneyField("p2", "Consumo P2 (kWh)", 0)}${moneyField("p3", "Consumo P3 (kWh)", 0)}`;
   if (type === "floor") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("cold_kwh", "Consumo frío (kWh)", 0)}${moneyField("cold_price", "Precio frío (€/kWh)", 0)}${moneyField("heat_kwh", "Consumo calor (kWh)", 0)}${moneyField("heat_price", "Precio calor (€/kWh)", 0)}${moneyField("water_m3", "Consumo agua (m³)", 0)}${moneyField("water_price", "Precio agua (€/m³)", 0)}${moneyField("fixed", "Cuota fija (€)", 0)}<label class="form-field">IVA (%)<input name="vat_rate" type="number" min="0" step="0.1" value="21" required /></label>`;
-  return `<label class="form-field">Fecha<input name="date" type="date" value="${date}" required /></label><label class="form-field">Categoría<select name="category"><option>Gasolina</option><option>Seguro</option><option>Taller</option><option>Impuestos</option><option>Otros</option></select></label><label class="form-field">Vehículo<input name="vehicle" placeholder="Coche, moto…" /></label><label class="form-field">Descripción<input name="description" /></label>${moneyField("amount", "Importe total (€)")}<label class="form-field">Precio por litro (€)<input name="unit_price" type="number" min="0" step="0.001" /></label>`;
+  return `<label class="form-field">Fecha<input name="date" type="date" value="${date}" required /></label><label class="form-field">Categoría<select name="category"><option>Gasolina</option><option>Ad Blue</option><option>Seguro</option><option>Taller</option><option>Impuestos</option><option>Otros</option></select></label><label class="form-field">Vehículo<input name="vehicle" placeholder="Coche, moto…" /></label><label class="form-field">Descripción<input name="description" /></label>${moneyField("amount", "Importe total (€)")}<label class="form-field">Precio por litro (€)<input name="unit_price" type="number" min="0" step="0.001" /></label>`;
 }
 
 function entryValues() {
@@ -100,12 +101,13 @@ function renderEntryPreview() {
 
 function renderEntryForm() {
   const type = $("#entry-kind").value;
+  const editing = Boolean(state.editingEntryId || state.editingSourceId);
   $("#entry-fields").innerHTML = entryFieldsMarkup(type);
   $("#entry-message").hidden = true;
-  $("#entry-kicker").textContent = state.editingEntryId ? "CORREGIR REGISTRO" : "NUEVO REGISTRO";
-  $("#entry-title").textContent = state.editingEntryId ? "Editar dato" : "Añadir datos";
-  $("#save-entry").textContent = state.editingEntryId ? "Guardar cambios" : "Guardar y recalcular";
-  $("#copy-last-entry").hidden = Boolean(state.editingEntryId);
+  $("#entry-kicker").textContent = editing ? "CORREGIR REGISTRO" : "NUEVO REGISTRO";
+  $("#entry-title").textContent = editing ? "Editar dato" : "Añadir datos";
+  $("#save-entry").textContent = editing ? "Guardar cambios" : "Guardar y recalcular";
+  $("#copy-last-entry").hidden = editing;
   renderEntryPreview();
 }
 
@@ -162,10 +164,23 @@ function beginEditEntry(id) {
   const entry = (state.data.entries || []).find((item) => item.id === id);
   if (!entry) return;
   state.editingEntryId = id;
+  state.editingSourceId = null;
   const type = entry.kind === "home" ? entry.payload.category : entry.kind;
   $("#entry-kind").value = type;
   renderEntryForm();
   Object.entries(entry.payload).forEach(([name, value]) => setEntryField(name, value));
+  renderEntryPreview();
+  $("#entry-dialog").showModal();
+}
+
+function beginEditSourceVehicle(sourceId) {
+  const entry = state.data.vehicle.find((item) => item.source_id === sourceId);
+  if (!entry) return;
+  state.editingEntryId = null;
+  state.editingSourceId = sourceId;
+  $("#entry-kind").value = "vehicle";
+  renderEntryForm();
+  ["date", "category", "vehicle", "description", "amount", "unit_price"].forEach((name) => setEntryField(name, entry[name]));
   renderEntryPreview();
   $("#entry-dialog").showModal();
 }
@@ -178,12 +193,14 @@ async function saveEntry(event) {
   if (SIMPLE_ENTRY_TYPES.has(type)) values.category = type;
   delete values.entry_type;
   const editingId = state.editingEntryId;
+  const sourceId = state.editingSourceId;
   const button = $("#save-entry");
   button.disabled = true;
   button.textContent = "Guardando…";
   const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
   try {
-    const response = await fetch(`${base}/api/entries${editingId ? `/${editingId}` : ""}`, { method: editingId ? "PUT" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, payload: values }) });
+    const endpoint = sourceId ? `${base}/api/source-records/${encodeURIComponent(sourceId)}` : `${base}/api/entries${editingId ? `/${editingId}` : ""}`;
+    const response = await fetch(endpoint, { method: editingId || sourceId ? "PUT" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, payload: values }) });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || "No se pudo guardar");
     state.data = await loadData();
@@ -191,12 +208,34 @@ async function saveEntry(event) {
     renderAll();
     $("#entry-dialog").close();
     state.editingEntryId = null;
+    state.editingSourceId = null;
   } catch (error) {
     $("#entry-message").textContent = error.message;
     $("#entry-message").hidden = false;
   } finally {
     button.disabled = false;
-    button.textContent = state.editingEntryId ? "Guardar cambios" : "Guardar y recalcular";
+    button.textContent = state.editingEntryId || state.editingSourceId ? "Guardar cambios" : "Guardar y recalcular";
+  }
+}
+
+async function deleteRecord({ entryId = null, sourceId = null } = {}) {
+  if (!entryId && !sourceId) return;
+  if (!confirm("¿Eliminar este registro? Dejará de aparecer en los totales y gráficas.")) return;
+  const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
+  const endpoint = sourceId ? `${base}/api/source-records/${encodeURIComponent(sourceId)}` : `${base}/api/entries/${entryId}`;
+  try {
+    const response = await fetch(endpoint, {
+      method: "DELETE",
+      headers: { "content-type": "application/json" },
+      body: sourceId ? JSON.stringify({ kind: "vehicle" }) : undefined,
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "No se pudo eliminar");
+    state.data = await loadData();
+    fillFilters();
+    renderAll();
+  } catch (error) {
+    alert(error.message);
   }
 }
 
@@ -454,9 +493,10 @@ function renderEditableEntries() {
   $("#entries-table").innerHTML = tableMarkup(["Tipo", "Periodo", "Vivienda / detalle", "Importe", "Acción"], entries.map((entry) => {
     const payload = entry.payload || {};
     const detail = payload.property || [payload.vehicle, payload.description].filter(Boolean).join(" · ") || "—";
-    return [esc(entryTypeLabel(entry)), entryPeriodLabel(payload), esc(detail), euro.format(editableEntryAmount(entry)), `<button class="edit-entry-button" type="button" data-edit-entry="${entry.id}">Editar</button>`];
+    return [esc(entryTypeLabel(entry)), entryPeriodLabel(payload), esc(detail), euro.format(editableEntryAmount(entry)), `<div class="record-actions"><button class="edit-entry-button" type="button" data-edit-entry="${entry.id}">Editar</button><button class="delete-entry-button" type="button" data-delete-entry="${entry.id}">Eliminar</button></div>`];
   }), [3]);
   $$("#entries-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
+  $$("#entries-table [data-delete-entry]").forEach((button) => button.addEventListener("click", () => deleteRecord({ entryId: Number(button.dataset.deleteEntry) })));
 }
 
 function renderLight(refreshTimeline = true) {
@@ -496,8 +536,11 @@ function renderVehicle() {
   $("#vehicle-summary").innerHTML = annualMode
     ? tableMarkup(["Año", "Movimientos", "Total", "Media mensual"], annual.slice().reverse().map((item)=>[item.key, item.count, euro.format(item.total), euro.format(item.total/Math.max(1, monthly.filter((month)=>month.key.startsWith(item.key)).length))]), [1,2,3])
     : tableMarkup(["Mes", "Movimientos", "Total", "Media"], monthly.slice().reverse().map((item)=>[labelMonth(`${item.key}-01`, true), item.count, euro.format(item.total), euro.format(item.total/item.count)]), [1,2,3]);
-  $("#vehicle-table").innerHTML = tableMarkup(["Fecha", "Tipo", "Vehículo", "Descripción", "Precio/l", "Litros", "Días desde anterior", "Importe", "Acción"], rows.slice().reverse().slice(0,30).map((r)=>[new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(r.date)),esc(r.category),esc(r.vehicle||"—"),esc(r.description||"—"),r.unit_price ? euro.format(r.unit_price) : "—",r.quantity ? decimal.format(r.quantity) : "—",r.days_since_previous ?? "—",euro.format(r.amount),r.entry_id ? `<button class="edit-entry-button" type="button" data-edit-entry="${r.entry_id}">Editar</button>` : `<span class="source-badge">Excel</span>`]), [4,5,6,7]);
+  $("#vehicle-table").innerHTML = tableMarkup(["Fecha", "Tipo", "Vehículo", "Descripción", "Precio/l", "Litros", "Días desde anterior", "Importe", "Acción"], rows.slice().reverse().map((r)=>[new Intl.DateTimeFormat("es-ES",{dateStyle:"medium",timeZone:"UTC"}).format(dateValue(r.date)),esc(r.category),esc(r.vehicle||"—"),esc(r.description||"—"),r.unit_price ? euro.format(r.unit_price) : "—",r.quantity ? decimal.format(r.quantity) : "—",r.days_since_previous ?? "—",euro.format(r.amount),r.entry_id ? `<div class="record-actions"><button class="edit-entry-button" type="button" data-edit-entry="${r.entry_id}">Editar</button><button class="delete-entry-button" type="button" data-delete-entry="${r.entry_id}">Eliminar</button></div>` : `<div class="record-actions"><button class="edit-entry-button" type="button" data-edit-source="${esc(r.source_id)}">Editar</button><button class="delete-entry-button" type="button" data-delete-source="${esc(r.source_id)}">Eliminar</button></div>`]), [4,5,6,7]);
   $$("#vehicle-table [data-edit-entry]").forEach((button) => button.addEventListener("click", () => beginEditEntry(Number(button.dataset.editEntry))));
+  $$("#vehicle-table [data-delete-entry]").forEach((button) => button.addEventListener("click", () => deleteRecord({ entryId: Number(button.dataset.deleteEntry) })));
+  $$("#vehicle-table [data-edit-source]").forEach((button) => button.addEventListener("click", () => beginEditSourceVehicle(button.dataset.editSource)));
+  $$("#vehicle-table [data-delete-source]").forEach((button) => button.addEventListener("click", () => deleteRecord({ sourceId: button.dataset.deleteSource })));
 }
 
 function renderComparison() {
@@ -539,9 +582,9 @@ function setupEvents() {
   $$("[data-go]").forEach((button)=>button.addEventListener("click",()=>activateView(button.dataset.go)));
   $("#history-search").addEventListener("input",(event)=>{ state.query=event.target.value; state.page=1; renderHistory(); });
   $("#comparison-form").addEventListener("input",renderComparison);
-  $("#open-entry").addEventListener("click",()=>{ state.editingEntryId=null; renderEntryForm(); $("#entry-dialog").showModal(); });
-  $("#close-entry").addEventListener("click",()=>{ state.editingEntryId=null; $("#entry-dialog").close(); });
-  $("#cancel-entry").addEventListener("click",()=>{ state.editingEntryId=null; $("#entry-dialog").close(); });
+  $("#open-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; renderEntryForm(); $("#entry-dialog").showModal(); });
+  $("#close-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; $("#entry-dialog").close(); });
+  $("#cancel-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; $("#entry-dialog").close(); });
   $("#entry-kind").addEventListener("change",renderEntryForm);
   $("#copy-last-entry").addEventListener("click",copyLastEntry);
   $("#entry-form").addEventListener("input",renderEntryPreview);

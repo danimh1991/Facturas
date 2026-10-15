@@ -142,6 +142,21 @@ function vehicleEntry(payload) {
   };
 }
 
+export function applySourceChanges(data, changes) {
+  for (const change of changes) {
+    if (change.kind !== "vehicle") continue;
+    const index = data.vehicle.findIndex((row) => row.source_id === change.source_id);
+    if (index < 0) continue;
+    if (change.action === "delete") {
+      data.vehicle.splice(index, 1);
+      continue;
+    }
+    const payload = typeof change.payload === "string" ? JSON.parse(change.payload) : change.payload;
+    data.vehicle[index] = { ...vehicleEntry(payload), source_id: change.source_id, source: "excel", edited: true };
+  }
+  return data;
+}
+
 function applyEntry(data, entry) {
   const payload = JSON.parse(entry.payload);
   if (entry.kind === "home") allocateHomeEntry(data, payload, entry.id);
@@ -175,10 +190,14 @@ function finalizeData(data) {
 
 async function loadDashboard(db) {
   const data = cloneBaseData();
-  const rows = await db.prepare("SELECT id, kind, payload, created_at FROM facturas_entries ORDER BY id").all();
-  for (const entry of rows.results) applyEntry(data, entry);
-  data.entries = rows.results.map((entry) => ({ id: entry.id, kind: entry.kind, payload: JSON.parse(entry.payload), created_at: entry.created_at }));
-  data.meta = { ...data.meta, editable: true, added_entries: rows.results.length };
+  const [entries, sourceChanges] = await Promise.all([
+    db.prepare("SELECT id, kind, payload, created_at FROM facturas_entries ORDER BY id").all(),
+    db.prepare("SELECT source_id, kind, action, payload, updated_at FROM facturas_source_changes ORDER BY source_id").all(),
+  ]);
+  applySourceChanges(data, sourceChanges.results);
+  for (const entry of entries.results) applyEntry(data, entry);
+  data.entries = entries.results.map((entry) => ({ id: entry.id, kind: entry.kind, payload: JSON.parse(entry.payload), created_at: entry.created_at }));
+  data.meta = { ...data.meta, editable: true, added_entries: entries.results.length, source_changes: sourceChanges.results.length };
   return finalizeData(data);
 }
 
@@ -225,6 +244,41 @@ async function updateEntry(request, env, id) {
   return json({ ok: true, id });
 }
 
+async function deleteEntry(request, env, id) {
+  const origin = request.headers.get("origin");
+  if (origin && new URL(origin).hostname !== new URL(request.url).hostname) return json({ error: "Origen no permitido" }, 403);
+  const result = await env.DB.prepare("DELETE FROM facturas_entries WHERE id = ?").bind(id).run();
+  if (!result.meta?.changes) return json({ error: "El registro ya no existe" }, 404);
+  return json({ ok: true, id });
+}
+
+function sourceRecordExists(kind, sourceId) {
+  return kind === "vehicle" && fallbackData.vehicle.some((row) => row.source_id === sourceId);
+}
+
+async function changeSourceRecord(request, env, sourceId, action) {
+  const origin = request.headers.get("origin");
+  if (origin && new URL(origin).hostname !== new URL(request.url).hostname) return json({ error: "Origen no permitido" }, 403);
+  let body = {};
+  if (request.method !== "DELETE") {
+    try { body = await request.json(); } catch { return json({ error: "Datos no válidos" }, 400); }
+  } else {
+    try { body = await request.json(); } catch { body = {}; }
+  }
+  const kind = String(body.kind || "vehicle");
+  if (!sourceRecordExists(kind, sourceId)) return json({ error: "El registro original no existe" }, 404);
+  const payload = body.payload && typeof body.payload === "object" ? body.payload : {};
+  if (action === "update") {
+    const error = validateEntry(kind, payload);
+    if (error) return json({ error }, 400);
+  }
+  await env.DB.prepare(`INSERT INTO facturas_source_changes (source_id, kind, action, payload, updated_at)
+    VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+    ON CONFLICT(source_id) DO UPDATE SET kind = excluded.kind, action = excluded.action, payload = excluded.payload, updated_at = CURRENT_TIMESTAMP`)
+    .bind(sourceId, kind, action, JSON.stringify(payload)).run();
+  return json({ ok: true, source_id: sourceId, action });
+}
+
 async function serveAsset(request, env, pathname) {
   if (pathname === "/") return Response.redirect(new URL("/facturas/", request.url), 302);
   if (pathname === "/facturas") return Response.redirect(new URL("/facturas/", request.url), 308);
@@ -256,6 +310,10 @@ export default {
     if (apiPath === "/api/entries" && request.method === "POST") return createEntry(request, env);
     const entryMatch = apiPath.match(/^\/api\/entries\/(\d+)$/);
     if (entryMatch && request.method === "PUT") return updateEntry(request, env, Number(entryMatch[1]));
+    if (entryMatch && request.method === "DELETE") return deleteEntry(request, env, Number(entryMatch[1]));
+    const sourceMatch = apiPath.match(/^\/api\/source-records\/([^/]+)$/);
+    if (sourceMatch && request.method === "PUT") return changeSourceRecord(request, env, decodeURIComponent(sourceMatch[1]), "update");
+    if (sourceMatch && request.method === "DELETE") return changeSourceRecord(request, env, decodeURIComponent(sourceMatch[1]), "delete");
     if (apiPath.startsWith("/api/")) return json({ error: "Ruta o método no permitido" }, 405);
     return serveAsset(request, env, pathname);
   },

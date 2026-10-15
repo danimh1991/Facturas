@@ -239,6 +239,8 @@ for row in range(2, sheet.max_row + 1):
         is_fuel_table = extended_amount is not None
         vehicle.append(
             {
+                "source_id": f"excel-vehicle-left-{row}",
+                "source": "excel",
                 "date": date,
                 "description": description,
                 "category": description or "Otros",
@@ -253,6 +255,8 @@ for row in range(2, sheet.max_row + 1):
     if service_date and service_date >= VEHICLE_START_DATE and service_amount is not None:
         vehicle.append(
             {
+                "source_id": f"excel-vehicle-service-{row}",
+                "source": "excel",
                 "date": service_date,
                 "description": clean_text(sheet.cell(row, 16).value),
                 "category": clean_text(sheet.cell(row, 20).value) or "Otros",

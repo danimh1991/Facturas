@@ -1,7 +1,7 @@
 {
   "meta": {
     "source_updated": 1788958261.1258361,
-    "generated": "2026-10-14T18:51:57.382785+00:00",
+    "generated": "2026-10-15T06:55:19.475430+00:00",
     "excluded_sheets": [
       "Previsión Luz",
       "X Gasolina Moto",
@@ -17386,6 +17386,8 @@
   ],
   "vehicle": [
     {
+      "source_id": "excel-vehicle-left-43",
+      "source": "excel",
       "date": "2023-03-06",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17395,6 +17397,8 @@
       "quantity": 40.482637
     },
     {
+      "source_id": "excel-vehicle-left-37",
+      "source": "excel",
       "date": "2023-03-13",
       "description": "Seguro",
       "category": "Seguro",
@@ -17404,6 +17408,8 @@
       "quantity": null
     },
     {
+      "source_id": "excel-vehicle-left-38",
+      "source": "excel",
       "date": "2023-03-14",
       "description": "Taller",
       "category": "Taller",
@@ -17413,6 +17419,8 @@
       "quantity": null
     },
     {
+      "source_id": "excel-vehicle-left-44",
+      "source": "excel",
       "date": "2023-03-28",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17422,6 +17430,8 @@
       "quantity": 41.321804
     },
     {
+      "source_id": "excel-vehicle-left-45",
+      "source": "excel",
       "date": "2023-04-05",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17431,6 +17441,8 @@
       "quantity": 43.783615
     },
     {
+      "source_id": "excel-vehicle-left-46",
+      "source": "excel",
       "date": "2023-04-05",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17440,6 +17452,8 @@
       "quantity": 16.998147
     },
     {
+      "source_id": "excel-vehicle-left-47",
+      "source": "excel",
       "date": "2023-04-10",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17449,6 +17463,8 @@
       "quantity": 45.003069
     },
     {
+      "source_id": "excel-vehicle-left-48",
+      "source": "excel",
       "date": "2023-04-21",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17458,6 +17474,8 @@
       "quantity": 47.402181
     },
     {
+      "source_id": "excel-vehicle-left-49",
+      "source": "excel",
       "date": "2023-05-07",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17467,6 +17485,8 @@
       "quantity": 46.010533
     },
     {
+      "source_id": "excel-vehicle-left-50",
+      "source": "excel",
       "date": "2023-05-22",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17476,6 +17496,8 @@
       "quantity": 48.526755
     },
     {
+      "source_id": "excel-vehicle-left-51",
+      "source": "excel",
       "date": "2023-06-08",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17485,6 +17507,8 @@
       "quantity": 43.680603
     },
     {
+      "source_id": "excel-vehicle-left-52",
+      "source": "excel",
       "date": "2023-06-15",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17494,6 +17518,8 @@
       "quantity": 51.672263
     },
     {
+      "source_id": "excel-vehicle-left-53",
+      "source": "excel",
       "date": "2023-06-28",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17503,6 +17529,8 @@
       "quantity": 38.409543
     },
     {
+      "source_id": "excel-vehicle-left-54",
+      "source": "excel",
       "date": "2023-07-11",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17512,6 +17540,8 @@
       "quantity": 44.502924
     },
     {
+      "source_id": "excel-vehicle-left-55",
+      "source": "excel",
       "date": "2023-07-27",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17521,6 +17551,8 @@
       "quantity": 47.163799
     },
     {
+      "source_id": "excel-vehicle-left-56",
+      "source": "excel",
       "date": "2023-08-04",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17530,6 +17562,8 @@
       "quantity": 41.965039
     },
     {
+      "source_id": "excel-vehicle-left-57",
+      "source": "excel",
       "date": "2023-08-18",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17539,6 +17573,8 @@
       "quantity": 41.250744
     },
     {
+      "source_id": "excel-vehicle-left-58",
+      "source": "excel",
       "date": "2023-08-28",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17548,6 +17584,8 @@
       "quantity": 44.699226
     },
     {
+      "source_id": "excel-vehicle-left-59",
+      "source": "excel",
       "date": "2023-09-14",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17557,6 +17595,8 @@
       "quantity": 47.111362
     },
     {
+      "source_id": "excel-vehicle-left-60",
+      "source": "excel",
       "date": "2023-09-14",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17566,6 +17606,8 @@
       "quantity": 21.498869
     },
     {
+      "source_id": "excel-vehicle-left-61",
+      "source": "excel",
       "date": "2023-09-21",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17575,6 +17617,8 @@
       "quantity": 46.338496
     },
     {
+      "source_id": "excel-vehicle-left-62",
+      "source": "excel",
       "date": "2023-10-10",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17584,6 +17628,8 @@
       "quantity": 46.432247
     },
     {
+      "source_id": "excel-vehicle-left-63",
+      "source": "excel",
       "date": "2023-10-13",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17593,6 +17639,8 @@
       "quantity": 29.247492
     },
     {
+      "source_id": "excel-vehicle-left-64",
+      "source": "excel",
       "date": "2023-10-23",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17602,6 +17650,8 @@
       "quantity": 46.009201
     },
     {
+      "source_id": "excel-vehicle-left-65",
+      "source": "excel",
       "date": "2023-11-07",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17611,6 +17661,8 @@
       "quantity": 45.342305
     },
     {
+      "source_id": "excel-vehicle-left-39",
+      "source": "excel",
       "date": "2023-11-28",
       "description": "Ad Blue",
       "category": "Ad Blue",
@@ -17620,6 +17672,8 @@
       "quantity": 12.071366
     },
     {
+      "source_id": "excel-vehicle-left-66",
+      "source": "excel",
       "date": "2023-11-28",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17629,6 +17683,8 @@
       "quantity": 47.528981
     },
     {
+      "source_id": "excel-vehicle-left-67",
+      "source": "excel",
       "date": "2023-12-04",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17638,6 +17694,8 @@
       "quantity": 22.031921
     },
     {
+      "source_id": "excel-vehicle-left-68",
+      "source": "excel",
       "date": "2023-12-12",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17647,6 +17705,8 @@
       "quantity": 47.088452
     },
     {
+      "source_id": "excel-vehicle-left-69",
+      "source": "excel",
       "date": "2023-12-20",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17656,6 +17716,8 @@
       "quantity": 46.698534
     },
     {
+      "source_id": "excel-vehicle-left-70",
+      "source": "excel",
       "date": "2023-12-29",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17665,6 +17727,8 @@
       "quantity": 45.642317
     },
     {
+      "source_id": "excel-vehicle-left-71",
+      "source": "excel",
       "date": "2024-01-04",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17674,6 +17738,8 @@
       "quantity": 45.820139
     },
     {
+      "source_id": "excel-vehicle-left-72",
+      "source": "excel",
       "date": "2024-01-10",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17683,6 +17749,8 @@
       "quantity": 41.610338
     },
     {
+      "source_id": "excel-vehicle-left-73",
+      "source": "excel",
       "date": "2024-01-29",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17692,6 +17760,8 @@
       "quantity": 47.221877
     },
     {
+      "source_id": "excel-vehicle-left-74",
+      "source": "excel",
       "date": "2024-02-06",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17701,6 +17771,8 @@
       "quantity": 47.358145
     },
     {
+      "source_id": "excel-vehicle-left-75",
+      "source": "excel",
       "date": "2024-02-16",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17710,6 +17782,8 @@
       "quantity": 41.351995
     },
     {
+      "source_id": "excel-vehicle-left-76",
+      "source": "excel",
       "date": "2024-03-01",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17719,6 +17793,8 @@
       "quantity": 46.309167
     },
     {
+      "source_id": "excel-vehicle-left-77",
+      "source": "excel",
       "date": "2024-03-21",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17728,6 +17804,8 @@
       "quantity": 43.291139
     },
     {
+      "source_id": "excel-vehicle-left-78",
+      "source": "excel",
       "date": "2024-04-08",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17737,6 +17815,8 @@
       "quantity": 45.539853
     },
     {
+      "source_id": "excel-vehicle-left-79",
+      "source": "excel",
       "date": "2024-04-22",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17746,6 +17826,8 @@
       "quantity": 45.637584
     },
     {
+      "source_id": "excel-vehicle-left-80",
+      "source": "excel",
       "date": "2024-05-14",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17755,6 +17837,8 @@
       "quantity": 38.042262
     },
     {
+      "source_id": "excel-vehicle-left-81",
+      "source": "excel",
       "date": "2024-05-17",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17764,6 +17848,8 @@
       "quantity": 28.1602
     },
     {
+      "source_id": "excel-vehicle-left-82",
+      "source": "excel",
       "date": "2024-06-10",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17773,6 +17859,8 @@
       "quantity": 47.228993
     },
     {
+      "source_id": "excel-vehicle-left-83",
+      "source": "excel",
       "date": "2024-06-20",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17782,6 +17870,8 @@
       "quantity": 47.61165
     },
     {
+      "source_id": "excel-vehicle-left-84",
+      "source": "excel",
       "date": "2024-06-26",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17791,6 +17881,8 @@
       "quantity": 52.411802
     },
     {
+      "source_id": "excel-vehicle-left-85",
+      "source": "excel",
       "date": "2024-07-09",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17800,6 +17892,8 @@
       "quantity": 42.967819
     },
     {
+      "source_id": "excel-vehicle-left-86",
+      "source": "excel",
       "date": "2024-07-26",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17809,6 +17903,8 @@
       "quantity": 43.402861
     },
     {
+      "source_id": "excel-vehicle-left-87",
+      "source": "excel",
       "date": "2024-08-01",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17818,6 +17914,8 @@
       "quantity": 46.952567
     },
     {
+      "source_id": "excel-vehicle-left-88",
+      "source": "excel",
       "date": "2024-08-15",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17827,6 +17925,8 @@
       "quantity": 6.462234
     },
     {
+      "source_id": "excel-vehicle-left-89",
+      "source": "excel",
       "date": "2024-08-16",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17836,6 +17936,8 @@
       "quantity": 45.53316
     },
     {
+      "source_id": "excel-vehicle-left-90",
+      "source": "excel",
       "date": "2024-08-22",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17845,6 +17947,8 @@
       "quantity": 44.331856
     },
     {
+      "source_id": "excel-vehicle-left-91",
+      "source": "excel",
       "date": "2024-08-23",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17854,6 +17958,8 @@
       "quantity": 10.240572
     },
     {
+      "source_id": "excel-vehicle-left-92",
+      "source": "excel",
       "date": "2024-08-28",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17863,6 +17969,8 @@
       "quantity": 44.008728
     },
     {
+      "source_id": "excel-vehicle-left-40",
+      "source": "excel",
       "date": "2024-09-04",
       "description": "Ad Blue",
       "category": "Ad Blue",
@@ -17872,6 +17980,8 @@
       "quantity": 11.201144
     },
     {
+      "source_id": "excel-vehicle-left-93",
+      "source": "excel",
       "date": "2024-09-04",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17881,6 +17991,8 @@
       "quantity": 47.149533
     },
     {
+      "source_id": "excel-vehicle-left-94",
+      "source": "excel",
       "date": "2024-09-24",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17890,6 +18002,8 @@
       "quantity": 46.779324
     },
     {
+      "source_id": "excel-vehicle-left-95",
+      "source": "excel",
       "date": "2024-10-03",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17899,6 +18013,8 @@
       "quantity": 47.683924
     },
     {
+      "source_id": "excel-vehicle-left-96",
+      "source": "excel",
       "date": "2024-10-15",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17908,6 +18024,8 @@
       "quantity": 46.259234
     },
     {
+      "source_id": "excel-vehicle-left-97",
+      "source": "excel",
       "date": "2024-10-31",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17917,6 +18035,8 @@
       "quantity": 46.436782
     },
     {
+      "source_id": "excel-vehicle-left-98",
+      "source": "excel",
       "date": "2024-11-18",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17926,6 +18046,8 @@
       "quantity": 48.551679
     },
     {
+      "source_id": "excel-vehicle-left-99",
+      "source": "excel",
       "date": "2024-12-02",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17935,6 +18057,8 @@
       "quantity": 47.751938
     },
     {
+      "source_id": "excel-vehicle-left-100",
+      "source": "excel",
       "date": "2024-12-24",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17944,6 +18068,8 @@
       "quantity": 44.947644
     },
     {
+      "source_id": "excel-vehicle-left-101",
+      "source": "excel",
       "date": "2025-01-07",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17953,6 +18079,8 @@
       "quantity": 45.619887
     },
     {
+      "source_id": "excel-vehicle-left-102",
+      "source": "excel",
       "date": "2025-01-15",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17962,6 +18090,8 @@
       "quantity": 41.709136
     },
     {
+      "source_id": "excel-vehicle-left-103",
+      "source": "excel",
       "date": "2025-02-06",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17971,6 +18101,8 @@
       "quantity": 42.538604
     },
     {
+      "source_id": "excel-vehicle-left-104",
+      "source": "excel",
       "date": "2025-02-27",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17980,6 +18112,8 @@
       "quantity": 44.718398
     },
     {
+      "source_id": "excel-vehicle-left-105",
+      "source": "excel",
       "date": "2025-03-21",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17989,6 +18123,8 @@
       "quantity": 30.098103
     },
     {
+      "source_id": "excel-vehicle-left-106",
+      "source": "excel",
       "date": "2025-03-31",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -17998,6 +18134,8 @@
       "quantity": 45.830661
     },
     {
+      "source_id": "excel-vehicle-left-107",
+      "source": "excel",
       "date": "2025-04-29",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18007,6 +18145,8 @@
       "quantity": 35.036938
     },
     {
+      "source_id": "excel-vehicle-left-108",
+      "source": "excel",
       "date": "2025-05-02",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18016,6 +18156,8 @@
       "quantity": 38.911427
     },
     {
+      "source_id": "excel-vehicle-left-109",
+      "source": "excel",
       "date": "2025-05-07",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18025,6 +18167,8 @@
       "quantity": 46.058944
     },
     {
+      "source_id": "excel-vehicle-left-110",
+      "source": "excel",
       "date": "2025-05-27",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18034,6 +18178,8 @@
       "quantity": 46.401645
     },
     {
+      "source_id": "excel-vehicle-left-111",
+      "source": "excel",
       "date": "2025-06-20",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18043,6 +18189,8 @@
       "quantity": 42.446881
     },
     {
+      "source_id": "excel-vehicle-left-112",
+      "source": "excel",
       "date": "2025-07-09",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18052,6 +18200,8 @@
       "quantity": 46.736064
     },
     {
+      "source_id": "excel-vehicle-left-41",
+      "source": "excel",
       "date": "2025-07-29",
       "description": "Ad Blue",
       "category": "Ad Blue",
@@ -18061,6 +18211,8 @@
       "quantity": 10.241306
     },
     {
+      "source_id": "excel-vehicle-left-113",
+      "source": "excel",
       "date": "2025-07-29",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18070,6 +18222,8 @@
       "quantity": 47.991941
     },
     {
+      "source_id": "excel-vehicle-left-114",
+      "source": "excel",
       "date": "2025-08-14",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18079,6 +18233,8 @@
       "quantity": 45.039012
     },
     {
+      "source_id": "excel-vehicle-left-115",
+      "source": "excel",
       "date": "2025-08-20",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18088,6 +18244,8 @@
       "quantity": 48.336728
     },
     {
+      "source_id": "excel-vehicle-left-116",
+      "source": "excel",
       "date": "2025-08-27",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18097,6 +18255,8 @@
       "quantity": 38.559039
     },
     {
+      "source_id": "excel-vehicle-left-117",
+      "source": "excel",
       "date": "2025-09-11",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18106,6 +18266,8 @@
       "quantity": 45.921864
     },
     {
+      "source_id": "excel-vehicle-left-118",
+      "source": "excel",
       "date": "2025-10-03",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18115,6 +18277,8 @@
       "quantity": 31.868787
     },
     {
+      "source_id": "excel-vehicle-left-119",
+      "source": "excel",
       "date": "2025-10-22",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18124,6 +18288,8 @@
       "quantity": 46.260987
     },
     {
+      "source_id": "excel-vehicle-left-120",
+      "source": "excel",
       "date": "2025-11-10",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18133,6 +18299,8 @@
       "quantity": 45.14154
     },
     {
+      "source_id": "excel-vehicle-left-121",
+      "source": "excel",
       "date": "2025-12-01",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18142,6 +18310,8 @@
       "quantity": 46.739832
     },
     {
+      "source_id": "excel-vehicle-left-122",
+      "source": "excel",
       "date": "2025-12-26",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18151,6 +18321,8 @@
       "quantity": 45.21014
     },
     {
+      "source_id": "excel-vehicle-left-123",
+      "source": "excel",
       "date": "2026-01-12",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18160,6 +18332,8 @@
       "quantity": 46.697799
     },
     {
+      "source_id": "excel-vehicle-left-124",
+      "source": "excel",
       "date": "2026-01-16",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18169,6 +18343,8 @@
       "quantity": 32.910399
     },
     {
+      "source_id": "excel-vehicle-left-125",
+      "source": "excel",
       "date": "2026-01-26",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18178,6 +18354,8 @@
       "quantity": 48.749155
     },
     {
+      "source_id": "excel-vehicle-left-126",
+      "source": "excel",
       "date": "2026-02-19",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18187,6 +18365,8 @@
       "quantity": 42.870309
     },
     {
+      "source_id": "excel-vehicle-left-127",
+      "source": "excel",
       "date": "2026-02-26",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18196,6 +18376,8 @@
       "quantity": 40.751295
     },
     {
+      "source_id": "excel-vehicle-left-128",
+      "source": "excel",
       "date": "2026-03-20",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18205,6 +18387,8 @@
       "quantity": 51.813472
     },
     {
+      "source_id": "excel-vehicle-left-129",
+      "source": "excel",
       "date": "2026-04-13",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18214,6 +18398,8 @@
       "quantity": 42.682032
     },
     {
+      "source_id": "excel-vehicle-left-130",
+      "source": "excel",
       "date": "2026-06-08",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18223,6 +18409,8 @@
       "quantity": 49.241791
     },
     {
+      "source_id": "excel-vehicle-left-131",
+      "source": "excel",
       "date": "2026-07-01",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18232,6 +18420,8 @@
       "quantity": 45.230673
     },
     {
+      "source_id": "excel-vehicle-left-132",
+      "source": "excel",
       "date": "2026-07-20",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18241,6 +18431,8 @@
       "quantity": 41.97864
     },
     {
+      "source_id": "excel-vehicle-left-133",
+      "source": "excel",
       "date": "2026-07-30",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18250,6 +18442,8 @@
       "quantity": 42.959021
     },
     {
+      "source_id": "excel-vehicle-left-134",
+      "source": "excel",
       "date": "2026-08-10",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18259,6 +18453,8 @@
       "quantity": 39.95765
     },
     {
+      "source_id": "excel-vehicle-left-135",
+      "source": "excel",
       "date": "2026-08-17",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18268,6 +18464,8 @@
       "quantity": 42.274127
     },
     {
+      "source_id": "excel-vehicle-left-136",
+      "source": "excel",
       "date": "2026-08-25",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18277,6 +18475,8 @@
       "quantity": 9.160305
     },
     {
+      "source_id": "excel-vehicle-left-137",
+      "source": "excel",
       "date": "2026-08-28",
       "description": "Gasolina",
       "category": "Gasolina",
@@ -18286,6 +18486,8 @@
       "quantity": 7.696254
     },
     {
+      "source_id": "excel-vehicle-left-138",
+      "source": "excel",
       "date": "2026-09-01",
       "description": "Gasolina",
       "category": "Gasolina",
