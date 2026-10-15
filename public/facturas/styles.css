@@ -31,7 +31,6 @@ nav { display: grid; gap: 6px; }
 .nav-item { width: 100%; border: 0; border-radius: 10px; padding: 11px 12px; background: transparent; color: #91a49c; text-align: left; cursor: pointer; transition: .18s ease; display: flex; align-items: center; gap: 11px; font-weight: 600; }
 .nav-icon { width: 20px; height: 20px; flex: 0 0 20px; display: grid; place-items: center; color: #789086; text-align: center; }
 .nav-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.nav-icon-floor { font-size: 19px; line-height: 1; }
 .nav-item:hover { background: rgba(255,255,255,.055); color: #f1f6f3; }
 .nav-item.active { background: #22352f; color: white; }
 .nav-item.active .nav-icon { color: var(--mint); }
