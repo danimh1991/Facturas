@@ -29,10 +29,12 @@ button { color: inherit; }
 .brand small { margin-top: 4px; color: #8ba198; font-size: 11px; }
 nav { display: grid; gap: 6px; }
 .nav-item { width: 100%; border: 0; border-radius: 10px; padding: 11px 12px; background: transparent; color: #91a49c; text-align: left; cursor: pointer; transition: .18s ease; display: flex; align-items: center; gap: 11px; font-weight: 600; }
-.nav-item span { width: 20px; color: #789086; text-align: center; font-size: 17px; }
+.nav-icon { width: 20px; height: 20px; flex: 0 0 20px; display: grid; place-items: center; color: #789086; text-align: center; }
+.nav-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nav-icon-floor { font-size: 19px; line-height: 1; }
 .nav-item:hover { background: rgba(255,255,255,.055); color: #f1f6f3; }
 .nav-item.active { background: #22352f; color: white; }
-.nav-item.active span { color: var(--mint); }
+.nav-item.active .nav-icon { color: var(--mint); }
 .sidebar-note { margin-top: auto; padding: 14px 12px; border-top: 1px solid rgba(255,255,255,.09); display: flex; gap: 10px; align-items: flex-start; }
 .sidebar-note strong, .sidebar-note small { display: block; }
 .sidebar-note strong { font-size: 11px; }
