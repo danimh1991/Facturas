@@ -2,6 +2,7 @@ import { carryForwardZeros } from "./chart-data.js";
 import { summarizeVehicleExpenses } from "./vehicle-data.js";
 
 const COLORS = ["#2f6f5d", "#e78466", "#d8a94a", "#6c8ebf", "#9d7bb0", "#8dc9b5"];
+const PROPERTY_BAND_COLORS = ["#dceee8", "#f8e3dc", "#f4e9c9", "#dfe8f5", "#e9e0f0", "#dcefeb"];
 const CATEGORY_ORDER = ["Alquiler", "Luz", "Calefacción", "Agua", "Internet", "Limpieza"];
 const VIEW_COPY = {
   resumen: ["VISIÓN GENERAL", "Tus gastos, con perspectiva"],
@@ -25,6 +26,7 @@ const state = {
   chartMetric: "absolute",
   vehicleSummaryPeriod: "monthly",
   timelines: {
+    summary: { window: 12, end: null },
     light: { window: 12, end: null },
     floor: { window: 12, end: null },
   },
@@ -317,6 +319,22 @@ function renderTimeline(container, rows, key, rerender) {
   }));
 }
 
+function propertyBands(rows) {
+  const propertyOrder = [...new Set(state.data.monthly.map((row) => row.property))];
+  const bands = [];
+  rows.forEach((row, index) => {
+    const previous = bands.at(-1);
+    if (previous?.label === row.property) previous.end = index;
+    else bands.push({
+      start: index,
+      end: index,
+      label: row.property,
+      color: PROPERTY_BAND_COLORS[Math.max(0, propertyOrder.indexOf(row.property)) % PROPERTY_BAND_COLORS.length],
+    });
+  });
+  return bands;
+}
+
 function lineChart(container, series, options = {}) {
   if (!container) return;
   const usable = series.filter((item) => item.values?.length);
@@ -336,6 +354,13 @@ function lineChart(container, series, options = {}) {
   const labels = options.labels || [];
   const every = Math.max(1, Math.ceil(length / 7));
   const xLabels = labels.map((label, index) => index % every === 0 || index === length - 1 ? `<text class="axis-label" x="${x(index)}" y="${height-6}" text-anchor="middle">${esc(label)}</text>` : "").join("");
+  const bands = (options.bands || []).map((band) => {
+    const left = band.start <= 0 ? pad.left : (x(band.start - 1) + x(band.start)) / 2;
+    const right = band.end >= length - 1 ? width - pad.right : (x(band.end) + x(band.end + 1)) / 2;
+    const bandWidth = Math.max(0, right - left);
+    const label = bandWidth >= 74 ? `<text class="chart-property-label" x="${left + bandWidth / 2}" y="${pad.top + 13}" text-anchor="middle">${esc(band.label)}</text>` : "";
+    return `<g class="chart-property-band"><rect x="${left}" y="${pad.top}" width="${bandWidth}" height="${height-pad.top-pad.bottom}" rx="4" fill="${band.color}"/>${label}</g>`;
+  }).join("");
   const drawings = usable.map((item, seriesIndex) => {
     const color = item.color || COLORS[seriesIndex];
     const points = item.values.map((value, index) => `${x(index)},${y(Number(value) || 0)}`).join(" ");
@@ -343,7 +368,7 @@ function lineChart(container, series, options = {}) {
     return `${area}<polyline class="chart-line" stroke="${color}" points="${points}"/>`;
   }).join("");
   const marker = `<g class="chart-marker"><line class="chart-marker-line" x1="0" y1="${pad.top}" x2="0" y2="${height-pad.bottom}"/>${usable.map((item, index) => `<circle class="chart-marker-halo" data-marker="${index}" r="13" fill="${item.color || COLORS[index]}"/><circle class="chart-marker-dot" data-marker="${index}" r="6" fill="${item.color || COLORS[index]}"/>`).join("")}</g>`;
-  container.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">${grid}${xLabels}${drawings}${marker}</svg><div class="chart-tooltip" aria-live="polite"></div>`;
+  container.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">${bands}${grid}${xLabels}${drawings}${marker}</svg><div class="chart-tooltip" aria-live="polite"></div>`;
   const svg = container.querySelector("svg");
   const tooltip = container.querySelector(".chart-tooltip");
   const formatValue = (value) => options.currency ? euro.format(value) : decimal.format(value);
@@ -360,7 +385,8 @@ function lineChart(container, series, options = {}) {
       });
     });
     const label = labels[safeIndex] || `Dato ${safeIndex + 1}`;
-    tooltip.innerHTML = `<strong>${esc(label)}</strong>${usable.map((item, seriesIndex) => `<span><i style="background:${item.color || COLORS[seriesIndex]}"></i>${esc(item.label || "Valor")}: <b>${formatValue(Number(item.values[safeIndex]) || 0)}</b></span>`).join("")}`;
+    const context = options.context?.[safeIndex];
+    tooltip.innerHTML = `<strong>${esc(label)}</strong>${context ? `<small>${esc(context)}</small>` : ""}${usable.map((item, seriesIndex) => `<span><i style="background:${item.color || COLORS[seriesIndex]}"></i>${esc(item.label || "Valor")}: <b>${formatValue(Number(item.values[safeIndex]) || 0)}</b></span>`).join("")}`;
   };
   const selectFromPointer = (event) => {
     const rect = svg.getBoundingClientRect();
@@ -387,7 +413,7 @@ function donut(container, items, centerLabel = "Total") {
   container.innerHTML = `<div class="donut" style="background:conic-gradient(${stops})"><div class="donut-center"><strong>${compactEuro.format(total)}</strong><small>${esc(centerLabel)}</small></div></div><div class="breakdown-list">${clean.map((item, index) => `<div class="breakdown-row"><i style="background:${item.color || COLORS[index % COLORS.length]}"></i><span>${esc(item.label)}</span><strong>${Math.round(item.value/total*100)}%</strong></div>`).join("")}</div>`;
 }
 
-function renderSummary() {
+function renderSummary(refreshTimeline = true) {
   const rows = filteredMonthly();
   const total = sum(rows, (row) => row.total);
   const daily = mean(rows.map((row) => row.daily_average));
@@ -403,15 +429,22 @@ function renderSummary() {
   ].join("");
   const category = state.chartCategory;
   const dailyMetric = state.chartMetric === "daily";
-  const chartRows = rows.slice(-48);
   const rawValues = rows.map((row) => {
     const amount = category === "Total" ? row.total : Number(row.categories[category]) || 0;
     return dailyMetric ? (category === "Total" ? Number(row.daily_average) || 0 : Number(row.category_daily?.[category]) || 0) : amount;
   });
-  const values = (category === "Total" ? rawValues : carryForwardZeros(rawValues)).slice(-48);
+  const chartRows = timelineSlice(rows, "summary");
+  const firstChartIndex = chartRows.length ? rows.indexOf(chartRows[0]) : 0;
+  const values = (category === "Total" ? rawValues : carryForwardZeros(rawValues)).slice(firstChartIndex, firstChartIndex + chartRows.length);
   const metricLabel = dailyMetric ? "Gasto diario" : "Importe mensual";
   $("#monthly-chart-title").textContent = `${metricLabel} · ${category}`;
-  lineChart($("#monthly-chart"), [{ label: category, values, color: COLORS[Math.max(0, CATEGORY_ORDER.indexOf(category))] || COLORS[0], area: true }], { labels: chartRows.map((row) => labelMonth(row.month)), currency: true });
+  lineChart($("#monthly-chart"), [{ label: category, values, color: COLORS[Math.max(0, CATEGORY_ORDER.indexOf(category))] || COLORS[0], area: true }], {
+    labels: chartRows.map((row) => labelMonth(row.month)),
+    currency: true,
+    bands: state.property === "Todas" ? propertyBands(chartRows) : [],
+    context: state.property === "Todas" ? chartRows.map((row) => row.property) : [],
+  });
+  if (refreshTimeline) renderTimeline($("#summary-timeline"), rows, "summary", renderSummary);
   const categoryItems = CATEGORY_ORDER.map((category, index) => ({ label: category, value: sum(rows, (row) => row.categories[category]), color: COLORS[index] }));
   donut($("#category-chart"), categoryItems, "en el periodo");
   const recent = rows.slice(-5).reverse();
@@ -566,8 +599,8 @@ function fillFilters() {
 
 function setupFilters() {
   fillFilters();
-  $("#property-filter").addEventListener("change", (event)=>{ state.property=event.target.value; state.page=1; state.timelines.light.end=null; state.timelines.floor.end=null; renderAll(); });
-  $("#period-filter").addEventListener("change", (event)=>{ state.period=event.target.value; state.page=1; state.timelines.light.end=null; state.timelines.floor.end=null; renderAll(); });
+  $("#property-filter").addEventListener("change", (event)=>{ state.property=event.target.value; state.page=1; state.timelines.summary.end=null; state.timelines.light.end=null; state.timelines.floor.end=null; renderAll(); });
+  $("#period-filter").addEventListener("change", (event)=>{ state.period=event.target.value; state.page=1; state.timelines.summary.end=null; state.timelines.light.end=null; state.timelines.floor.end=null; renderAll(); });
 }
 
 function activateView(name) {
