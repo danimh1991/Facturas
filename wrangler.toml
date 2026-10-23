@@ -16,6 +16,13 @@ database_name = "aportes-comunes-db"
 database_id = "e92dcc41-c7bc-44fc-9ba9-8ccb23f632e3"
 migrations_dir = "migrations"
 
+[ai]
+binding = "AI"
+
+[[r2_buckets]]
+binding = "INVOICE_BUCKET"
+bucket_name = "facturas-archivo"
+
 [[routes]]
 pattern = "danieta.com/facturas*"
 zone_name = "danieta.com"

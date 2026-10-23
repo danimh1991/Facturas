@@ -22,6 +22,7 @@ const state = {
   query: "",
   editingEntryId: null,
   editingSourceId: null,
+  pendingInvoice: null,
   chartCategory: "Total",
   chartMetric: "absolute",
   vehicleSummaryPeriod: "monthly",
@@ -73,7 +74,7 @@ function entryFieldsMarkup(type) {
   const date = today();
   if (SIMPLE_ENTRY_TYPES.has(type)) return `${propertyInput()}<label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}`;
   if (type === "electricity") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}${moneyField("p1", "Consumo P1 (kWh)", 0)}${moneyField("p2", "Consumo P2 (kWh)", 0)}${moneyField("p3", "Consumo P3 (kWh)", 0)}`;
-  if (type === "floor") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("cold_kwh", "Consumo frío (kWh)", 0)}${moneyField("cold_price", "Precio frío (€/kWh)", 0)}${moneyField("heat_kwh", "Consumo calor (kWh)", 0)}${moneyField("heat_price", "Precio calor (€/kWh)", 0)}${moneyField("water_m3", "Consumo agua (m³)", 0)}${moneyField("water_price", "Precio agua (€/m³)", 0)}${moneyField("fixed", "Cuota fija (€)", 0)}<label class="form-field">IVA (%)<input name="vat_rate" type="number" min="0" step="0.1" value="21" required /></label>`;
+  if (type === "floor") return `${propertyInput()}<label class="form-field">Compañía<input name="company" required /></label><label class="form-field">Fecha de inicio<input name="start_date" type="date" value="${date}" required /></label><label class="form-field">Fecha de fin<input name="end_date" type="date" value="${date}" required /></label>${moneyField("amount", "Importe total (€)")}${moneyField("cold_kwh", "Consumo frío (kWh)", 0)}${moneyField("cold_price", "Precio frío (€/kWh)", 0)}${moneyField("heat_kwh", "Consumo calor (kWh)", 0)}${moneyField("heat_price", "Precio calor (€/kWh)", 0)}${moneyField("water_m3", "Consumo agua (m³)", 0)}${moneyField("water_price", "Precio agua (€/m³)", 0)}${moneyField("fixed", "Cuota fija (€)", 0)}<label class="form-field">IVA (%)<input name="vat_rate" type="number" min="0" step="0.1" value="21" required /></label>`;
   return `<label class="form-field">Fecha<input name="date" type="date" value="${date}" required /></label><label class="form-field">Categoría<select name="category"><option>Gasolina</option><option>Ad Blue</option><option>Seguro</option><option>Taller</option><option>Impuestos</option><option>Otros</option></select></label><label class="form-field">Vehículo<input name="vehicle" placeholder="Coche, moto…" /></label><label class="form-field">Descripción<input name="description" /></label>${moneyField("amount", "Importe total (€)")}<label class="form-field">Precio por litro (€)<input name="unit_price" type="number" min="0" step="0.001" /></label>`;
 }
 
@@ -94,8 +95,9 @@ function renderEntryPreview() {
   }
   if (values.entry_type === "floor") {
     const cold = n("cold_kwh") * n("cold_price"), heat = n("heat_kwh") * n("heat_price"), water = n("water_m3") * n("water_price");
-    const total = (cold + heat + water + n("fixed")) * (1 + n("vat_rate") / 100);
-    lines = [["Frío", euro.format(cold)], ["Calor", euro.format(heat)], ["Agua", euro.format(water)], ["Factura calculada", euro.format(total)], ["Importe diario", days ? euro.format(total / days) : "—"]];
+    const calculated = (cold + heat + water + n("fixed")) * (1 + n("vat_rate") / 100);
+    const total = n("amount");
+    lines = [["Frío", euro.format(cold)], ["Calor", euro.format(heat)], ["Agua", euro.format(water)], ["Suma de conceptos", euro.format(calculated)], ["Total factura", euro.format(total)], ["Importe diario", days ? euro.format(total / days) : "—"]];
   }
   if (values.entry_type === "vehicle") lines = [["Cantidad calculada", n("unit_price") ? `${decimal.format(n("amount") / n("unit_price"))} l` : "Añade el precio/litro"], ["Resumen", "Se agrega al mes, año y categoría"]];
   $("#entry-preview").innerHTML = `<strong>Cálculos automáticos</strong>${lines.map(([label, value]) => `<span><small>${label}</small><b>${value}</b></span>`).join("")}`;
@@ -125,6 +127,54 @@ function showEntryMessage(message, error = false) {
   box.hidden = false;
 }
 
+function resetPendingInvoice() {
+  state.pendingInvoice = null;
+  $("#invoice-file").value = "";
+  const status = $("#invoice-status");
+  status.hidden = true;
+  status.className = "invoice-status";
+  status.textContent = "";
+}
+
+function showInvoiceStatus(message, tone = "info") {
+  const status = $("#invoice-status");
+  status.textContent = message;
+  status.className = `invoice-status ${tone}`;
+  status.hidden = false;
+}
+
+async function processInvoiceFile(file) {
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) return showInvoiceStatus("El PDF supera el límite de 10 MB.", "error");
+  const button = $("#choose-invoice");
+  button.disabled = true;
+  button.textContent = "Procesando…";
+  showInvoiceStatus("Leyendo la factura y extrayendo sus datos…");
+  const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
+  try {
+    const form = new FormData();
+    form.append("file", file);
+    const response = await fetch(`${base}/api/invoices/preview`, { method: "POST", body: form });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "No se ha podido procesar la factura");
+    const type = result.kind === "home" ? result.payload.category : result.kind;
+    $("#entry-kind").value = type;
+    renderEntryForm();
+    Object.entries(result.payload).forEach(([name, value]) => setEntryField(name, value));
+    renderEntryPreview();
+    state.pendingInvoice = { file, extraction: result.extraction };
+    const confidence = Math.round((Number(result.payload.extraction_confidence) || 0) * 100);
+    const duplicate = result.duplicate ? " Parece que este periodo ya está registrado; revisa antes de guardar." : "";
+    showInvoiceStatus(`Datos extraídos (${confidence}% de confianza). Se archivará como ${result.archiveName}.${duplicate}`, result.duplicate ? "warning" : "success");
+  } catch (error) {
+    state.pendingInvoice = null;
+    showInvoiceStatus(error.message, "error");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Elegir PDF";
+  }
+}
+
 function copyLastEntry() {
   const type = $("#entry-kind").value;
   const property = $(`#entry-fields [name="property"]`)?.value;
@@ -146,7 +196,7 @@ function copyLastEntry() {
   } else if (type === "floor") {
     source = state.data.floor.slice().reverse().find((row) => !property || row.property === property);
     if (source) {
-      ["company", "cold_kwh", "cold_price", "heat_kwh", "heat_price", "water_m3", "water_price", "fixed", "vat_rate"].forEach((name) => setEntryField(name, source[name]));
+      ["company", "amount", "cold_kwh", "cold_price", "heat_kwh", "heat_price", "water_m3", "water_price", "fixed", "vat_rate"].forEach((name) => setEntryField(name, source[name]));
       setEntryField("start_date", shiftMonth(source.start_date || source.month));
       setEntryField("end_date", shiftMonth(source.end_date || source.month));
     }
@@ -167,6 +217,7 @@ function beginEditEntry(id) {
   if (!entry) return;
   state.editingEntryId = id;
   state.editingSourceId = null;
+  resetPendingInvoice();
   const type = entry.kind === "home" ? entry.payload.category : entry.kind;
   $("#entry-kind").value = type;
   renderEntryForm();
@@ -180,6 +231,7 @@ function beginEditSourceVehicle(sourceId) {
   if (!entry) return;
   state.editingEntryId = null;
   state.editingSourceId = sourceId;
+  resetPendingInvoice();
   $("#entry-kind").value = "vehicle";
   renderEntryForm();
   ["date", "category", "vehicle", "description", "amount", "unit_price"].forEach((name) => setEntryField(name, entry[name]));
@@ -198,11 +250,21 @@ async function saveEntry(event) {
   const sourceId = state.editingSourceId;
   const button = $("#save-entry");
   button.disabled = true;
-  button.textContent = "Guardando…";
+  button.textContent = state.pendingInvoice ? "Guardando y archivando…" : "Guardando…";
   const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
   try {
-    const endpoint = sourceId ? `${base}/api/source-records/${encodeURIComponent(sourceId)}` : `${base}/api/entries${editingId ? `/${editingId}` : ""}`;
-    const response = await fetch(endpoint, { method: editingId || sourceId ? "PUT" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, payload: values }) });
+    let endpoint = sourceId ? `${base}/api/source-records/${encodeURIComponent(sourceId)}` : `${base}/api/entries${editingId ? `/${editingId}` : ""}`;
+    let options = { method: editingId || sourceId ? "PUT" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, payload: values }) };
+    if (state.pendingInvoice && !editingId && !sourceId) {
+      endpoint = `${base}/api/invoices`;
+      const form = new FormData();
+      form.append("file", state.pendingInvoice.file);
+      form.append("kind", kind);
+      form.append("payload", JSON.stringify(values));
+      form.append("extraction", JSON.stringify(state.pendingInvoice.extraction));
+      options = { method: "POST", body: form };
+    }
+    const response = await fetch(endpoint, options);
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || "No se pudo guardar");
     state.data = await loadData();
@@ -211,6 +273,7 @@ async function saveEntry(event) {
     $("#entry-dialog").close();
     state.editingEntryId = null;
     state.editingSourceId = null;
+    resetPendingInvoice();
   } catch (error) {
     $("#entry-message").textContent = error.message;
     $("#entry-message").hidden = false;
@@ -615,9 +678,11 @@ function setupEvents() {
   $$("[data-go]").forEach((button)=>button.addEventListener("click",()=>activateView(button.dataset.go)));
   $("#history-search").addEventListener("input",(event)=>{ state.query=event.target.value; state.page=1; renderHistory(); });
   $("#comparison-form").addEventListener("input",renderComparison);
-  $("#open-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; renderEntryForm(); $("#entry-dialog").showModal(); });
-  $("#close-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; $("#entry-dialog").close(); });
-  $("#cancel-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; $("#entry-dialog").close(); });
+  $("#open-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; resetPendingInvoice(); renderEntryForm(); $("#entry-dialog").showModal(); });
+  $("#close-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; resetPendingInvoice(); $("#entry-dialog").close(); });
+  $("#cancel-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; resetPendingInvoice(); $("#entry-dialog").close(); });
+  $("#choose-invoice").addEventListener("click",()=>$("#invoice-file").click());
+  $("#invoice-file").addEventListener("change",(event)=>processInvoiceFile(event.target.files?.[0]));
   $("#entry-kind").addEventListener("change",renderEntryForm);
   $("#copy-last-entry").addEventListener("click",copyLastEntry);
   $("#entry-form").addEventListener("input",renderEntryPreview);

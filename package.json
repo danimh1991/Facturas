@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "wrangler dev --var APP_ENV:local",
     "check": "node --check src/index.js && node --check public/facturas/app.js && node --test",
     "db:local": "wrangler d1 migrations apply aportes-comunes-db --local",
     "db:remote": "wrangler d1 migrations apply aportes-comunes-db --remote",

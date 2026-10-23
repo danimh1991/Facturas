@@ -138,9 +138,15 @@
     <dialog id="entry-dialog" aria-labelledby="entry-title">
       <form id="entry-form" method="dialog">
         <div class="dialog-heading">
-          <div><p class="card-kicker" id="entry-kicker">NUEVO REGISTRO</p><h2 id="entry-title">Añadir datos</h2><p class="subcopy">Introduce únicamente los datos de la factura. Los totales, días, medias y porcentajes se calculan automáticamente.</p></div>
+          <div><p class="card-kicker" id="entry-kicker">NUEVO REGISTRO</p><h2 id="entry-title">Añadir datos</h2><p class="subcopy">Procesa una factura PDF o introduce los datos manualmente. Siempre podrás revisar los valores antes de guardarlos.</p></div>
           <button id="close-entry" class="icon-button" type="button" aria-label="Cerrar">×</button>
         </div>
+        <div id="invoice-upload" class="invoice-upload">
+          <div class="invoice-upload-copy"><span class="invoice-upload-icon" aria-hidden="true">PDF</span><div><strong>Procesar una factura</strong><small>Agua, luz o calefacción · máximo 10 MB</small></div></div>
+          <input id="invoice-file" type="file" accept="application/pdf,.pdf" hidden />
+          <button id="choose-invoice" class="outline-button" type="button">Elegir PDF</button>
+        </div>
+        <div id="invoice-status" class="invoice-status" hidden aria-live="polite"></div>
         <div class="entry-type-row">
           <label class="form-field full">Tipo de dato
             <select name="entry_type" id="entry-kind">

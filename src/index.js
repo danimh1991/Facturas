@@ -1,11 +1,26 @@
 import fallbackData from "../data/seed.json";
+import {
+  INVOICE_EXTRACTION_PROMPT,
+  INVOICE_EXTRACTION_SCHEMA,
+  archivePlanForEntry,
+  invoiceCategoryForKind,
+  isLocalInvoiceEnvironment,
+  normalizeInvoiceExtraction,
+  parseAiInvoiceResponse,
+} from "./invoice-processing.js";
 
 const JSON_HEADERS = { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" };
 const CATEGORIES = ["Alquiler", "Luz", "Calefacción", "Agua", "Internet", "Limpieza"];
 const ENTRY_KINDS = new Set(["home", "electricity", "floor", "vehicle"]);
+const MAX_INVOICE_BYTES = 10 * 1024 * 1024;
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: JSON_HEADERS });
+}
+
+function requestHasAllowedOrigin(request) {
+  const origin = request.headers.get("origin");
+  return !origin || new URL(origin).hostname === new URL(request.url).hostname;
 }
 
 function number(value, fallback = 0) {
@@ -116,7 +131,9 @@ function floorEntry(payload) {
   const waterTotal = round(waterM3 * number(payload.water_price));
   const subtotal = round(coldTotal + heatTotal + waterTotal + fixed);
   const vatRate = number(payload.vat_rate, 21);
-  const amount = round(subtotal * (1 + vatRate / 100));
+  const calculatedAmount = round(subtotal * (1 + vatRate / 100));
+  const hasInvoiceAmount = payload.amount !== undefined && payload.amount !== null && payload.amount !== "";
+  const amount = hasInvoiceAmount ? number(payload.amount) : calculatedAmount;
   return {
     property: payload.property, company: payload.company || "—", month: monthKey(payload.start_date),
     start_date: isoDate(payload.start_date), end_date: isoDate(payload.end_date), days, amount,
@@ -124,7 +141,7 @@ function floorEntry(payload) {
     cold_kwh: coldKwh, cold_price: number(payload.cold_price), cold_total: coldTotal,
     heat_kwh: heatKwh, heat_price: number(payload.heat_price), heat_total: heatTotal,
     water_m3: waterM3, water_price: number(payload.water_price), water_total: waterTotal,
-    fixed, vat_rate: vatRate,
+    fixed, vat_rate: vatRate, calculated_amount: calculatedAmount,
     cold_share: amount ? round(coldTotal / amount) : 0,
     heat_share: amount ? round(heatTotal / amount) : 0,
     water_share: amount ? round(waterTotal / amount) : 0,
@@ -213,13 +230,12 @@ function validateEntry(kind, payload) {
     if (!isoDate(payload.start_date) || !isoDate(payload.end_date) || inclusiveDays(payload.start_date, payload.end_date) < 1) return "El intervalo de fechas no es válido";
   }
   if (kind === "home" && !CATEGORIES.includes(payload.category)) return "Categoría no válida";
-  if (["home", "electricity", "vehicle"].includes(kind) && number(payload.amount, -1) < 0) return "El importe no es válido";
+  if (["home", "electricity", "floor", "vehicle"].includes(kind) && number(payload.amount, -1) < 0) return "El importe no es válido";
   return null;
 }
 
 async function createEntry(request, env) {
-  const origin = request.headers.get("origin");
-  if (origin && new URL(origin).hostname !== new URL(request.url).hostname) return json({ error: "Origen no permitido" }, 403);
+  if (!requestHasAllowedOrigin(request)) return json({ error: "Origen no permitido" }, 403);
   let body;
   try { body = await request.json(); } catch { return json({ error: "Datos no válidos" }, 400); }
   const kind = String(body.kind || "");
@@ -231,8 +247,7 @@ async function createEntry(request, env) {
 }
 
 async function updateEntry(request, env, id) {
-  const origin = request.headers.get("origin");
-  if (origin && new URL(origin).hostname !== new URL(request.url).hostname) return json({ error: "Origen no permitido" }, 403);
+  if (!requestHasAllowedOrigin(request)) return json({ error: "Origen no permitido" }, 403);
   let body;
   try { body = await request.json(); } catch { return json({ error: "Datos no válidos" }, 400); }
   const kind = String(body.kind || "");
@@ -245,8 +260,7 @@ async function updateEntry(request, env, id) {
 }
 
 async function deleteEntry(request, env, id) {
-  const origin = request.headers.get("origin");
-  if (origin && new URL(origin).hostname !== new URL(request.url).hostname) return json({ error: "Origen no permitido" }, 403);
+  if (!requestHasAllowedOrigin(request)) return json({ error: "Origen no permitido" }, 403);
   const result = await env.DB.prepare("DELETE FROM facturas_entries WHERE id = ?").bind(id).run();
   if (!result.meta?.changes) return json({ error: "El registro ya no existe" }, 404);
   return json({ ok: true, id });
@@ -257,8 +271,7 @@ function sourceRecordExists(kind, sourceId) {
 }
 
 async function changeSourceRecord(request, env, sourceId, action) {
-  const origin = request.headers.get("origin");
-  if (origin && new URL(origin).hostname !== new URL(request.url).hostname) return json({ error: "Origen no permitido" }, 403);
+  if (!requestHasAllowedOrigin(request)) return json({ error: "Origen no permitido" }, 403);
   let body = {};
   if (request.method !== "DELETE") {
     try { body = await request.json(); } catch { return json({ error: "Datos no válidos" }, 400); }
@@ -277,6 +290,153 @@ async function changeSourceRecord(request, env, sourceId, action) {
     ON CONFLICT(source_id) DO UPDATE SET kind = excluded.kind, action = excluded.action, payload = excluded.payload, updated_at = CURRENT_TIMESTAMP`)
     .bind(sourceId, kind, action, JSON.stringify(payload)).run();
   return json({ ok: true, source_id: sourceId, action });
+}
+
+async function invoiceFileFromForm(form) {
+  const file = form.get("file");
+  if (!(file instanceof File) || !file.size) throw new Error("Selecciona una factura PDF");
+  if (file.size > MAX_INVOICE_BYTES) throw new Error("La factura supera el límite de 10 MB");
+  const pdfType = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+  if (!pdfType) throw new Error("El archivo debe ser un PDF");
+  const signature = new TextDecoder("ascii").decode(await file.slice(0, 5).arrayBuffer());
+  if (signature !== "%PDF-") throw new Error("El archivo no contiene un PDF válido");
+  return file;
+}
+
+async function sha256Hex(file) {
+  const digest = await crypto.subtle.digest("SHA-256", await file.arrayBuffer());
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+function findInvoiceDuplicate(data, kind, payload) {
+  const category = invoiceCategoryForKind(kind, payload);
+  if (!category) return null;
+  return data.invoices.find((invoice) => invoice.property === payload.property
+    && invoice.category === category
+    && invoice.start_date === payload.start_date
+    && invoice.end_date === payload.end_date) || null;
+}
+
+async function convertInvoiceToText(env, file) {
+  if (!env.AI) throw new Error("Workers AI no está configurado");
+  const conversion = await env.AI.toMarkdown(
+    { name: file.name, blob: file },
+    { conversionOptions: { output: { format: "text" }, pdf: { metadata: false } } },
+  );
+  const result = Array.isArray(conversion) ? conversion[0] : conversion;
+  if (!result || result.format === "error" || !result.data) throw new Error(result?.error || "No se ha podido leer el PDF");
+  return String(result.data).slice(0, 60000);
+}
+
+async function extractInvoice(env, text) {
+  const response = await env.AI.run("@cf/meta/llama-4-scout-17b-16e-instruct", {
+    messages: [
+      { role: "system", content: "Eres un extractor de facturas. Devuelve únicamente datos ajustados al esquema JSON." },
+      { role: "user", content: `${INVOICE_EXTRACTION_PROMPT}${text}` },
+    ],
+    guided_json: INVOICE_EXTRACTION_SCHEMA,
+    temperature: 0,
+    max_tokens: 1800,
+  });
+  return parseAiInvoiceResponse(response);
+}
+
+async function previewInvoice(request, env) {
+  if (!requestHasAllowedOrigin(request)) return json({ error: "Origen no permitido" }, 403);
+  if (isLocalInvoiceEnvironment(request.url, env?.APP_ENV)) return json({ error: "El procesado de PDF está disponible únicamente en el despliegue de Cloudflare" }, 503);
+  try {
+    const form = await request.formData();
+    const file = await invoiceFileFromForm(form);
+    const text = await convertInvoiceToText(env, file);
+    const extraction = await extractInvoice(env, text);
+    const normalized = normalizeInvoiceExtraction(extraction);
+    const dashboard = await loadDashboard(env.DB);
+    const duplicate = findInvoiceDuplicate(dashboard, normalized.kind, normalized.payload);
+    return json({
+      ok: true,
+      ...normalized,
+      duplicate: duplicate ? { id: duplicate.id, source: duplicate.source } : null,
+    });
+  } catch (error) {
+    console.error("Invoice preview failed", error);
+    return json({ error: error.message || "No se ha podido procesar la factura" }, 422);
+  }
+}
+
+async function createInvoice(request, env) {
+  if (!requestHasAllowedOrigin(request)) return json({ error: "Origen no permitido" }, 403);
+  let uploadedKey = null;
+  let entryId = null;
+  try {
+    const form = await request.formData();
+    const file = await invoiceFileFromForm(form);
+    const kind = String(form.get("kind") || "");
+    let payload;
+    let extraction;
+    try {
+      payload = JSON.parse(String(form.get("payload") || "{}"));
+      extraction = JSON.parse(String(form.get("extraction") || "{}"));
+    } catch {
+      return json({ error: "Los datos revisados no son válidos" }, 400);
+    }
+    const validationError = validateEntry(kind, payload);
+    if (validationError) return json({ error: validationError }, 400);
+
+    const plan = archivePlanForEntry(kind, payload);
+    payload.property = plan.property;
+    if (kind !== "home") payload.company = plan.provider;
+    const dashboard = await loadDashboard(env.DB);
+    if (findInvoiceDuplicate(dashboard, kind, payload)) return json({ error: "Esta factura ya existe para la misma vivienda y periodo" }, 409);
+
+    const sha256 = await sha256Hex(file);
+    const existingDocument = await env.DB.prepare("SELECT id FROM facturas_invoice_documents WHERE sha256 = ? OR r2_key = ? LIMIT 1")
+      .bind(sha256, plan.archiveKey).first();
+    if (existingDocument) return json({ error: "Este PDF ya está archivado" }, 409);
+
+    const local = isLocalInvoiceEnvironment(request.url, env?.APP_ENV);
+    if (!local) {
+      if (!env.INVOICE_BUCKET) throw new Error("El bucket R2 de facturas no está configurado");
+      await env.INVOICE_BUCKET.put(plan.archiveKey, file.stream(), {
+        httpMetadata: { contentType: "application/pdf" },
+        customMetadata: { sha256, kind },
+      });
+      uploadedKey = plan.archiveKey;
+    }
+
+    const entryResult = await env.DB.prepare("INSERT INTO facturas_entries (kind, payload) VALUES (?, ?)")
+      .bind(kind, JSON.stringify(payload)).run();
+    entryId = entryResult.meta?.last_row_id;
+    const category = invoiceCategoryForKind(kind, payload);
+    await env.DB.prepare(`INSERT INTO facturas_invoice_documents
+      (entry_id, sha256, invoice_number, provider, category, property, start_date, end_date,
+       original_name, archive_name, r2_key, storage_status, extraction)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
+      entryId,
+      sha256,
+      payload.invoice_number || extraction.invoice_number || null,
+      plan.provider,
+      category,
+      plan.property,
+      payload.start_date,
+      payload.end_date,
+      file.name,
+      plan.archiveName,
+      plan.archiveKey,
+      local ? "skipped_local" : "uploaded",
+      JSON.stringify(extraction),
+    ).run();
+
+    return json({ ok: true, id: entryId, archive_name: plan.archiveName, r2_key: plan.archiveKey, archived: !local }, 201);
+  } catch (error) {
+    if (entryId) {
+      try { await env.DB.prepare("DELETE FROM facturas_entries WHERE id = ?").bind(entryId).run(); } catch {}
+    }
+    if (uploadedKey && env.INVOICE_BUCKET) {
+      try { await env.INVOICE_BUCKET.delete(uploadedKey); } catch {}
+    }
+    console.error("Invoice creation failed", error);
+    return json({ error: error.message || "No se ha podido guardar la factura" }, 500);
+  }
 }
 
 async function serveAsset(request, env, pathname) {
@@ -299,7 +459,7 @@ export default {
     const url = new URL(request.url);
     const pathname = url.pathname;
     const apiPath = pathname.startsWith("/facturas/") ? pathname.slice("/facturas".length) : pathname;
-    if (apiPath === "/api/health") return json({ ok: true, service: "facturas", storage: "D1", editable: true });
+    if (apiPath === "/api/health") return json({ ok: true, service: "facturas", storage: "D1 + R2", editable: true, invoice_processing: true });
     if (apiPath === "/api/dashboard" && request.method === "GET") {
       try { return json(await loadDashboard(env.DB)); }
       catch (error) {
@@ -308,6 +468,8 @@ export default {
       }
     }
     if (apiPath === "/api/entries" && request.method === "POST") return createEntry(request, env);
+    if (apiPath === "/api/invoices/preview" && request.method === "POST") return previewInvoice(request, env);
+    if (apiPath === "/api/invoices" && request.method === "POST") return createInvoice(request, env);
     const entryMatch = apiPath.match(/^\/api\/entries\/(\d+)$/);
     if (entryMatch && request.method === "PUT") return updateEntry(request, env, Number(entryMatch[1]));
     if (entryMatch && request.method === "DELETE") return deleteEntry(request, env, Number(entryMatch[1]));
