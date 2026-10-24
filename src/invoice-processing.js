@@ -25,7 +25,10 @@ export const INVOICE_EXTRACTION_SCHEMA = {
     heating_heat_price: nullableNumber,
     heating_water_liters: nullableNumber,
     heating_water_price_per_liter: nullableNumber,
-    heating_fixed_amount: nullableNumber,
+    heating_fixed_amount: {
+      ...nullableNumber,
+      description: "Importe monetario del subtotal de la fila Término fijo; no es la cantidad de días ni la tarifa.",
+    },
     vat_rate: nullableNumber,
     confidence: { type: "number", minimum: 0, maximum: 1 },
     observations: { type: "string" },
@@ -50,6 +53,7 @@ Reglas:
 - invoice_total es el coste total de la factura antes de aplicar saldo, crédito previo o descuentos de cuenta. En Octopus usa "Total factura", no "Total a pagar" si existe crédito usado.
 - En electricidad extrae los consumos P1, P2 y P3 en kWh, no las lecturas acumuladas.
 - En calefacción: Refrigeración es heating_cold_kwh; Energía/Calefacción es heating_heat_kwh; ACS se devuelve en litros y su tarifa en EUR/litro.
+- heating_fixed_amount es el importe monetario de la columna Subtotal en la fila "Término fijo". Nunca uses la columna Cant. (que suele ser el número de días) ni la columna Tarifa. Por ejemplo, si la fila muestra Cant. 29,00, Tarifa 0,44000000 EUR/TF y Subtotal 12,76 EUR, devuelve 12.76.
 - Los importes y consumos ausentes deben ser null, no inventados.
 - vat_rate es el porcentaje total indicado para los conceptos de calefacción; usa 0 cuando la factura indique IVA 0.
 - confidence representa la confianza global entre 0 y 1.
@@ -75,6 +79,29 @@ function cleanText(value) {
 
 function asciiFold(value) {
   return cleanText(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+function localizedNumber(value) {
+  const compact = cleanText(value).replace(/\s+/g, "");
+  const normalized = compact.includes(",")
+    ? compact.replaceAll(".", "").replace(",", ".")
+    : compact;
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+export function correctInvoiceExtractionFromText(raw, text) {
+  if (cleanText(raw?.invoice_type) !== "heating") return raw;
+  const fixedLine = String(text || "").split(/\r?\n/)
+    .find((line) => asciiFold(line).includes("termino fijo"));
+  if (!fixedLine) return raw;
+
+  const monetaryAmounts = [...fixedLine.matchAll(/(-?(?:\d{1,3}(?:[.\s]\d{3})+|\d+)(?:[,.]\d+)?)\s*(?:€|EUR)/gi)]
+    .map((match) => localizedNumber(match[1]))
+    .filter((value) => value !== null);
+  const fixedAmount = monetaryAmounts.at(-1);
+  if (fixedAmount === undefined) return raw;
+  return { ...raw, heating_fixed_amount: fixedAmount };
 }
 
 function validDate(value) {

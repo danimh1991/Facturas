@@ -3,6 +3,7 @@ import {
   INVOICE_EXTRACTION_PROMPT,
   INVOICE_EXTRACTION_SCHEMA,
   archivePlanForEntry,
+  correctInvoiceExtractionFromText,
   invoiceCategoryForKind,
   isLocalInvoiceEnvironment,
   normalizeInvoiceExtraction,
@@ -338,7 +339,7 @@ async function extractInvoice(env, text) {
     temperature: 0,
     max_tokens: 1800,
   });
-  return parseAiInvoiceResponse(response);
+  return correctInvoiceExtractionFromText(parseAiInvoiceResponse(response), text);
 }
 
 async function previewInvoice(request, env) {

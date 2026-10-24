@@ -3,10 +3,20 @@ import test from "node:test";
 
 import {
   archivePlanForEntry,
+  correctInvoiceExtractionFromText,
   isLocalInvoiceEnvironment,
   normalizeInvoiceExtraction,
   parseAiInvoiceResponse,
 } from "../src/invoice-processing.js";
+
+test("uses the monetary subtotal instead of the day count for the heating fixed term", () => {
+  const corrected = correctInvoiceExtractionFromText({
+    invoice_type: "heating",
+    heating_fixed_amount: 29,
+  }, "Término fijo 29,00 0,44000000 €/TF 0,00 12,76 € 0,00 € 12,76 €");
+
+  assert.equal(corrected.heating_fixed_amount, 12.76);
+});
 
 test("normalizes Canal water invoices and follows the existing archive convention", () => {
   const invoice = normalizeInvoiceExtraction({
