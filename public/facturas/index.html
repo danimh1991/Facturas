@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#111b18" />
     <meta name="description" content="Histórico y análisis de facturas del hogar" />
     <title>Facturas · Histórico del hogar</title>
@@ -143,8 +143,10 @@
         </div>
         <div id="invoice-upload" class="invoice-upload">
           <div class="invoice-upload-copy"><span class="invoice-upload-icon" aria-hidden="true">PDF</span><div><strong>Procesar una factura</strong><small>Agua, luz o calefacción · máximo 10 MB</small></div></div>
-          <input id="invoice-file" type="file" accept="application/pdf,.pdf" hidden />
-          <button id="choose-invoice" class="outline-button" type="button">Elegir PDF</button>
+          <label id="choose-invoice" class="outline-button invoice-file-button">
+            <span id="choose-invoice-label">Elegir PDF</span>
+            <input id="invoice-file" type="file" accept="application/pdf,.pdf" aria-label="Elegir factura PDF" />
+          </label>
         </div>
         <div id="invoice-status" class="invoice-status" hidden aria-live="polite"></div>
         <div class="entry-type-row">

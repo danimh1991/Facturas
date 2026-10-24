@@ -145,10 +145,22 @@ function showInvoiceStatus(message, tone = "info") {
 
 async function processInvoiceFile(file) {
   if (!file) return;
-  if (file.size > 10 * 1024 * 1024) return showInvoiceStatus("El PDF supera el límite de 10 MB.", "error");
+  const input = $("#invoice-file");
+  const pdfType = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+  if (!pdfType) {
+    input.value = "";
+    return showInvoiceStatus("Selecciona un archivo PDF.", "error");
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    input.value = "";
+    return showInvoiceStatus("El PDF supera el límite de 10 MB.", "error");
+  }
   const button = $("#choose-invoice");
-  button.disabled = true;
-  button.textContent = "Procesando…";
+  const buttonLabel = $("#choose-invoice-label");
+  input.disabled = true;
+  button.classList.add("disabled");
+  button.setAttribute("aria-disabled", "true");
+  buttonLabel.textContent = "Procesando…";
   showInvoiceStatus("Leyendo la factura y extrayendo sus datos…");
   const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
   try {
@@ -170,8 +182,11 @@ async function processInvoiceFile(file) {
     state.pendingInvoice = null;
     showInvoiceStatus(error.message, "error");
   } finally {
-    button.disabled = false;
-    button.textContent = "Elegir PDF";
+    input.disabled = false;
+    input.value = "";
+    button.classList.remove("disabled");
+    button.removeAttribute("aria-disabled");
+    buttonLabel.textContent = "Elegir PDF";
   }
 }
 
@@ -681,7 +696,6 @@ function setupEvents() {
   $("#open-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; resetPendingInvoice(); renderEntryForm(); $("#entry-dialog").showModal(); });
   $("#close-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; resetPendingInvoice(); $("#entry-dialog").close(); });
   $("#cancel-entry").addEventListener("click",()=>{ state.editingEntryId=null; state.editingSourceId=null; resetPendingInvoice(); $("#entry-dialog").close(); });
-  $("#choose-invoice").addEventListener("click",()=>$("#invoice-file").click());
   $("#invoice-file").addEventListener("change",(event)=>processInvoiceFile(event.target.files?.[0]));
   $("#entry-kind").addEventListener("change",renderEntryForm);
   $("#copy-last-entry").addEventListener("click",copyLastEntry);
