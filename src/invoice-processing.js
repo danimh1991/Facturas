@@ -92,16 +92,20 @@ function localizedNumber(value) {
 
 export function correctInvoiceExtractionFromText(raw, text) {
   if (cleanText(raw?.invoice_type) !== "heating") return raw;
-  const fixedLine = String(text || "").split(/\r?\n/)
+  const invoiceText = String(text || "");
+  const corrected = asciiFold(invoiceText).includes("sunflower energias")
+    ? { ...raw, provider: "Sunflowers" }
+    : raw;
+  const fixedLine = invoiceText.split(/\r?\n/)
     .find((line) => asciiFold(line).includes("termino fijo"));
-  if (!fixedLine) return raw;
+  if (!fixedLine) return corrected;
 
   const monetaryAmounts = [...fixedLine.matchAll(/(-?(?:\d{1,3}(?:[.\s]\d{3})+|\d+)(?:[,.]\d+)?)\s*(?:€|EUR)/gi)]
     .map((match) => localizedNumber(match[1]))
     .filter((value) => value !== null);
   const fixedAmount = monetaryAmounts.at(-1);
-  if (fixedAmount === undefined) return raw;
-  return { ...raw, heating_fixed_amount: fixedAmount };
+  if (fixedAmount === undefined) return corrected;
+  return { ...corrected, heating_fixed_amount: fixedAmount };
 }
 
 function validDate(value) {

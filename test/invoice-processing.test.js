@@ -12,10 +12,12 @@ import {
 test("uses the monetary subtotal instead of the day count for the heating fixed term", () => {
   const corrected = correctInvoiceExtractionFromText({
     invoice_type: "heating",
+    provider: "",
     heating_fixed_amount: 29,
-  }, "Término fijo 29,00 0,44000000 €/TF 0,00 12,76 € 0,00 € 12,76 €");
+  }, "Término fijo 29,00 0,44000000 €/TF 0,00 12,76 € 0,00 € 12,76 €\nSUNFLOWER ENERGIAS, S.L.");
 
   assert.equal(corrected.heating_fixed_amount, 12.76);
+  assert.equal(corrected.provider, "Sunflowers");
 });
 
 test("normalizes Canal water invoices and follows the existing archive convention", () => {
