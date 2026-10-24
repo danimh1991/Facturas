@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20261024-2" />
   </head>
   <body>
     <div class="app-shell">
@@ -143,10 +143,7 @@
         </div>
         <div id="invoice-upload" class="invoice-upload">
           <div class="invoice-upload-copy"><span class="invoice-upload-icon" aria-hidden="true">PDF</span><div><strong>Procesar una factura</strong><small>Agua, luz o calefacción · máximo 10 MB</small></div></div>
-          <label id="choose-invoice" class="outline-button invoice-file-button">
-            <span id="choose-invoice-label">Elegir PDF</span>
-            <input id="invoice-file" type="file" accept="application/pdf,.pdf" aria-label="Elegir factura PDF" />
-          </label>
+          <input id="invoice-file" class="invoice-file-input" type="file" accept="application/pdf,.pdf" aria-label="Elegir factura PDF" />
         </div>
         <div id="invoice-status" class="invoice-status" hidden aria-live="polite"></div>
         <div class="entry-type-row">
@@ -169,6 +166,6 @@
         <div class="dialog-actions"><button class="outline-button" id="cancel-entry" type="button">Cancelar</button><button class="primary-button" id="save-entry" type="submit">Guardar y recalcular</button></div>
       </form>
     </dialog>
-    <script type="module" src="./app.js"></script>
+    <script type="module" src="./app.js?v=20261024-2"></script>
   </body>
 </html>

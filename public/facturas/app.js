@@ -155,12 +155,9 @@ async function processInvoiceFile(file) {
     input.value = "";
     return showInvoiceStatus("El PDF supera el límite de 10 MB.", "error");
   }
-  const button = $("#choose-invoice");
-  const buttonLabel = $("#choose-invoice-label");
   input.disabled = true;
-  button.classList.add("disabled");
-  button.setAttribute("aria-disabled", "true");
-  buttonLabel.textContent = "Procesando…";
+  input.classList.add("disabled");
+  input.setAttribute("aria-busy", "true");
   showInvoiceStatus("Leyendo la factura y extrayendo sus datos…");
   const base = location.pathname.startsWith("/facturas") ? "/facturas" : "";
   try {
@@ -184,9 +181,8 @@ async function processInvoiceFile(file) {
   } finally {
     input.disabled = false;
     input.value = "";
-    button.classList.remove("disabled");
-    button.removeAttribute("aria-disabled");
-    buttonLabel.textContent = "Elegir PDF";
+    input.classList.remove("disabled");
+    input.removeAttribute("aria-busy");
   }
 }
 
